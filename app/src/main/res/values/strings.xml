@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ProfView</string>
-
+    <string name="callmenu"><![CDATA[<- ВЫЗОВ МЕНЮ!]]></string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 </resources>

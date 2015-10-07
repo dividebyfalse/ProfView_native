@@ -4,34 +4,43 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Window;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
-public class MainActivity extends Activity {
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.ActionProvider;
+import com.actionbarsherlock.view.Window;
+import com.actionbarsherlock.widget.ShareActionProvider;
+
+public class MainActivity extends SherlockFragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+     //   super.onCreate(savedInstanceState);
+
+        SlidingMenu menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.LEFT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        menu.setFadeDegree(0.35f);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
+        menu.setMenu(R.layout.sidemenu);
+        menu.setBehindWidthRes(R.dimen.slidingmenu_behind_width);
+
+        String[] items = {"Первый фрагмент","Второй фрагмент"};
+        ((ListView) findViewById(R.id.sidemenu)).setAdapter(
+                new ArrayAdapter<Object>(
+                        this,
+                        R.layout.sidemenu_item,
+                        R.id.text,
+                        items
+                )
+        );
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
