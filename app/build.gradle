@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 8
+    compileSdkVersion 14
     buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "com.penpen.profview"
-        minSdkVersion 7
+        minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"

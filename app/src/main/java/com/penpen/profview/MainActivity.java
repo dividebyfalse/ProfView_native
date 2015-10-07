@@ -20,8 +20,7 @@ import com.actionbarsherlock.widget.ShareActionProvider;
 public class MainActivity extends SherlockFragmentActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-     //   super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {super.onCreate(savedInstanceState);
 
         SlidingMenu menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
