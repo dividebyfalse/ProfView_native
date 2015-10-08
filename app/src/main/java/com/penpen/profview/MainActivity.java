@@ -41,7 +41,7 @@ public class MainActivity extends SherlockFragmentActivity {
     private FeedListAdapter listAdapter;
     private List<FeedItem> feedItems;
     //https://api.vk.com/method/wall.get?owner_id=-53393178&filter=all&count=100
-    private String URL_FEED = "http://api.androidhive.info/feed/feed.json";
+    private String URL_FEED = "https://api.vk.com/method/wall.get?owner_id=-53393178&filter=all&count=100";
 
     @SuppressLint("NewApi")
     @Override
@@ -127,27 +127,31 @@ public class MainActivity extends SherlockFragmentActivity {
      * */
     private void parseJsonFeed(JSONObject response) {
         try {
-            JSONArray feedArray = response.getJSONArray("feed");
-
-            for (int i = 0; i < feedArray.length(); i++) {
+            JSONArray feedArray = response.getJSONArray("response");
+            VolleyLog.d(TAG, feedArray.toString());
+            for (int i = 1; i < feedArray.length(); i++) {
                 JSONObject feedObj = (JSONObject) feedArray.get(i);
-
+                VolleyLog.d(TAG, i);
+                VolleyLog.d(TAG, "Error: " + feedArray.get(i).toString());
                 FeedItem item = new FeedItem();
                 item.setId(feedObj.getInt("id"));
-                item.setName(feedObj.getString("name"));
+                item.setName("Разное");
+                
+                if (feedObj.isNull("attachment") == false) {
+                    /// Image might be null sometimes
+                    String image = feedObj.getJSONObject("attachment").isNull("photo") ? null : feedObj
+                            .getJSONObject("attachment").getJSONObject("photo").getString("src_big");
+                    item.setImge(image);
+                    // url might be null sometimes
+                    String feedUrl = feedObj.getJSONObject("attachment").isNull("link") ? null : feedObj
+                            .getJSONObject("attachment").getJSONObject("link").getString("url");
+                    item.setUrl(feedUrl);
 
-                // Image might be null sometimes
-                String image = feedObj.isNull("image") ? null : feedObj
-                        .getString("image");
-                item.setImge(image);
-                item.setStatus(feedObj.getString("status"));
-                item.setProfilePic(feedObj.getString("profilePic"));
-                item.setTimeStamp(feedObj.getString("timeStamp"));
+                }
+                item.setStatus(feedObj.getString("text"));
+                item.setProfilePic("https://pp.vk.me/c410124/v410124933/a3fa/SF8mkyWprrY.jpg");
+                item.setTimeStamp(feedObj.getString("date"));
 
-                // url might be null sometimes
-                String feedUrl = feedObj.isNull("url") ? null : feedObj
-                        .getString("url");
-                item.setUrl(feedUrl);
 
                 feedItems.add(item);
             }
