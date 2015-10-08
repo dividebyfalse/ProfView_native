@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- From: file:/home/penpen/AndroidStudioProjects/ProfView/actionbarsherlock-fest/build/intermediates/exploded-aar/ProfView/actionbarsherlock/unspecified/res/values-w360dp-v13/values-w360dp-v13.xml -->
+    <eat-comment/>
+    <integer name="abs__max_action_buttons">3</integer>
+</resources>
