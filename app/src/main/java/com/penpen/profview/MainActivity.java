@@ -28,25 +28,27 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import android.view.Menu;
+import android.view.MenuItem;
 
-public class MainActivity extends SherlockFragmentActivity {
+public class MainActivity extends Activity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private ListView listView;
     private FeedListAdapter listAdapter;
     private List<FeedItem> feedItems;
-    //https://api.vk.com/method/wall.get?owner_id=-53393178&filter=all&count=100
+
+
     private String URL_FEED = "https://api.vk.com/method/wall.get?owner_id=-53393178&filter=all&count=100";
 
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {super.onCreate(savedInstanceState);
 
+       // SwipeRefreshLayout mSwipeRefreshLayout;
         SlidingMenu menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.LEFT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
@@ -136,7 +138,7 @@ public class MainActivity extends SherlockFragmentActivity {
                 FeedItem item = new FeedItem();
                 item.setId(feedObj.getInt("id"));
                 item.setName("Разное");
-                
+
                 if (feedObj.isNull("attachment") == false) {
                     /// Image might be null sometimes
                     String image = feedObj.getJSONObject("attachment").isNull("photo") ? null : feedObj
