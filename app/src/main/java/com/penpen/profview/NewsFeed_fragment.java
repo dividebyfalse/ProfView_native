@@ -20,14 +20,13 @@ public class NewsFeed_fragment extends Fragment {
         mTabHost = new FragmentTabHost(getActivity());;
         mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.realtabcontent);
 
-        mTabHost.addTab(mTabHost.newTabSpec("Главная").setIndicator("Главная"),
+        mTabHost.addTab(mTabHost.newTabSpec("main").setIndicator("Главная"),
                 mpg_nf_fragment.class, null);
-
-        mTabHost.addTab(mTabHost.newTabSpec("Профбюро факультета").setIndicator("Профбюро факультета"),
+        mTabHost.addTab(mTabHost.newTabSpec("pb").setIndicator("Профбюро_факультета"),
                 pbf_nf_fragment.class, null);
-
-        mTabHost.addTab(mTabHost.newTabSpec("Клубы").setIndicator("Клубы"),
+        mTabHost.addTab(mTabHost.newTabSpec("clubs").setIndicator("Клубы"),
                 clubs_nf_fragment.class, null);
+
         return mTabHost;
     }
 
