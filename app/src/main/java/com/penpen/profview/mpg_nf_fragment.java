@@ -1,5 +1,8 @@
 package com.penpen.profview;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -49,6 +52,24 @@ public class mpg_nf_fragment extends Fragment {
         feedItems = new ArrayList<FeedItem>();
         listAdapter = new FeedListAdapter(getActivity(), feedItems);
         listView.setAdapter(listAdapter);
+        if (savedInstanceState != null) {
+            Cache cache = AppController.getInstance().getRequestQueue().getCache();
+            Entry entry = cache.get(URL_FEED);
+            if (entry != null) {
+                // fetch the data from cache
+                try {
+                    String data = new String(entry.data, "UTF-8");
+                    try {
+                        parseJsonFeed(new JSONObject(data));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+
 /*
         // We first check for cached request
         Cache cache = AppController.getInstance().getRequestQueue().getCache();
@@ -68,23 +89,24 @@ public class mpg_nf_fragment extends Fragment {
 
         } else {*/
         // making fresh volley request and getting json
-           JsonObjectRequest jsonReq = new JsonObjectRequest(Method.GET,
-                    URL_FEED, null, new Response.Listener<JSONObject>() {
+            if (isOnline()) {
+                JsonObjectRequest jsonReq = new JsonObjectRequest(Method.GET,
+                        URL_FEED, null, new Response.Listener<JSONObject>() {
 
-                @Override
-                public void onResponse(JSONObject response) {
-                    VolleyLog.d(TAG, "Response: " + response.toString());
-                    if (response != null) {
-                        parseJsonFeed(response);
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        VolleyLog.d(TAG, "Response: " + response.toString());
+                        if (response != null) {
+                            parseJsonFeed(response);
+                        }
                     }
-                }
-            }, new Response.ErrorListener() {
+                }, new Response.ErrorListener() {
 
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    VolleyLog.d(TAG, "Error: " + error.getMessage());
-                    Cache cache = AppController.getInstance().getRequestQueue().getCache();
-                    Entry entry = cache.get(URL_FEED);
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                        Cache cache = AppController.getInstance().getRequestQueue().getCache();
+                        Entry entry = cache.get(URL_FEED);
                         // fetch the data from cache
                         try {
                             String data = new String(entry.data, "UTF-8");
@@ -96,12 +118,13 @@ public class mpg_nf_fragment extends Fragment {
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
-                }
-            });
+                    }
+                });
 
-            // Adding request to volley request queue
-            AppController.getInstance().addToRequestQueue(jsonReq);
-      //  }
+                // Adding request to volley request queue
+                AppController.getInstance().addToRequestQueue(jsonReq);
+            }
+        }
 
         return rootView;
     }
@@ -143,6 +166,19 @@ public class mpg_nf_fragment extends Fragment {
             listAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo nInfo = cm.getActiveNetworkInfo();
+        if (nInfo != null && nInfo.isConnected()) {
+            // Log.v("status", "ONLINE");
+            return true;
+        }
+        else {
+            //Log.v("status", "OFFLINE");
+            return false;
         }
     }
 }

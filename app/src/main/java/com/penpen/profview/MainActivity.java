@@ -1,6 +1,9 @@
 package com.penpen.profview;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -83,4 +86,6 @@ public class MainActivity extends FragmentActivity {
                 .replace(R.id.container, currentFragment)
                 .commit();
     }
+
+
 }
