@@ -1,9 +1,11 @@
 package com.penpen.profview;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,7 +15,12 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,46 +44,45 @@ import org.json.JSONObject;
 /**
  * Created by penpen on 13.10.15.
  */
-public class nf_fragment extends Fragment {
+public abstract class nf_fragment extends Fragment {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private ListView listView;
     private FeedListAdapter listAdapter;
     private List<FeedItem> feedItems;
-    public static String URL_FEED;
-        //URL_FEED = url;//= "https://api.vk.com/method/wall.get?owner_id=-53393178&filter=all&count=100";
+    private ProgressDialog progressDialog;
+    public static int lay;
+    public static int lvid;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.mpg_feed, container, false);
-
-        listView = (ListView) rootView.findViewById(R.id.list);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(lay, container, false);
+        listView = (ListView) rootView.findViewById(lvid);
         feedItems = new ArrayList<FeedItem>();
         listAdapter = new FeedListAdapter(getActivity(), feedItems);
         listView.setAdapter(listAdapter);
+        progressDialog = ProgressDialog.show(getActivity(), "", "Загрузка. Подождите...", true);
         SharedPreferences settings = getActivity().getSharedPreferences("temp", 0);
         Cache cache = AppController.getInstance().getRequestQueue().getCache();
-        Entry entry = cache.get(URL_FEED);
+        Entry entry = cache.get(getURL());
         if (settings.getString("my", "") == "test") {
             if (entry != null) {
-                // fetch the data from cache
-                try {
-                    String data = new String(entry.data, "UTF-8");
-                    try {
-                        parseJsonFeed(new JSONObject(data));
-                    } catch (JSONException e) {
+              /*  try {
+                    String data = new String(entry.data, "UTF-8");*/
+                   // try {
+                       // parseJsonFeed(new JSONObject(data));
+                        new ParseTask().execute("");
+                  /*  } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
-                }
+                }*/
             }
         } else {
-        // making fresh volley request and getting json
             if (isOnline()) {
-                JsonObjectRequest jsonReq = new JsonObjectRequest(Method.GET,
-                        URL_FEED, null, new Response.Listener<JSONObject>() {
+             /*   JsonObjectRequest jsonReq = new JsonObjectRequest(Method.GET,
+                        getURL(), null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         VolleyLog.d(TAG, "Response: " + response.toString());
@@ -90,8 +96,7 @@ public class nf_fragment extends Fragment {
                     public void onErrorResponse(VolleyError error) {
                         VolleyLog.d(TAG, "Error: " + error.getMessage());
                         Cache cache = AppController.getInstance().getRequestQueue().getCache();
-                        Entry entry = cache.get(URL_FEED);
-                        // fetch the data from cache
+                        Entry entry = cache.get(getURL());
                         try {
                             String data = new String(entry.data, "UTF-8");
                             try {
@@ -103,12 +108,13 @@ public class nf_fragment extends Fragment {
                             e.printStackTrace();
                         }
                     }
-                });
+                });*/
 
-                // Adding request to volley request queue
-                AppController.getInstance().addToRequestQueue(jsonReq);
+               // AppController.getInstance().addToRequestQueue(jsonReq);
+                new ParseTask().execute("");
             }
         }
+        progressDialog.dismiss();
         return rootView;
     }
 
@@ -121,42 +127,6 @@ public class nf_fragment extends Fragment {
         editor.commit();
     }
 
-    private void parseJsonFeed(JSONObject response) {
-        try {
-            JSONArray feedArray = response.getJSONArray("response");
-            VolleyLog.d(TAG, feedArray.toString());
-            for (int i = 1; i < feedArray.length(); i++) {
-                JSONObject feedObj = (JSONObject) feedArray.get(i);
-                VolleyLog.d(TAG, i);
-                VolleyLog.d(TAG, "Error: " + feedArray.get(i).toString());
-                FeedItem item = new FeedItem();
-                item.setId(feedObj.getInt("id"));
-                item.setName("Разное");
-
-                if (feedObj.isNull("attachment") == false) {
-                    /// Image might be null sometimes
-                    String image = feedObj.getJSONObject("attachment").isNull("photo") ? null : feedObj
-                            .getJSONObject("attachment").getJSONObject("photo").getString("src_big");
-                    item.setImge(image);
-                    // url might be null sometimes
-                    String feedUrl = feedObj.getJSONObject("attachment").isNull("link") ? null : feedObj
-                            .getJSONObject("attachment").getJSONObject("link").getString("url");
-                    item.setUrl(feedUrl);
-
-                }
-                item.setStatus(feedObj.getString("text").replace("<br>", ""));
-                item.setProfilePic("https://pp.vk.me/c410124/v410124933/a3fa/SF8mkyWprrY.jpg");
-                item.setTimeStamp(feedObj.getString("date")+"000");
-                feedItems.add(item);
-            }
-
-            // notify data changes to list adapater
-            listAdapter.notifyDataSetChanged();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo nInfo = cm.getActiveNetworkInfo();
@@ -167,6 +137,84 @@ public class nf_fragment extends Fragment {
             Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Проверьте интернет соединение", Toast.LENGTH_SHORT);
             toast.show();
             return false;
+        }
+    }
+
+    protected abstract String getURL();
+
+    public class ParseTask extends AsyncTask<String, Void, String> {
+        HttpURLConnection urlConnection = null;
+        BufferedReader reader = null;
+        String resultJson = "";
+
+        @Override
+        protected String doInBackground(String... params) {
+            if (params[0] != "") {
+               String Url = params[0];
+            }
+            try {
+                URL url = new URL(getURL());
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line);
+                }
+                resultJson = buffer.toString();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            return resultJson;
+        }
+
+        @Override
+        protected void onPostExecute(String strJson) {
+            super.onPostExecute(strJson);
+            JSONObject dataJsonObj = null;
+            try {
+                dataJsonObj = new JSONObject(strJson);
+                try {
+                    feedItems.clear();
+                    JSONArray feedArray = dataJsonObj.getJSONArray("response");
+                    VolleyLog.d(TAG, feedArray.toString());
+                    for (int i = 1; i < feedArray.length(); i++) {
+                        JSONObject feedObj = (JSONObject) feedArray.get(i);
+                        VolleyLog.d(TAG, i);
+                        VolleyLog.d(TAG, "Error: " + feedArray.get(i).toString());
+                        FeedItem item = new FeedItem();
+                        item.setId(feedObj.getInt("id"));
+                        item.setName("Разное");
+
+                        if (feedObj.isNull("attachment") == false) {
+                            /// Image might be null sometimes
+                            String image = feedObj.getJSONObject("attachment").isNull("photo") ? null : feedObj
+                                    .getJSONObject("attachment").getJSONObject("photo").getString("src_big");
+                            item.setImge(image);
+                            // url might be null sometimes
+                            String feedUrl = feedObj.getJSONObject("attachment").isNull("link") ? null : feedObj
+                                    .getJSONObject("attachment").getJSONObject("link").getString("url");
+                            item.setUrl(feedUrl);
+
+                        }
+                        item.setStatus(feedObj.getString("text").replace("<br>", ""));
+                        item.setProfilePic("https://pp.vk.me/c410124/v410124933/a3fa/SF8mkyWprrY.jpg");
+                        item.setTimeStamp(feedObj.getString("date")+"000");
+                        feedItems.add(item);
+                    }
+
+                    // notify data changes to list adapater
+                    listAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            progressDialog.dismiss();
         }
     }
 }
