@@ -3,6 +3,7 @@ package com.penpen.profview;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -50,18 +52,24 @@ public abstract class nf_fragment extends Fragment {
     private ListView listView;
     private FeedListAdapter listAdapter;
     private List<FeedItem> feedItems;
-    private ProgressDialog progressDialog;
     public static int lay;
     public static int lvid;
+    private ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(lay, container, false);
-        listView = (ListView) rootView.findViewById(lvid);
+        return inflater.inflate(lay, container, false);
+    }
+
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        listView = (ListView) getActivity().findViewById(lvid);
         feedItems = new ArrayList<FeedItem>();
         listAdapter = new FeedListAdapter(getActivity(), feedItems);
         listView.setAdapter(listAdapter);
-        progressDialog = ProgressDialog.show(getActivity(), "", "Загрузка. Подождите...", true);
+        //progressDialog = ProgressDialog.show(getActivity(), "", "Загрузка. Подождите...", true);
         SharedPreferences settings = getActivity().getSharedPreferences("temp", 0);
         Cache cache = AppController.getInstance().getRequestQueue().getCache();
         Entry entry = cache.get(getURL());
@@ -69,9 +77,9 @@ public abstract class nf_fragment extends Fragment {
             if (entry != null) {
               /*  try {
                     String data = new String(entry.data, "UTF-8");*/
-                   // try {
-                       // parseJsonFeed(new JSONObject(data));
-                        new ParseTask().execute("");
+                // try {
+                // parseJsonFeed(new JSONObject(data));
+                new ParseTask().execute("");
                   /*  } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -110,12 +118,11 @@ public abstract class nf_fragment extends Fragment {
                     }
                 });*/
 
-               // AppController.getInstance().addToRequestQueue(jsonReq);
+                // AppController.getInstance().addToRequestQueue(jsonReq);
                 new ParseTask().execute("");
             }
         }
-        progressDialog.dismiss();
-        return rootView;
+        //progressDialog.dismiss();
     }
 
     @Override
@@ -146,6 +153,15 @@ public abstract class nf_fragment extends Fragment {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String resultJson = "";
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog .setMessage("Загрузка...");
+            progressDialog .setCancelable(false);
+            progressDialog .show();
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -214,6 +230,7 @@ public abstract class nf_fragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             progressDialog.dismiss();
         }
     }

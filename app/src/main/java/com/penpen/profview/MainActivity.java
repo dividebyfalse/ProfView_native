@@ -2,21 +2,26 @@ package com.penpen.profview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 public class MainActivity extends FragmentActivity {
     SlidingMenu menu;
+    private PreferenceFragment SettingsFragment;
 
     @SuppressLint("NewApi")
     @Override
@@ -30,7 +35,7 @@ public class MainActivity extends FragmentActivity {
         menu.setMenu(R.layout.sidemenu);
         menu.setBehindWidthRes(R.dimen.slidingmenu_behind_width);
 
-        String[] items = {"Новости","Подать достижение", "Настройки"};
+        String[] items = {"Войти", "Новости","Подать достижение", "Список достижений", "Настройки"};
         ((ListView) findViewById(R.id.sidemenu)).setAdapter(
                 new ArrayAdapter<Object>(
                         this,
@@ -47,7 +52,7 @@ public class MainActivity extends FragmentActivity {
             }
         });
         setContentView(R.layout.activity_main);
-        showFragment(new NewsFeed_fragment());
+        changeFragment(1);
     }
 
     public void menuToggle(){
@@ -69,15 +74,38 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void changeFragment(int position) {
+        LinearLayout mainLayout = (LinearLayout) findViewById(R.id.container);
         switch (position) {
             case 0:
-                showFragment(new NewsFeed_fragment());
                 break;
             case 1:
+                if (SettingsFragment != null) {
+                    getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
+                }
+                mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
+                showFragment(new NewsFeed_fragment());
                 break;
             case 2:
+                if (SettingsFragment != null) {
+                    getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
+                }
+                mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
+                showFragment(new achievement_fragment());
+                break;
+            case 3:
+                break;
+            case 4:
+                mainLayout.setBackgroundColor(Color.BLACK);
+                SettingsFragment = new settings_fragment();
+                getFragmentManager().beginTransaction().replace(R.id.container, SettingsFragment).commit();
+                showFragment(new settings_helper());
                 break;
         }
+    }
+
+    public void setActivityBackgroundColor(int color) {
+        View view = this.getWindow().getDecorView();
+        view.setBackgroundColor(color);
     }
 
    private void showFragment(Fragment currentFragment) {

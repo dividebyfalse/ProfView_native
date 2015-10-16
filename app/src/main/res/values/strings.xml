@@ -3,4 +3,25 @@
     <string name="callmenu"><![CDATA[<- ВЫЗОВ МЕНЮ!]]></string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+
+    <string name="inline_preferences">Уведомления</string>
+    <string name="title_checkbox_preference">Получать уведомления</string>
+    <string name="summary_checkbox_preference">Включить отображение уведомлений</string>
+    <string name="dialog_based_preferences">Учетная запись</string>
+    <string name="title_edittext_preference">Логин</string>
+    <string name="summary_edittext_preference">Логин на сайте yourplus.ru</string>
+    <string name="dialog_title_edittext_preference">Введите логин:</string>
+    <string name="title_list_preference">Факультет</string>
+    <string name="summary_list_preference">Ваш факультет</string>
+    <string name="dialog_title_list_preference">Выберите факультет:</string>
+    <string name="launch_preferences">Новости</string>
+    <string name="title_screen_preference">Список клубов</string>
+    <string name="summary_screen_preference">Список клубов отображаемых в новостях</string>
+    <string name="title_next_screen_toggle_preference">Г.О.С</string>
+    <string name="summary_next_screen_toggle_preference">Проект-студия Г.О.С</string>
+    <string name="title_password_preference">Пароль</string>
+    <string name="summary_password_preference">Пароль на сайте yourplus.ru</string>
+    <string name="dialog_title_password_preference">Введите пароль:</string>
+
 </resources>

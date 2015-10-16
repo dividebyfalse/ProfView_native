@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="entries_list_preference">
+        <item>Биолого-почвенный факультет</item>
+        <item>Географический факультет</item>
+        <item>Геологический факультет</item>
+        <item>Гуманитарно-эстетический факультет</item>
+        <item>Естественно-географический факультет</item>
+        <item>Исторический факультет</item>
+        <item>Отделение философии и теологии</item>
+        <item>Сибирско-американский факультет</item>
+        <item>Факультет бизнеса и менеджмента</item>
+        <item>Факультет математики, физики и информатики</item>
+        <item>Факультет педагогики</item>
+        <item>Факультет прикладной психологии</item>
+        <item>Факультет психологии</item>
+        <item>Факультет сервиса и рекламы</item>
+        <item>Факультет специального и инклюзивного образования</item>
+        <item>Факультет технологии и предпринимательства</item>
+        <item>Факультет филологии и журналистики</item>
+        <item>Физический факультет</item>
+        <item>Химический факультет</item>
+    </string-array>
+
+
+    <string-array name="entryvalues_list_preference">
+        <item>Number 1</item>
+        <item>Number 2</item>
+        <item>Number 3</item>
+        <item>Number 4</item>
+        <item>Number 1</item>
+        <item>Number 2</item>
+        <item>Number 3</item>
+        <item>Number 4</item>
+        <item>Number 1</item>
+        <item>Number 2</item>
+        <item>Number 3</item>
+        <item>Number 4</item>
+        <item>Number 1</item>
+        <item>Number 2</item>
+        <item>Number 3</item>
+        <item>Number 4</item>
+        <item>Number 1</item>
+        <item>Number 2</item>
+    </string-array>
+</resources>

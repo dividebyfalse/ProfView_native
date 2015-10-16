@@ -22,7 +22,7 @@ public class NewsFeed_fragment extends Fragment {
 
         mTabHost.addTab(mTabHost.newTabSpec("main").setIndicator("Главная"),
                 mpg_nf_fragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("pb").setIndicator("Профбюро_факультета"),
+        mTabHost.addTab(mTabHost.newTabSpec("pb").setIndicator("Профбюро факультета"),
                 pbf_nf_fragment.class, null);
         mTabHost.addTab(mTabHost.newTabSpec("clubs").setIndicator("Клубы"),
                 clubs_nf_fragment.class, null);
