@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,16 +53,18 @@ public abstract class nf_fragment extends Fragment {
     private ListView listView;
     private FeedListAdapter listAdapter;
     private List<FeedItem> feedItems;
+    private boolean isRef;
     public static int lay;
     public static int lvid;
+    public static int layid;
     private ProgressDialog progressDialog;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(lay, container, false);
     }
-
-
+    
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -69,60 +72,47 @@ public abstract class nf_fragment extends Fragment {
         feedItems = new ArrayList<FeedItem>();
         listAdapter = new FeedListAdapter(getActivity(), feedItems);
         listView.setAdapter(listAdapter);
-        //progressDialog = ProgressDialog.show(getActivity(), "", "Загрузка. Подождите...", true);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(layid);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                isRef = true;
+                new ParseTask().execute("");
+            }
+        });
+        isRef = false;
         SharedPreferences settings = getActivity().getSharedPreferences("temp", 0);
         Cache cache = AppController.getInstance().getRequestQueue().getCache();
         Entry entry = cache.get(getURL());
         if (settings.getString("my", "") == "test") {
             if (entry != null) {
-              /*  try {
-                    String data = new String(entry.data, "UTF-8");*/
-                // try {
-                // parseJsonFeed(new JSONObject(data));
-                new ParseTask().execute("");
-                  /*  } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    String data = new String(entry.data, "UTF-8");
+                new ParseTask().execute(data);
+
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
-                }*/
+                }
+            } else {
+                if (isOnline()) {
+                    new ParseTask().execute("");
+                }
             }
         } else {
             if (isOnline()) {
-             /*   JsonObjectRequest jsonReq = new JsonObjectRequest(Method.GET,
-                        getURL(), null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        VolleyLog.d(TAG, "Response: " + response.toString());
-                        if (response != null) {
-                            parseJsonFeed(response);
-                        }
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d(TAG, "Error: " + error.getMessage());
-                        Cache cache = AppController.getInstance().getRequestQueue().getCache();
-                        Entry entry = cache.get(getURL());
-                        try {
-                            String data = new String(entry.data, "UTF-8");
-                            try {
-                                parseJsonFeed(new JSONObject(data));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        } catch (UnsupportedEncodingException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });*/
-
-                // AppController.getInstance().addToRequestQueue(jsonReq);
                 new ParseTask().execute("");
+            } else {
+                if (entry != null) {
+                    try {
+                        String data = new String(entry.data, "UTF-8");
+                        new ParseTask().execute(data);
+
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
-        //progressDialog.dismiss();
     }
 
     @Override
@@ -157,32 +147,35 @@ public abstract class nf_fragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog = new ProgressDialog(getActivity());
-            progressDialog .setMessage("Загрузка...");
-            progressDialog .setCancelable(false);
-            progressDialog .show();
+            if (isRef==false) {
+                progressDialog = new ProgressDialog(getActivity());
+                progressDialog.setMessage("Загрузка...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+            }
         }
 
         @Override
         protected String doInBackground(String... params) {
-            if (params[0] != "") {
-               String Url = params[0];
-            }
-            try {
-                URL url = new URL(getURL());
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
-                InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
-                reader = new BufferedReader(new InputStreamReader(inputStream));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line);
+            if (params[0] == "") {
+                    try {
+                    URL url = new URL(getURL());
+                    urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setRequestMethod("GET");
+                    urlConnection.connect();
+                    InputStream inputStream = urlConnection.getInputStream();
+                    StringBuffer buffer = new StringBuffer();
+                    reader = new BufferedReader(new InputStreamReader(inputStream));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line);
+                    }
+                    resultJson = buffer.toString();
+                }catch(Exception e){
+                    e.printStackTrace();
                 }
-                resultJson = buffer.toString();
-            }catch(Exception e){
-                e.printStackTrace();
+            } else {
+                resultJson = params[0];
             }
             return resultJson;
         }
@@ -230,8 +223,12 @@ public abstract class nf_fragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            progressDialog.dismiss();
+            if (isRef) {
+                isRef = false;
+                swipeRefreshLayout.setRefreshing(false);
+            } else {
+                progressDialog.dismiss();
+            }
         }
     }
 }

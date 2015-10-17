@@ -5,6 +5,7 @@ package com.penpen.profview;
  */
 public class pbf_nf_fragment extends nf_fragment {
     static {
+        layid = R.id.pbf;
         lay = R.layout.pbf_feed;
         lvid = R.id.listpbf;
     }

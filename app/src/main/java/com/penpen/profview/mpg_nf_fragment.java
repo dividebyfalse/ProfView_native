@@ -5,6 +5,7 @@ package com.penpen.profview;
  */
 public class mpg_nf_fragment extends nf_fragment {
     static {
+        layid = R.id.mpg;
         lay = R.layout.mpg_feed;
         lvid = R.id.listmpg;
     }

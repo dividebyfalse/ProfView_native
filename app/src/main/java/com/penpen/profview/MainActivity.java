@@ -2,6 +2,7 @@ package com.penpen.profview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -10,6 +11,7 @@ import android.preference.PreferenceFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,5 +117,21 @@ public class MainActivity extends FragmentActivity {
                 .commit();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        SharedPreferences settings = getSharedPreferences("temp", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("my", "test");
+        editor.commit();
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences settings = getSharedPreferences("temp", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("my", "");
+        editor.commit();
+    }
 }

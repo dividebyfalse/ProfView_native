@@ -5,6 +5,7 @@ package com.penpen.profview;
  */
 public class clubs_nf_fragment extends nf_fragment {
       static {
+            layid = R.id.clf;
             lay = R.layout.clubs_feed;
             lvid = R.id.listcl;
       }
