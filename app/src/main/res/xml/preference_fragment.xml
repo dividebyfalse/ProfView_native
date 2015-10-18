@@ -5,7 +5,8 @@
     android:id="@+id/preference_fragment">
 
     <PreferenceCategory
-        android:title="@string/inline_preferences">
+        android:title="@string/inline_preferences"
+        android:background="#a29cd1">
 
         <CheckBoxPreference
             android:key="checkbox_preference"
@@ -14,7 +15,8 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/dialog_based_preferences">
+        android:title="@string/dialog_based_preferences"
+        android:background="#a29cd1">
 
         <EditTextPreference
             android:key="edittext_preference"
@@ -32,12 +34,14 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/launch_preferences">
+        android:title="@string/launch_preferences"
+        android:background="#a29cd1">
 
         <PreferenceScreen
             android:key="screen_preference"
             android:title="@string/title_screen_preference"
-            android:summary="@string/summary_screen_preference">
+            android:summary="@string/summary_screen_preference"
+            android:background="#d3d6db">
 
             <CheckBoxPreference
                 android:key="next_screen_checkbox_preference"

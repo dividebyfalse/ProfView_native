@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/penpen/.gradle/caches/modules-2/files-2.1/com.parse/parse-android/1.10.3/36366e460af2c0f224bb8f70b64e3302f638b138/parse-android-1.10.3.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="36366e460af2c0f224bb8f70b64e3302f638b138">
+        <dex dex="/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/pre-dexed/debug/parse-android-1.10.3-9cafb7b22e0d5678de69da9d066252af0dc3fc8d.jar" />
+    </item>
+    <item
+        jar="/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/exploded-aar/ProfView/library/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="a95d9a4ea25c4bd4512f1876a410ef7f6e4d0d19">
+        <dex dex="/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/pre-dexed/debug/classes-cbb93783849042ff154a54f2a2bb747543645933.jar" />
+    </item>
+    <item
+        jar="/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
+        <dex dex="/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/pre-dexed/debug/classes-b727d2aa481c1b32fa65f32085d4d1f1983dde2a.jar" />
+    </item>
+    <item
+        jar="/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/exploded-aar/com.android.support/preference-v7/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="f6710ac076a15f4a754fc86783ff5ba447064a9e">
+        <dex dex="/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/pre-dexed/debug/classes-6ef0ccbbf5cb97f6536ab87887a9f453b99d2390.jar" />
+    </item>
+    <item
+        jar="/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
+        <dex dex="/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/pre-dexed/debug/classes-509bd56eb0414c66b9158ea1633b398fddf666b2.jar" />
+    </item>
+    <item
+        jar="/home/penpen/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.0/support-annotations-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
+        <dex dex="/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.0-e7b1e37df2404022461ceef385ea9ca51a59abc1.jar" />
+    </item>
+    <item
+        jar="/home/penpen/AndroidStudioProjects/ProfView/app/libs/volley.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="d4aaa36e04ee71a83444f8367c97a46fda662d2c">
+        <dex dex="/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/pre-dexed/debug/volley-0c9a622bbccdeb0a4b94543e8a27c3b37a781d1a.jar" />
+    </item>
+    <item
+        jar="/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="3f151e49c316a5ab2c065969a3b3b55ef9b393fc">
+        <dex dex="/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/pre-dexed/debug/classes-a6e3652ee014a503b1192fb25f7bba1e0e6acc38.jar" />
+    </item>
+    <item
+        jar="/home/penpen/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-android/1.2.1/44780c2cf98f6a3cf4e77f1234d644758b329201/bolts-android-1.2.1.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="44780c2cf98f6a3cf4e77f1234d644758b329201">
+        <dex dex="/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/pre-dexed/debug/bolts-android-1.2.1-8379784c85666fc55dd4a561c533ce28aa022f3a.jar" />
+    </item>
+    <item
+        jar="/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/libs/internal_impl-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.0 rc3"
+        sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
+        <dex dex="/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.0-71471e9cba54b1fc8763de0adb6b9078c6a35c87.jar" />
+    </item>
+
+</items>

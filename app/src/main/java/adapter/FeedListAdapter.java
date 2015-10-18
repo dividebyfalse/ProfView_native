@@ -96,8 +96,7 @@ public class FeedListAdapter extends BaseAdapter {
 
         // Checking for null feed url
         if (item.getUrl() != null) {
-            url.setText(Html.fromHtml("<a href=\"" + item.getUrl() + "\">"
-                    + item.getUrl() + "</a> "));
+            url.setText(Html.fromHtml("<a href=\"" + item.getUrl() + "\">Подробнее...</a> "));
 
             // Making url clickable
             url.setMovementMethod(LinkMovementMethod.getInstance());

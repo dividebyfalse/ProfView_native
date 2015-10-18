@@ -16,7 +16,8 @@
         android:background="@drawable/bg_parent_rounded_corner"
         android:orientation="vertical"
         android:paddingBottom="@dimen/feed_item_padding_top_bottom"
-        android:paddingTop="@dimen/feed_item_padding_top_bottom" >
+        android:paddingTop="@dimen/feed_item_padding_top_bottom"
+        android:weightSum="1">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -63,16 +64,6 @@
             android:paddingRight="@dimen/feed_item_status_pad_left_right"
             android:paddingTop="@dimen/feed_item_status_pad_top" />
 
-        <TextView
-            android:id="@+id/txtUrl"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:linksClickable="true"
-            android:paddingBottom="10dp"
-            android:paddingLeft="@dimen/feed_item_status_pad_left_right"
-            android:paddingRight="@dimen/feed_item_status_pad_left_right"
-            android:textColorLink="@color/link" />
-
         <app.FeedImageView
             android:id="@+id/feedImage1"
             android:layout_width="fill_parent"
@@ -82,6 +73,31 @@
             android:visibility="visible"
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0.06">
+
+            <TextView
+                android:id="@+id/txtUrl"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:linksClickable="true"
+                android:paddingBottom="10dp"
+                android:paddingLeft="@dimen/feed_item_status_pad_left_right"
+                android:paddingRight="@dimen/feed_item_status_pad_left_right"
+                android:textColorLink="#df6f50"
+                android:clickable="true"
+                android:text="Подробнее..."
+                android:textSize="18dp"
+                android:textStyle="normal"
+                android:layout_marginTop="4dp"
+                android:layout_marginLeft="40dp" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>

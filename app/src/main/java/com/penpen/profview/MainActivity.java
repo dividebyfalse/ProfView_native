@@ -2,6 +2,7 @@ package com.penpen.profview;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -20,6 +21,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.parse.Parse;
+import com.parse.ParseInstallation;
+
+import app.NotificationService;
 
 public class MainActivity extends FragmentActivity {
     SlidingMenu menu;
@@ -55,6 +60,9 @@ public class MainActivity extends FragmentActivity {
         });
         setContentView(R.layout.activity_main);
         changeFragment(1);
+        /*Parse.initialize(this, "RGPrSJb5bk3E8tlgEHZC8JC4W4SJu4Wr79sQIUEx", "4jVXmTbi0aPv5d3dDZSwYf5NNbpvpC3tQb33MYiA");
+        ParseInstallation.getCurrentInstallation().saveInBackground();*/
+        //startService(new Intent(this, NotificationService.class));
     }
 
     public void menuToggle(){
@@ -97,7 +105,7 @@ public class MainActivity extends FragmentActivity {
             case 3:
                 break;
             case 4:
-                mainLayout.setBackgroundColor(Color.BLACK);
+                mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
                 SettingsFragment = new settings_fragment();
                 getFragmentManager().beginTransaction().replace(R.id.container, SettingsFragment).commit();
                 showFragment(new settings_helper());
