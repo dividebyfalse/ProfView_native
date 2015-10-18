@@ -64,7 +64,7 @@ public abstract class nf_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(lay, container, false);
     }
-    
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -84,7 +84,7 @@ public abstract class nf_fragment extends Fragment {
         SharedPreferences settings = getActivity().getSharedPreferences("temp", 0);
         Cache cache = AppController.getInstance().getRequestQueue().getCache();
         Entry entry = cache.get(getURL());
-        if (settings.getString("my", "") == "test") {
+        if (settings.getString("my", "") == "tes") {
             if (entry != null) {
                 try {
                     String data = new String(entry.data, "UTF-8");
@@ -204,10 +204,14 @@ public abstract class nf_fragment extends Fragment {
                                     .getJSONObject("attachment").getJSONObject("photo").getString("src_big");
                             item.setImge(image);
                             // url might be null sometimes
-                            String feedUrl = feedObj.getJSONObject("attachment").isNull("link") ? null : feedObj
-                                    .getJSONObject("attachment").getJSONObject("link").getString("url");
-                            item.setUrl(feedUrl);
-
+                            if (feedObj.getJSONArray("attachments") != null) {
+                                for (int j=0; j<feedObj.getJSONArray("attachments").length(); j++) {
+                                    if (feedObj.getJSONArray("attachments").getJSONObject(j).getString("type").contentEquals("link")) {
+                                        item.setUrl(feedObj.getJSONArray("attachments").getJSONObject(j).getJSONObject("link").getString("url"));
+                                        break;
+                                    }
+                                }
+                            }
                         }
                         item.setStatus(feedObj.getString("text").replace("<br>", ""));
                         item.setProfilePic("https://pp.vk.me/c410124/v410124933/a3fa/SF8mkyWprrY.jpg");
