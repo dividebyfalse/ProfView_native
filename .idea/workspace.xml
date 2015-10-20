@@ -17,38 +17,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dbc88b59-28b2-4813-8623-bcb6316b047b" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/app/MyGcmListenerService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/app/MyInstanceIDListenerService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/app/QuickstartPreferences.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/app/RegistrationIntentService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/mediarouter_v7_22_2_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_ads_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_analytics_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_appindexing_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_appinvite_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_appstate_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_base_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_basement_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_cast_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_drive_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_fitness_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_games_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_gcm_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_identity_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_location_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_maps_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_measurement_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_nearby_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_panorama_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_plus_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_safetynet_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_vision_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_wallet_8_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/play_services_wearable_8_1_0.xml" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/.gcm.kate-swp" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/bolts_android_1_2_1.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/parse_android_1_10_3.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu" afterPath="$PROJECT_DIR$/app/SlidingMenu" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/art/Blue/Thumbs.db" afterPath="$PROJECT_DIR$/app/SlidingMenu/art/Blue/Thumbs.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/art/Green/Thumbs.db" afterPath="$PROJECT_DIR$/app/SlidingMenu/art/Green/Thumbs.db" />
@@ -56,13 +25,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/art/Red/Thumbs.db" afterPath="$PROJECT_DIR$/app/SlidingMenu/art/Red/Thumbs.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/art/White/Thumbs.db" afterPath="$PROJECT_DIR$/app/SlidingMenu/art/White/Thumbs.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/library/libs/android-support-v4.jar" afterPath="$PROJECT_DIR$/app/SlidingMenu/library/libs/android-support-v4.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/outputs/apk/app-debug-unaligned.apk" afterPath="$PROJECT_DIR$/app/build/outputs/apk/app-debug-unaligned.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build/outputs/apk/app-debug.apk" afterPath="$PROJECT_DIR$/app/build/outputs/apk/app-debug.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/libs/crittercism_v3_0_3_sdkonly.jar" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/libs/crittercism_v3_0_3_sdkonly.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/eagle.png" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/eagle.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/flamingo.png" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/flamingo.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/art/Blue/hdpi.png" afterPath="$PROJECT_DIR$/app/SlidingMenu/art/Blue/hdpi.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/art/Green/hdpi.png" afterPath="$PROJECT_DIR$/app/SlidingMenu/art/Green/hdpi.png" />
@@ -94,10 +58,8 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/art/White/mdpi.png" afterPath="$PROJECT_DIR$/app/SlidingMenu/art/White/mdpi.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/octocat.png" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/octocat.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/ostrich.png" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/ostrich.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/outputFileStates.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/peacock.png" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/peacock.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/penguin.png" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/penguin.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/toucan.png" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/toucan.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/turkey.png" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/turkey.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/vulture.png" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/vulture.png" />
@@ -112,7 +74,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/.project" afterPath="$PROJECT_DIR$/app/SlidingMenu/.project" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/library/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/library/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/AttachExample.java" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/AttachExample.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/BaseActivity.java" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/BaseActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/fragments/BirdActivity.java" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/fragments/BirdActivity.java" />
@@ -133,7 +94,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/library/LICENSE.txt" afterPath="$PROJECT_DIR$/app/SlidingMenu/library/LICENSE.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/library-maps-support/LICENSE.txt" afterPath="$PROJECT_DIR$/app/SlidingMenu/library-maps-support/LICENSE.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/LeftAndRightActivity.java" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/LeftAndRightActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/penpen/profview/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/penpen/profview/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/library/src/com/jeremyfeinstein/slidingmenu/lib/MenuInterface.java" afterPath="$PROJECT_DIR$/app/SlidingMenu/library/src/com/jeremyfeinstein/slidingmenu/lib/MenuInterface.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/PropertiesActivity.java" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/PropertiesActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/README.md" afterPath="$PROJECT_DIR$/app/SlidingMenu/README.md" />
@@ -151,13 +111,9 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/SlidingTitleBar.java" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/SlidingTitleBar.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/Util.java" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/Util.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/ViewPagerActivity.java" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/ViewPagerActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/values/array.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/values/array.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/library/res/values/attrs.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/library/res/values/attrs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/library/build.gradle" afterPath="$PROJECT_DIR$/app/SlidingMenu/library/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/values/colors.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/values/colors.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/layout/content_frame.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/layout/content_frame.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/values/dimens.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/values/dimens.xml" />
@@ -182,7 +138,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/layout/menu_frame.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/layout/menu_frame.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/layout/menu_frame_two.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/layout/menu_frame_two.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/new_indicator.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/new_indicator.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/penpen/profview/nf_fragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/penpen/profview/nf_fragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/octocat_scaled.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/octocat_scaled.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/layout/pager.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/layout/pager.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/pom.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/pom.xml" />
@@ -198,12 +153,10 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/proguard/seeds.txt" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/proguard/seeds.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/shadow.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/shadow.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/shadowright.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/shadowright.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/sidemenu_item.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/sidemenu_item.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/library/res/layout/slidingmenumain.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/library/res/layout/slidingmenumain.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/values/styles.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/values/styles.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/proguard/usage.txt" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/proguard/usage.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ProfView.iws" />
     <ignored path=".idea/workspace.xml" />
