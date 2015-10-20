@@ -6,7 +6,8 @@
     android:orientation="vertical"
     android:padding="10dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:divider="#69787f">
+    android:divider="#69787f"
+    android:background="#a2a7ae">
 
     <TextView android:id="@+id/text"
         android:layout_width="wrap_content"

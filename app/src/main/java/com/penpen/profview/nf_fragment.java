@@ -189,11 +189,11 @@ public abstract class nf_fragment extends Fragment {
                 try {
                     feedItems.clear();
                     JSONArray feedArray = dataJsonObj.getJSONArray("response");
-                    VolleyLog.d(TAG, feedArray.toString());
+                    //VolleyLog.d(TAG, feedArray.toString());
                     for (int i = 1; i < feedArray.length(); i++) {
                         JSONObject feedObj = (JSONObject) feedArray.get(i);
-                        VolleyLog.d(TAG, i);
-                        VolleyLog.d(TAG, "Error: " + feedArray.get(i).toString());
+                        /*VolleyLog.d(TAG, i);
+                        VolleyLog.d(TAG, "Error: " + feedArray.get(i).toString());*/
                         FeedItem item = new FeedItem();
                         item.setId(feedObj.getInt("id"));
                         item.setName("Разное");
