@@ -17,7 +17,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dbc88b59-28b2-4813-8623-bcb6316b047b" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.gcm.kate-swp" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu" afterPath="$PROJECT_DIR$/app/SlidingMenu" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/art/Blue/Thumbs.db" afterPath="$PROJECT_DIR$/app/SlidingMenu/art/Blue/Thumbs.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/art/Green/Thumbs.db" afterPath="$PROJECT_DIR$/app/SlidingMenu/art/Green/Thumbs.db" />
@@ -157,6 +156,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/values/strings.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/values/styles.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/values/styles.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/proguard/usage.txt" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/proguard/usage.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ProfView.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -234,8 +234,8 @@
       <file leaf-file-name="RegistrationIntentService.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/app/RegistrationIntentService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.618887">
-              <caret line="37" column="32" selection-start-line="37" selection-start-column="32" selection-end-line="37" selection-end-column="32" />
+            <state vertical-scroll-proportion="0.7217538">
+              <caret line="90" column="62" selection-start-line="90" selection-start-column="62" selection-end-line="90" selection-end-column="62" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#728#729#0" expanded="true" />
@@ -4175,7 +4175,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1060" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33006537" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
@@ -4184,7 +4184,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3278867" sideWeight="0.50215054" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329582" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32461873" sideWeight="0.49784946" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32461873" sideWeight="0.49784946" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3267974" sideWeight="0.49784946" order="2" side_tool="false" content_ui="tabs" />
@@ -4692,8 +4692,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/app/RegistrationIntentService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.618887">
-          <caret line="37" column="32" selection-start-line="37" selection-start-column="32" selection-end-line="37" selection-end-column="32" />
+        <state vertical-scroll-proportion="0.7217538">
+          <caret line="90" column="62" selection-start-line="90" selection-start-column="62" selection-end-line="90" selection-end-column="62" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#728#729#0" expanded="true" />
