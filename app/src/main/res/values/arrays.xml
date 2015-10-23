@@ -5,7 +5,6 @@
         <item>Географический факультет</item>
         <item>Геологический факультет</item>
         <item>Гуманитарно-эстетический факультет</item>
-        <item>Естественно-географический факультет</item>
         <item>Исторический факультет</item>
         <item>Отделение философии и теологии</item>
         <item>Сибирско-американский факультет</item>
@@ -20,27 +19,28 @@
         <item>Факультет филологии и журналистики</item>
         <item>Физический факультет</item>
         <item>Химический факультет</item>
+        <item>Юридический институт</item>
     </string-array>
 
-
     <string-array name="entryvalues_list_preference">
-        <item>Number 1</item>
-        <item>Number 2</item>
-        <item>Number 3</item>
-        <item>Number 4</item>
-        <item>Number 1</item>
-        <item>Number 2</item>
-        <item>Number 3</item>
-        <item>Number 4</item>
-        <item>Number 1</item>
-        <item>Number 2</item>
-        <item>Number 3</item>
-        <item>Number 4</item>
-        <item>Number 1</item>
-        <item>Number 2</item>
-        <item>Number 3</item>
-        <item>Number 4</item>
-        <item>Number 1</item>
-        <item>Number 2</item>
+        <item>62036525</item>
+        <item>38960668</item>
+        <item></item>
+        <item></item>
+        <item>52008207</item>
+        <item></item>
+        <item>101769965</item>
+        <item></item>
+        <item>12998578</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item>49383548</item>
+        <item></item>
+        <item></item>
+        <item>58317625</item>
+        <item>49341230</item>
+        <item>62125802</item>
+        <item>44589291</item>
     </string-array>
 </resources>

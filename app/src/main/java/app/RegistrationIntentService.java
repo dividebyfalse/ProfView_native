@@ -1,21 +1,38 @@
 package app;
 
 
+
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.IntentService;
 import android.content.Intent;
 
 
+
+
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+
 import com.penpen.profview.R;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by penpen on 20.10.15.
  */
@@ -74,8 +91,49 @@ public class RegistrationIntentService extends IntentService {
      *
      * @param token The new token.
      */
-    private void sendRegistrationToServer(String token) {
+    private void sendRegistrationToServer(final String token) {
         // Add custom implementation, as needed.
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="http://cs.gnoul.com:50044/index.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("b", response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+            }
+        }){
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<String, String>();
+                AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
+                Account[] list = manager.getAccounts();
+                String gmail = null;
+                for(Account account: list)
+                {
+                    if(account.type.equalsIgnoreCase("com.google"))
+                    {
+                        gmail = account.name;
+                        break;
+                    }
+                }
+                params.put("at",token);
+                params.put("email",gmail);
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Content-Type","application/x-www-form-urlencoded");
+                return params;
+            }
+        };;
+        queue.add(stringRequest);
     }
 
     /**

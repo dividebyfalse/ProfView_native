@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v4.app.Fragment;
@@ -19,7 +17,6 @@ import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -29,7 +26,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
-import app.NotificationService;
+import java.util.ArrayList;
+import java.util.List;
+
 import app.QuickstartPreferences;
 import app.RegistrationIntentService;
 
@@ -73,28 +72,35 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
         changeFragment(1);
 
-        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-               // mRegistrationProgressBar.setVisibility(ProgressBar.GONE);
-                SharedPreferences sharedPreferences =
-                        PreferenceManager.getDefaultSharedPreferences(context);
-                boolean sentToken = sharedPreferences
-                        .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
-                if (sentToken) {
-                  //  mInformationTextView.setText(getString(R.string.gcm_send_message));
-                } else {
-                   // mInformationTextView.setText(getString(R.string.token_error_message));
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        if (settings.getBoolean("IsPushEnabled", true)) {
+            mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    // mRegistrationProgressBar.setVisibility(ProgressBar.GONE);
+                    SharedPreferences sharedPreferences =
+                            PreferenceManager.getDefaultSharedPreferences(context);
+                    boolean sentToken = sharedPreferences
+                            .getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+                    if (sentToken) {
+                        //  mInformationTextView.setText(getString(R.string.gcm_send_message));
+                    } else {
+                        // mInformationTextView.setText(getString(R.string.token_error_message));
+                    }
                 }
-            }
-        };
+            };
 
-        if (checkPlayServices()) {
-            // Start IntentService to register this application with GCM.
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
+            if (checkPlayServices()) {
+                // Start IntentService to register this application with GCM.
+                Intent intent = new Intent(this, RegistrationIntentService.class);
+                startService(intent);
+            }
         }
 
+        //SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+        List<String> urls = new ArrayList<>();
+        //Set<String> els = new ArraySet<>();
+        Log.d("b", settings.getString("faculties_list", ""));
     }
 
     public void menuToggle(){
