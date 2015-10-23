@@ -9,7 +9,7 @@
         android:background="#a29cd1">
 
         <CheckBoxPreference
-            android:key="checkbox_preference"
+            android:key="IsPushEnabled"
             android:title="@string/title_checkbox_preference"
             android:summary="@string/summary_checkbox_preference" />
     </PreferenceCategory>
@@ -38,32 +38,36 @@
         android:background="#a29cd1">
 
         <PreferenceScreen
-            android:key="screen_preference"
+            android:key="clubs"
             android:title="@string/title_screen_preference"
             android:summary="@string/summary_screen_preference"
             android:background="#d3d6db">
 
             <CheckBoxPreference
-                android:key="next_screen_checkbox_preference"
-                android:title="@string/title_next_screen_toggle_preference"
-                android:summary="@string/summary_next_screen_toggle_preference" />
+                android:key="club_gos"
+                android:title="Г.О.С. ИГУ"
+                android:summary="Проект-студия Г.О.С." />
             <CheckBoxPreference
-                android:key="next_screen_checkbox_preference"
-                android:title="@string/title_next_screen_toggle_preference"
-                android:summary="@string/summary_next_screen_toggle_preference" />
+                android:key="club_sno"
+                android:title="CНО ИГУ"
+                android:summary="Студенческое научное общество ИГУ" />
             <CheckBoxPreference
-                android:key="next_screen_checkbox_preference"
-                android:title="@string/title_next_screen_toggle_preference"
-                android:summary="@string/summary_next_screen_toggle_preference" />
+                android:key="club_volonter"
+                android:title="Волонтёрский центр ППОС ИГУ"
+                android:summary="Волонтёрский центр ППОС ИГУ" />
             <CheckBoxPreference
-                android:key="next_screen_checkbox_preference"
-                android:title="@string/title_next_screen_toggle_preference"
-                android:summary="@string/summary_next_screen_toggle_preference" />
+                android:key="club_gost"
+                android:title="ГОСт"
+                android:summary="Газета профкома ИГУ" />
+            <CheckBoxPreference
+                android:key="club_kok"
+                android:title="КОК ИГУ"
+                android:summary="Комиссия общественного контроля ППОС ИГУ" />
 
         </PreferenceScreen>
 
         <ListPreference
-            android:key="list_preference"
+            android:key="faculties_list"
             android:title="@string/title_list_preference"
             android:summary="@string/summary_list_preference"
             android:entries="@array/entries_list_preference"

@@ -1,5 +1,10 @@
 package com.penpen.profview;
 
+import android.content.SharedPreferences;
+import android.support.v7.preference.PreferenceManager;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by penpen on 13.10.15.
  */
@@ -11,7 +16,24 @@ public class clubs_nf_fragment extends nf_fragment {
       }
 
     @Override
-    protected String getURL() {
-        return "https://api.vk.com/method/wall.get?owner_id=-65955842&filter=all&count=100";
+    protected List<String> getURL() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+        List<String> urls = new ArrayList<>();
+        if (settings.getBoolean("club_gos", false)) {
+            urls.add("https://api.vk.com/method/wall.get?owner_id=-65955842&filter=all&count=100");
+        }
+        if (settings.getBoolean("club_sno", false)) {
+            urls.add("https://api.vk.com/method/wall.get?owner_id=-91188284&filter=all&count=100");
+        }
+        if (settings.getBoolean("club_volonter", false)) {
+            urls.add("https://api.vk.com/method/wall.get?owner_id=-77276649&filter=all&count=100");
+        }
+        if (settings.getBoolean("club_gost", false)) {
+            urls.add("https://api.vk.com/method/wall.get?owner_id=-61189805&filter=all&count=100");
+        }
+        if (settings.getBoolean("club_kok", false)) {
+            urls.add("https://api.vk.com/method/wall.get?owner_id=-68602555&filter=all&count=100");
+        }
+        return urls;
     }
 }

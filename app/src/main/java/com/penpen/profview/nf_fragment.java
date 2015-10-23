@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,6 @@ public abstract class nf_fragment extends Fragment {
     private ListView listView;
     private FeedListAdapter listAdapter;
     private List<FeedItem> feedItems;
-    private boolean isRef;
     public static int lay;
     public static int lvid;
     public static int layid;
@@ -76,15 +76,15 @@ public abstract class nf_fragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                isRef = true;
-                new ParseTask().execute("");
+                if (isOnline()) {
+                    new ParseTask().execute("");
+                }
             }
         });
-        isRef = false;
-        SharedPreferences settings = getActivity().getSharedPreferences("temp", 0);
-        Cache cache = AppController.getInstance().getRequestQueue().getCache();
-        Entry entry = cache.get(getURL());
-        if (settings.getString("my", "") == "tes") {
+        //SharedPreferences settings = getActivity().getSharedPreferences("temp", 0);
+        /*Cache cache = AppController.getInstance().getRequestQueue().getCache();
+        Entry entry = cache.get(getURL());*/
+        /*if (settings.getString("my", "") == "tes") {
             if (entry != null) {
                 try {
                     String data = new String(entry.data, "UTF-8");
@@ -98,10 +98,18 @@ public abstract class nf_fragment extends Fragment {
                     new ParseTask().execute("");
                 }
             }
-        } else {
+        } else {*/
             if (isOnline()) {
-                new ParseTask().execute("");
-            } else {
+                List<String> ls = getURL();
+                String lss="";
+                if (ls.size()>0) {
+                    for (int i = 0; i < ls.size() - 2; i++) {
+                        lss += ls.get(i) + ";";
+                    }
+                    lss += ls.get(ls.size()-1);
+                }
+                new ParseTask().execute(lss);
+            } /*else {
                 if (entry != null) {
                     try {
                         String data = new String(entry.data, "UTF-8");
@@ -111,18 +119,18 @@ public abstract class nf_fragment extends Fragment {
                         e.printStackTrace();
                     }
                 }
-            }
-        }
+            }*/
+        //}
     }
 
-    @Override
+   /* @Override
     public void onPause() {
         super.onPause();
         SharedPreferences settings = getActivity().getSharedPreferences("temp", 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString("my", "test");
         editor.commit();
-    }
+    }*/
 
     public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -133,11 +141,12 @@ public abstract class nf_fragment extends Fragment {
         else {
             Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Проверьте интернет соединение", Toast.LENGTH_SHORT);
             toast.show();
+            swipeRefreshLayout.setRefreshing(false);
             return false;
         }
     }
 
-    protected abstract String getURL();
+    protected abstract List<String> getURL();
 
     public class ParseTask extends AsyncTask<String, Void, String> {
         HttpURLConnection urlConnection = null;
@@ -147,35 +156,47 @@ public abstract class nf_fragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            if (isRef==false) {
-                progressDialog = new ProgressDialog(getActivity());
-                progressDialog.setMessage("Загрузка...");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
+            swipeRefreshLayout.setProgressViewOffset(false, 0,
+                    (int) TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP,
+                            24,
+                            getResources().getDisplayMetrics()));
+            swipeRefreshLayout.setRefreshing(true);
+        }
+
+        private String getJSON(String URL) {
+            String JSON = "";
+            try {
+                URL url = new URL(URL);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                reader = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line);
+                }
+                JSON = buffer.toString();
+            }catch(Exception e){
+                e.printStackTrace();
             }
+            return JSON;
         }
 
         @Override
         protected String doInBackground(String... params) {
-            if (params[0] == "") {
-                    try {
-                    URL url = new URL(getURL());
-                    urlConnection = (HttpURLConnection) url.openConnection();
-                    urlConnection.setRequestMethod("GET");
-                    urlConnection.connect();
-                    InputStream inputStream = urlConnection.getInputStream();
-                    StringBuffer buffer = new StringBuffer();
-                    reader = new BufferedReader(new InputStreamReader(inputStream));
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        buffer.append(line);
-                    }
-                    resultJson = buffer.toString();
-                }catch(Exception e){
-                    e.printStackTrace();
+            if (params.length == 1) {
+                List<String> JSONList= new ArrayList<String>();;
+                String[] url = params[0].split(";");
+                for (int i=0; i<url.length; i++) {
+                    JSONList.add(getJSON(url[i]));
                 }
+                JSONObject dataJsonObj = null;
+                //todo:соединение json
             } else {
-                resultJson = params[0];
+                resultJson = params[1];
             }
             return resultJson;
         }
@@ -197,13 +218,10 @@ public abstract class nf_fragment extends Fragment {
                         FeedItem item = new FeedItem();
                         item.setId(feedObj.getInt("id"));
                         item.setName("Разное");
-
                         if (feedObj.isNull("attachment") == false) {
-                            /// Image might be null sometimes
                             String image = feedObj.getJSONObject("attachment").isNull("photo") ? null : feedObj
                                     .getJSONObject("attachment").getJSONObject("photo").getString("src_big");
                             item.setImge(image);
-                            // url might be null sometimes
                             if (feedObj.getJSONArray("attachments") != null) {
                                 for (int j=0; j<feedObj.getJSONArray("attachments").length(); j++) {
                                     if (feedObj.getJSONArray("attachments").getJSONObject(j).getString("type").contentEquals("link")) {
@@ -218,8 +236,6 @@ public abstract class nf_fragment extends Fragment {
                         item.setTimeStamp(feedObj.getString("date")+"000");
                         feedItems.add(item);
                     }
-
-                    // notify data changes to list adapater
                     listAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -227,12 +243,7 @@ public abstract class nf_fragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            if (isRef) {
-                isRef = false;
-                swipeRefreshLayout.setRefreshing(false);
-            } else {
-                progressDialog.dismiss();
-            }
+            swipeRefreshLayout.setRefreshing(false);
         }
     }
 }
