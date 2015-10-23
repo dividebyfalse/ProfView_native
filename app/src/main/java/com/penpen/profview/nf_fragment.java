@@ -1,37 +1,35 @@
 package com.penpen.profview;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import adapter.FeedListAdapter;
 import app.AppController;
 import data.FeedItem;
-
 
 import com.android.volley.Cache;
 import com.android.volley.Cache.Entry;
@@ -57,7 +55,7 @@ public abstract class nf_fragment extends Fragment {
     public static int lay;
     public static int lvid;
     public static int layid;
-    private ProgressDialog progressDialog;
+    boolean is_ref;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -77,7 +75,17 @@ public abstract class nf_fragment extends Fragment {
             @Override
             public void onRefresh() {
                 if (isOnline()) {
-                    new ParseTask().execute("");
+                    is_ref = true;
+                    List<String> ls = getURL();
+                    String lss="";
+                    if (ls.size()>0) {
+                        for (int i = 0; i < ls.size() ; i++) {
+                            lss += ls.get(i) + ";";
+                        }
+                        lss=lss.substring(0, lss.length()-1);
+                    }
+                    new ParseTask().execute(lss);
+                    is_ref = false;
                 }
             }
         });
@@ -103,10 +111,10 @@ public abstract class nf_fragment extends Fragment {
                 List<String> ls = getURL();
                 String lss="";
                 if (ls.size()>0) {
-                    for (int i = 0; i < ls.size() - 2; i++) {
+                    for (int i = 0; i < ls.size(); i++) {
                         lss += ls.get(i) + ";";
                     }
-                    lss += ls.get(ls.size()-1);
+                    lss=lss.substring(0, lss.length()-1);
                 }
                 new ParseTask().execute(lss);
             } /*else {
@@ -156,12 +164,14 @@ public abstract class nf_fragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            swipeRefreshLayout.setProgressViewOffset(false, 0,
-                    (int) TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_DIP,
-                            24,
-                            getResources().getDisplayMetrics()));
-            swipeRefreshLayout.setRefreshing(true);
+            if (is_ref == false) {
+                swipeRefreshLayout.setProgressViewOffset(false, 0,
+                        (int) TypedValue.applyDimension(
+                                TypedValue.COMPLEX_UNIT_DIP,
+                                24,
+                                getResources().getDisplayMetrics()));
+                swipeRefreshLayout.setRefreshing(true);
+            }
         }
 
         private String getJSON(String URL) {
@@ -188,12 +198,60 @@ public abstract class nf_fragment extends Fragment {
         @Override
         protected String doInBackground(String... params) {
             if (params.length == 1) {
-                List<String> JSONList= new ArrayList<String>();;
-                String[] url = params[0].split(";");
-                for (int i=0; i<url.length; i++) {
-                    JSONList.add(getJSON(url[i]));
-                }
                 JSONObject dataJsonObj = null;
+                int al=0;
+                //List<String> JSONList= new ArrayList<String>();;
+                String[] url = params[0].split(";");
+                if (url.length>1) {
+                    String cs = "";
+                    for (int i = 0; i < url.length; i++) {
+                        try {
+                            dataJsonObj = new JSONObject(getJSON(url[i]));
+                            JSONArray feedArray = dataJsonObj.getJSONArray("response");
+                            al += feedArray.length();
+                            for (int j = 1; j < feedArray.length(); j++) {
+                                JSONObject feedObj = (JSONObject) feedArray.get(j);
+                                cs += feedObj.toString() + ",";
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    cs = cs.substring(0, cs.length() - 1);
+                    cs = "{\"response\":[162," + cs + "]}";
+                    try {
+                        dataJsonObj = new JSONObject(cs);
+                        JSONArray feedArray = dataJsonObj.getJSONArray("response");
+                        Log.d("fal", String.valueOf(al));
+                        String[] ls;
+                        ls = feedArray.join(";sdf4s6df4d2sf;").split(";sdf4s6df4d2sf;");
+                        for (int i = 1; i < feedArray.length() - 1; i++) {
+                            for (int j = i; j < feedArray.length() - 1; j++) {
+                                JSONObject feedObjo = (JSONObject) feedArray.get(i);
+                                JSONObject feedObjt = (JSONObject) feedArray.get(j);
+                                Date sd = new java.util.Date(Long.valueOf(feedObjo.getString("date")) * 1000);
+                                Date ed = new java.util.Date(Long.valueOf(feedObjt.getString("date")) * 1000);
+                                if (ed.after(sd)) {
+                                    String a = ls[i];
+                                    ls[i] = ls[j];
+                                    ls[j] = a;
+                                }
+                            }
+                        }
+                        cs = "";
+                        Log.d("b", String.valueOf(ls.length));
+                        for (int i = 0; i < ls.length - 1; i++) {
+                            cs += ls[i] + ",";
+                        }
+                        cs = cs.substring(0, cs.length() - 1);
+                        cs = "{\"response\":[" + cs + "]}";
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    resultJson = cs;
+                } else {
+                    resultJson = getJSON(url[0]);
+                }
                 //todo:соединение json
             } else {
                 resultJson = params[1];
