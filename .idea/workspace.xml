@@ -17,6 +17,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dbc88b59-28b2-4813-8623-bcb6316b047b" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/achievements_list_fragment.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/login_fragment.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu" afterPath="$PROJECT_DIR$/app/SlidingMenu" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/art/Blue/Thumbs.db" afterPath="$PROJECT_DIR$/app/SlidingMenu/art/Blue/Thumbs.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/art/Green/Thumbs.db" afterPath="$PROJECT_DIR$/app/SlidingMenu/art/Green/Thumbs.db" />
@@ -79,6 +81,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/.project" afterPath="$PROJECT_DIR$/app/SlidingMenu/.project" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/library/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/library/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/AttachExample.java" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/AttachExample.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/BaseActivity.java" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/BaseActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/fragments/BirdActivity.java" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/fragments/BirdActivity.java" />
@@ -100,6 +103,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/library-maps-support/LICENSE.txt" afterPath="$PROJECT_DIR$/app/SlidingMenu/library-maps-support/LICENSE.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/LeftAndRightActivity.java" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/LeftAndRightActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/library/src/com/jeremyfeinstein/slidingmenu/lib/MenuInterface.java" afterPath="$PROJECT_DIR$/app/SlidingMenu/library/src/com/jeremyfeinstein/slidingmenu/lib/MenuInterface.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/app/MyGcmListenerService.java" afterPath="$PROJECT_DIR$/app/src/main/java/app/MyGcmListenerService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/PropertiesActivity.java" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/PropertiesActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/README.md" afterPath="$PROJECT_DIR$/app/SlidingMenu/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/fragments/ResponsiveUIActivity.java" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/src/com/jeremyfeinstein/slidingmenu/example/fragments/ResponsiveUIActivity.java" />
@@ -143,7 +147,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/layout/menu_frame.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/layout/menu_frame.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/layout/menu_frame_two.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/layout/menu_frame_two.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/new_indicator.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/new_indicator.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/penpen/profview/nf_fragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/penpen/profview/nf_fragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/octocat_scaled.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/drawable/octocat_scaled.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/example/res/layout/pager.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/example/res/layout/pager.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/SlidingMenu/pom.xml" afterPath="$PROJECT_DIR$/app/SlidingMenu/pom.xml" />
@@ -203,15 +206,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="nf_fragment.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="nf_fragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/penpen/profview/nf_fragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.92411464">
+            <state vertical-scroll-proportion="0.0">
               <caret line="191" column="32" selection-start-line="191" selection-start-column="32" selection-end-line="191" selection-end-column="32" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2405#3053#0" expanded="true" />
-                <element signature="e#3052#3053#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -239,21 +240,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FeedItem.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/data/FeedItem.java">
+      <file leaf-file-name="MyGcmListenerService.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/app/MyGcmListenerService.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="21" column="22" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="22" />
+              <caret line="86" column="36" selection-start-line="86" selection-start-column="36" selection-end-line="86" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FeedImageView.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/app/FeedImageView.java">
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="115" column="66" selection-start-line="115" selection-start-column="52" selection-end-line="115" selection-end-column="66" />
+              <caret line="7" column="67" selection-start-line="7" selection-start-column="67" selection-end-line="7" selection-end-column="67" />
               <folding />
             </state>
           </provider>
@@ -263,27 +264,33 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/adapter/FeedListAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="84" column="70" selection-start-line="82" selection-start-column="31" selection-end-line="84" selection-end-column="72" />
+              <caret line="71" column="46" selection-start-line="71" selection-start-column="46" selection-end-line="71" selection-end-column="47" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MyGcmListenerService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/app/MyGcmListenerService.java">
-          <provider selected="true" editor-type-id="text-editor">
+      <file leaf-file-name="achievements_list_fragment.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/achievements_list_fragment.xml">
+          <provider selected="true" editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="51" column="11" selection-start-line="51" selection-start-column="11" selection-end-line="51" selection-end-column="11" />
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/penpen/profview/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
+      <file leaf-file-name="login_fragment.xml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/login_fragment.xml">
+          <provider selected="true" editor-type-id="android-designer">
+            <state />
+          </provider>
+          <provider editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="99" column="27" selection-start-line="99" selection-start-column="27" selection-end-line="99" selection-end-column="27" />
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -293,17 +300,17 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/preference_fragment.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="73" column="37" selection-start-line="73" selection-start-column="37" selection-end-line="73" selection-end-column="37" />
+              <caret line="13" column="68" selection-start-line="13" selection-start-column="68" selection-end-line="13" selection-end-column="68" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="arrays.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/arrays.xml">
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/penpen/profview/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+              <caret line="102" column="24" selection-start-line="102" selection-start-column="19" selection-end-line="102" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -316,8 +323,8 @@
       <list>
         <option value="resourceFile" />
         <option value="valueResourceFile" />
-        <option value="layoutResourceFile_vertical" />
         <option value="Class" />
+        <option value="layoutResourceFile_vertical" />
       </list>
     </option>
   </component>
@@ -3206,8 +3213,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/penpen/profview/MyListFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/app/TabListener.java" />
@@ -3244,8 +3249,6 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/sidemenu_item.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/app/QuickstartPreferences.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/app/MyInstanceIDListenerService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/app/MyGcmListenerService.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/app/RegistrationIntentService.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/build.gradle" />
@@ -3257,6 +3260,10 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/penpen/profview/pbf_nf_fragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/penpen/profview/clubs_nf_fragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/penpen/profview/nf_fragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/app/MyGcmListenerService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/achievements_list_fragment.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/login_fragment.xml" />
       </list>
     </option>
   </component>
@@ -3568,6 +3575,7 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -3939,7 +3947,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -4203,7 +4210,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-2" y="-3" width="1924" height="1060" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33006537" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
@@ -4220,7 +4227,7 @@
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24920128" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24920128" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
@@ -4253,21 +4260,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/penpen/profview/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="88" column="73" selection-start-line="88" selection-start-column="73" selection-end-line="88" selection-end-column="73" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Android/Sdk/platforms/android-8/android.jar!/android/content/ContextWrapper.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36499068">
-          <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/main.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.20512821">
@@ -4474,7 +4466,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="7" column="78" selection-start-line="7" selection-start-column="78" selection-end-line="7" selection-end-column="78" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4513,21 +4504,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/app/MyInstanceIDListenerService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3723404">
-          <caret line="14" column="41" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/app/RegistrationIntentService.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="133" column="13" selection-start-line="133" selection-start-column="13" selection-end-line="133" selection-end-column="13" />
-          <folding>
-            <element signature="e#1163#1164#0" expanded="false" />
-            <element signature="e#1189#1190#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4545,27 +4525,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="17" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/penpen/profview/NewsFeed_fragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.0370995">
           <caret line="50" column="37" selection-start-line="50" selection-start-column="37" selection-end-line="50" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/app/MyGcmListenerService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="51" column="11" selection-start-line="51" selection-start-column="11" selection-end-line="51" selection-end-column="11" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -4596,29 +4559,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/preference_fragment.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="73" column="37" selection-start-line="73" selection-start-column="37" selection-end-line="73" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/penpen/profview/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="99" column="27" selection-start-line="99" selection-start-column="27" selection-end-line="99" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/penpen/profview/pbf_nf_fragment.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.12647554">
           <caret line="5" column="22" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -4626,7 +4570,36 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="21" column="22" selection-start-line="21" selection-start-column="19" selection-end-line="21" selection-end-column="22" />
-          <folding />
+          <folding>
+            <element signature="e#593#594#0" expanded="false" />
+            <element signature="e#618#619#0" expanded="false" />
+            <element signature="e#651#652#0" expanded="false" />
+            <element signature="e#679#680#0" expanded="false" />
+            <element signature="e#710#711#0" expanded="false" />
+            <element signature="e#737#738#0" expanded="false" />
+            <element signature="e#777#778#0" expanded="false" />
+            <element signature="e#809#810#0" expanded="false" />
+            <element signature="e#840#841#0" expanded="false" />
+            <element signature="e#868#869#0" expanded="false" />
+            <element signature="e#909#910#0" expanded="false" />
+            <element signature="e#943#944#0" expanded="false" />
+            <element signature="e#976#977#0" expanded="false" />
+            <element signature="e#1005#1006#0" expanded="false" />
+            <element signature="e#1049#1050#0" expanded="false" />
+            <element signature="e#1085#1086#0" expanded="false" />
+            <element signature="e#1122#1123#0" expanded="false" />
+            <element signature="e#1155#1156#0" expanded="false" />
+            <element signature="e#1207#1208#0" expanded="false" />
+            <element signature="e#1251#1252#0" expanded="false" />
+            <element signature="e#1287#1288#0" expanded="false" />
+            <element signature="e#1319#1320#0" expanded="false" />
+            <element signature="e#1369#1370#0" expanded="false" />
+            <element signature="e#1411#1412#0" expanded="false" />
+            <element signature="e#1441#1442#0" expanded="false" />
+            <element signature="e#1467#1468#0" expanded="false" />
+            <element signature="e#1505#1506#0" expanded="false" />
+            <element signature="e#1535#1536#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -4634,15 +4607,21 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="115" column="66" selection-start-line="115" selection-start-column="52" selection-end-line="115" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/adapter/FeedListAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="84" column="70" selection-start-line="82" selection-start-column="31" selection-end-line="84" selection-end-column="72" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#746#747#0" expanded="false" />
+            <element signature="e#782#783#0" expanded="false" />
+            <element signature="e#1403#1404#0" expanded="false" />
+            <element signature="e#1438#1439#0" expanded="false" />
+            <element signature="e#1503#1504#0" expanded="false" />
+            <element signature="e#1542#1543#0" expanded="false" />
+            <element signature="e#2793#2794#0" expanded="false" />
+            <element signature="e#2839#2840#0" expanded="false" />
+            <element signature="e#3034#3035#0" expanded="false" />
+            <element signature="e#3076#3077#0" expanded="false" />
+            <element signature="e#6273#6274#0" expanded="false" />
+            <element signature="e#6372#6373#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -4666,13 +4645,81 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/penpen/profview/nf_fragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.92411464">
+        <state vertical-scroll-proportion="0.0">
           <caret line="191" column="32" selection-start-line="191" selection-start-column="32" selection-end-line="191" selection-end-column="32" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2405#3053#0" expanded="true" />
-            <element signature="e#3052#3053#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/app/MyInstanceIDListenerService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="14" column="41" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/penpen/profview/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="102" column="24" selection-start-line="102" selection-start-column="19" selection-end-line="102" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/preference_fragment.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="13" column="68" selection-start-line="13" selection-start-column="68" selection-end-line="13" selection-end-column="68" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/app/MyGcmListenerService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="86" column="36" selection-start-line="86" selection-start-column="36" selection-end-line="86" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="67" selection-start-line="7" selection-start-column="67" selection-end-line="7" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/adapter/FeedListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="71" column="46" selection-start-line="71" selection-start-column="46" selection-end-line="71" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/achievements_list_fragment.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/login_fragment.xml">
+      <provider selected="true" editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
