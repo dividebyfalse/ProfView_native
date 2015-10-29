@@ -40,7 +40,7 @@ public class NewsFeed_fragment extends Fragment {
         TextView tw = (TextView) tab.findViewById(R.id.news_tab_caption);
         tw.setText(tag);
         if (tag == "Клубы") {
-            img_src = R.drawable.ic_clubs;
+            img_src = R.drawable.ic_club;
         } else if (tag == "Профбюро факультета") {
             img_src = R.drawable.ic_prof;
         } else if (tag == "Профком ИГУ") {
