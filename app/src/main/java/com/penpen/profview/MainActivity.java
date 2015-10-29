@@ -22,6 +22,9 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -137,6 +140,7 @@ public class MainActivity extends FragmentActivity {
                 break;
             case 1:
                 if (SettingsFragment != null) {
+
                     getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
                 }
                 mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));

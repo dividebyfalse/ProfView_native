@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Html;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.util.TypedValue;
@@ -289,7 +290,7 @@ public abstract class nf_fragment extends Fragment {
                                 }
                             }
                         }
-                        item.setStatus(feedObj.getString("text").replace("<br>", ""));
+                        item.setStatus(Html.fromHtml(feedObj.getString("text")).toString());
                         item.setProfilePic("https://pp.vk.me/c410124/v410124933/a3fa/SF8mkyWprrY.jpg");
                         item.setTimeStamp(feedObj.getString("date")+"000");
                         feedItems.add(item);

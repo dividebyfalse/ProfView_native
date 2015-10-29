@@ -62,7 +62,8 @@
             android:paddingBottom="5dp"
             android:paddingLeft="@dimen/feed_item_status_pad_left_right"
             android:paddingRight="@dimen/feed_item_status_pad_left_right"
-            android:paddingTop="@dimen/feed_item_status_pad_top" />
+            android:paddingTop="@dimen/feed_item_status_pad_top"
+            android:autoLink="web"/>
 
         <app.FeedImageView
             android:id="@+id/feedImage1"
@@ -74,12 +75,12 @@
             android:layout_marginLeft="2dp"
             android:layout_marginRight="2dp" />
 
-        <LinearLayout
+        <RelativeLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_weight="0.06">
+            android:weightSum="1">
 
             <TextView
                 android:id="@+id/txtUrl"
@@ -96,7 +97,14 @@
                 android:textStyle="normal"
                 android:layout_marginTop="4dp"
                 android:layout_marginLeft="40dp" />
-        </LinearLayout>
+
+            <ImageView
+                android:layout_width="59dp"
+                android:layout_height="67dp"
+                android:id="@+id/imgUrl"
+                android:src="@drawable/ic_link"
+                android:layout_alignBottom="@+id/txtUrl" />
+        </RelativeLayout>
 
     </LinearLayout>
 
