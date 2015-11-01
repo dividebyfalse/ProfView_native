@@ -95,7 +95,7 @@ public class RegistrationIntentService extends IntentService {
         // Add custom implementation, as needed.
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://cs.gnoul.com:50044/index.php";
+        String url ="http://cs.gnoul.com:50044/regdev.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
@@ -121,8 +121,12 @@ public class RegistrationIntentService extends IntentService {
                         break;
                     }
                 }
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                String subscribes = String.valueOf(settings.getBoolean("club_gos", false))+";"+String.valueOf(settings.getBoolean("club_sno", false))+";"+String.valueOf(settings.getBoolean("club_volonter", false))+";"+String.valueOf(settings.getBoolean("club_gost", false))+";"+String.valueOf(settings.getBoolean("club_kok", false));
+                Log.d("b", subscribes);
                 params.put("at",token);
                 params.put("email",gmail);
+                params.put("subscribes", subscribes);
                 return params;
             }
 

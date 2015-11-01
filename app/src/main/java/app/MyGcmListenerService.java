@@ -1,5 +1,6 @@
 package app;
 
+import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -9,12 +10,16 @@ import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 import com.penpen.profview.MainActivity;
+import com.penpen.profview.PushMessageActivity;
+import com.penpen.profview.PushNewsActivity;
 import com.penpen.profview.R;
 
 /**
@@ -35,6 +40,7 @@ public class MyGcmListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         String message = data.getString("message");
+        String isAll = data.getString("toAll");
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
 
@@ -58,7 +64,12 @@ public class MyGcmListenerService extends GcmListenerService {
          */
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         if (settings.getBoolean("IsPushEnabled", true)) {
-            sendNotification(message);
+
+            if (isAll.equals("true")) {
+                sendNotification(message, "PushMessageActivity");
+            } else {
+                sendNotification(message, "PushNewsActivity");
+            }
         }
         // [END_EXCLUDE]
     }
@@ -69,8 +80,15 @@ public class MyGcmListenerService extends GcmListenerService {
      *
      * @param message GCM message received.
      */
-    private void sendNotification(String message) {
+    private void sendNotification(String message, String activity) {
         Intent intent = new Intent(this, MainActivity.class);
+        if (activity=="PushMessageActivity") {
+            intent = new Intent(this, PushMessageActivity.class);
+            intent.putExtra("text", message);
+        }
+        if (activity=="PushNewsActivity") {
+            intent = new Intent(this, PushNewsActivity.class);
+        }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);

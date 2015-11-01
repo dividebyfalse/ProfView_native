@@ -137,10 +137,14 @@ public class MainActivity extends FragmentActivity {
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.container);
         switch (position) {
             case 0:
+                if (SettingsFragment != null) {
+                    getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
+                }
+                mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
+                showFragment(new login_fragment());
                 break;
             case 1:
                 if (SettingsFragment != null) {
-
                     getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
                 }
                 mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
@@ -154,6 +158,11 @@ public class MainActivity extends FragmentActivity {
                 showFragment(new achievement_fragment());
                 break;
             case 3:
+                if (SettingsFragment != null) {
+                    getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
+                }
+                mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
+                showFragment(new achievements_fragment());
                 break;
             case 4:
                 mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
