@@ -19,12 +19,16 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Constructor;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -161,6 +165,46 @@ public abstract class nf_fragment extends Fragment {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String resultJson = "";
+        private String urlgroupsimages = "";
+
+        public class JsonObjectComparator implements Comparator<JSONObject> {
+            private final String fieldName;
+            private Class<? extends Comparable> fieldType;
+
+            public JsonObjectComparator(String fieldName, Class<? extends Comparable> fieldType) {
+                this.fieldName = fieldName;
+                this.fieldType = fieldType;
+            }
+
+            @Override
+            public int compare(JSONObject a, JSONObject b) {
+                String valA, valB;
+                Comparable newInstance_valA, newInstance_valB;
+                int comp = 0;
+                try {
+                    Constructor<? extends Comparable> constructor = fieldType.getConstructor(String.class);
+                    valA = a.getString(fieldName);
+                    valB = b.getString(fieldName);
+                    //if (fieldType.equals(Date.class)) {
+                        //SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy H:m:s");
+                        newInstance_valA = Integer.parseInt(valA);// dateFormat.parse(valA);
+                        newInstance_valB = Integer.parseInt(valB);// dateFormat.parse(valB);
+                    /*} else {
+                        newInstance_valA = constructor.newInstance(valA);
+                        newInstance_valB = constructor.newInstance(valB);
+                    }*/
+                    comp = newInstance_valA.compareTo(newInstance_valB);
+                } catch (Exception e) {
+                    Log.d("sort json error", e.getMessage());
+                }
+
+                if(comp > 0)
+                    return -1;
+                if(comp < 0)
+                    return 1;
+                return 0;
+            }
+        }
 
         @Override
         protected void onPreExecute() {
@@ -190,6 +234,7 @@ public abstract class nf_fragment extends Fragment {
                     buffer.append(line);
                 }
                 JSON = buffer.toString();
+                urlConnection.disconnect();
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -200,60 +245,45 @@ public abstract class nf_fragment extends Fragment {
         protected String doInBackground(String... params) {
             if (params.length == 1) {
                 JSONObject dataJsonObj = null;
-                int al=0;
-                //List<String> JSONList= new ArrayList<String>();;
                 String[] url = params[0].split(";");
                 if (url.length>1) {
-                    String cs = "";
+                    List<JSONObject> jlist = new ArrayList<>();
+                    urlgroupsimages = "{\"groups\":{";
                     for (int i = 0; i < url.length; i++) {
                         try {
-                            dataJsonObj = new JSONObject(getJSON(url[i]));
+                            JSONObject dataJson = new JSONObject(getJSON(url[i]+"&count=1&extended=1"));
+                            JSONObject response = dataJson.getJSONObject("response");
+                            JSONArray groups = response.getJSONArray("groups");
+                            for (int k=0; k<groups.length(); k++) {
+                                if (groups.getJSONObject(k).getString("gid").equals(url[i].substring(url[i].indexOf("owner_id=-") + 10, url[i].indexOf("&", url[i].indexOf("owner_id=-"))))) {
+                                    urlgroupsimages+="\""+groups.getJSONObject(k).getString("gid")+"\":{\"name\":\""+groups.getJSONObject(k).getString("name")+"\",\"photo\":\""+groups.getJSONObject(k).getString("photo_medium")+"\"},";
+                                    break;
+                                }
+                            }
+                            dataJsonObj = new JSONObject(getJSON(url[i]+"&count="+String.valueOf(Math.round(100/url.length))));
                             JSONArray feedArray = dataJsonObj.getJSONArray("response");
-                            al += feedArray.length();
-                            for (int j = 1; j < feedArray.length(); j++) {
-                                JSONObject feedObj = (JSONObject) feedArray.get(j);
-                                cs += feedObj.toString() + ",";
+                            for (int j=1;j<feedArray.length(); j++) {
+                                jlist.add(feedArray.getJSONObject(j));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
-                    cs = cs.substring(0, cs.length() - 1);
-                    cs = "{\"response\":[162," + cs + "]}";
-                    try {
-                        dataJsonObj = new JSONObject(cs);
-                        JSONArray feedArray = dataJsonObj.getJSONArray("response");
-                        Log.d("fal", String.valueOf(al));
-                        String[] ls;
-                        ls = feedArray.join(";sdf4s6df4d2sf;").split(";sdf4s6df4d2sf;");
-                        for (int i = 1; i < feedArray.length() - 1; i++) {
-                            for (int j = i; j < feedArray.length() - 1; j++) {
-                                JSONObject feedObjo = (JSONObject) feedArray.get(i);
-                                JSONObject feedObjt = (JSONObject) feedArray.get(j);
-                                Date sd = new java.util.Date(Long.valueOf(feedObjo.getString("date")) * 1000);
-                                Date ed = new java.util.Date(Long.valueOf(feedObjt.getString("date")) * 1000);
-                                if (ed.after(sd)) {
-                                    String a = ls[i];
-                                    ls[i] = ls[j];
-                                    ls[j] = a;
-                                }
-                            }
+                    urlgroupsimages = urlgroupsimages.substring(0, urlgroupsimages.length()-1)+"}}";
+                    JsonObjectComparator comparator = new JsonObjectComparator("date", Integer.class);
+                    Collections.sort(jlist, comparator);
+                    String ssum = "";
+                    for (int i=0; i<jlist.size(); i++) {
+                        if (i<jlist.size()-1) {
+                            ssum += jlist.get(i).toString() + ",";
+                        } else {
+                            ssum += jlist.get(i).toString();
                         }
-                        cs = "";
-                        Log.d("b", String.valueOf(ls.length));
-                        for (int i = 0; i < ls.length - 1; i++) {
-                            cs += ls[i] + ",";
-                        }
-                        cs = cs.substring(0, cs.length() - 1);
-                        cs = "{\"response\":[" + cs + "]}";
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
-                    resultJson = cs;
+                    resultJson = "{\"response\":[2244," +ssum +"]}";
                 } else {
                     resultJson = getJSON(url[0]);
                 }
-                //todo:соединение json
             } else {
                 resultJson = params[1];
             }
@@ -269,6 +299,10 @@ public abstract class nf_fragment extends Fragment {
                 try {
                     feedItems.clear();
                     JSONArray feedArray = dataJsonObj.getJSONArray("response");
+                    JSONObject groups = null;
+                    if (urlgroupsimages != "") {
+                        groups = new JSONObject(urlgroupsimages).getJSONObject("groups");
+                    }
                     //VolleyLog.d(TAG, feedArray.toString());
                     for (int i = 1; i < feedArray.length(); i++) {
                         JSONObject feedObj = (JSONObject) feedArray.get(i);
@@ -276,7 +310,11 @@ public abstract class nf_fragment extends Fragment {
                         VolleyLog.d(TAG, "Error: " + feedArray.get(i).toString());*/
                         FeedItem item = new FeedItem();
                         item.setId(feedObj.getInt("id"));
-                        item.setName("Разное");
+                        if (groups != null) {
+                            item.setName(groups.getJSONObject(feedObj.getString("to_id").substring(1)).getString("name"));
+                        } else {
+                            item.setName("Разное");
+                        }
                         if (feedObj.isNull("attachment") == false) {
                             String image = feedObj.getJSONObject("attachment").isNull("photo") ? null : feedObj
                                     .getJSONObject("attachment").getJSONObject("photo").getString("src_big");
@@ -291,7 +329,11 @@ public abstract class nf_fragment extends Fragment {
                             }
                         }
                         item.setStatus(Html.fromHtml(feedObj.getString("text")).toString());
-                        item.setProfilePic("https://pp.vk.me/c410124/v410124933/a3fa/SF8mkyWprrY.jpg");
+                        if (groups != null) {
+                            item.setProfilePic(groups.getJSONObject(feedObj.getString("to_id").substring(1)).getString("photo").replace("\\", ""));
+                        } else {
+                            item.setProfilePic("https://pp.vk.me/c410124/v410124933/a3fa/SF8mkyWprrY.jpg");
+                        }
                         item.setTimeStamp(feedObj.getString("date")+"000");
                         feedItems.add(item);
                     }
