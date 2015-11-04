@@ -21,5 +21,6 @@
     <string name="title_password_preference">Пароль</string>
     <string name="summary_password_preference">Пароль на сайте yourplus.ru</string>
     <string name="dialog_title_password_preference">Введите пароль:</string>
+    <string name="choosecity">Выберите город</string>
 
 </resources>

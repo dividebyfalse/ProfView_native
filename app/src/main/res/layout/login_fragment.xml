@@ -1,50 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#d3d6db"
-    android:gravity="center">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <EditText
-        android:layout_width="278dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText3"
-        android:layout_gravity="center_horizontal"
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#d3d6db"
         android:gravity="center"
-        android:hint="Логин" />
+        android:id="@+id/loginlayout"
+        android:visibility="visible">
 
-    <EditText
-        android:layout_width="278dp"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/editText4"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        android:hint="Пароль" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|right"
-        android:gravity="right"
-        android:layout_marginRight="51dp">
-
-        <Button
-            android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="278dp"
             android:layout_height="wrap_content"
-            android:text="Зарегистрироваться"
-            android:id="@+id/button4"
-            android:layout_gravity="right" />
+            android:id="@+id/login"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:hint="Логин"
+            android:singleLine="true"/>
 
-        <Button
-            android:layout_width="wrap_content"
+        <EditText
+            android:layout_width="278dp"
             android:layout_height="wrap_content"
-            android:text="Войти"
-            android:id="@+id/button5"
-            android:layout_gravity="right" />
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/pass"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:hint="Пароль"
+            android:singleLine="true"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="278dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="right"
+            android:layout_marginRight="51dp"
+            android:weightSum="1"
+            android:layout_marginLeft="51dp">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Зарегистрироваться"
+                android:id="@+id/regbutton"
+                android:layout_gravity="left" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Войти"
+                android:id="@+id/loginbutton"
+                android:layout_gravity="right" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollreglayout"
+        android:visibility="invisible">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#d3d6db"
+            android:weightSum="1"
+            android:gravity="center"
+            android:visibility="visible"
+            android:id="@+id/reglayout">
+
+            <EditText
+                android:layout_width="278dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/reglogin"
+                android:layout_gravity="center_horizontal"
+                android:hint="Логин"
+                android:singleLine="true"/>
+
+            <EditText
+                android:layout_width="278dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/regemail"
+                android:hint="E-mail"
+                android:singleLine="true"/>
+
+            <EditText
+                android:layout_width="278dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/regpass"
+                android:hint="Пароль"
+                android:singleLine="true"/>
+
+            <EditText
+                android:layout_width="278dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/regpassconf"
+                android:layout_gravity="center_horizontal"
+                android:hint="Повторите пароль"
+                android:singleLine="true"/>
+
+            <ImageView
+                android:layout_width="278dp"
+                android:layout_height="80dp"
+                android:id="@+id/regcaptcha"
+                android:layout_gravity="center_horizontal" />
+
+            <EditText
+                android:layout_width="278dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/regtextcaptcha"
+                android:hint="Текст на картинке сверху"
+                android:singleLine="true"/>
+
+            <Button
+                android:layout_width="278dp"
+                android:layout_height="wrap_content"
+                android:text="Другой текст"
+                android:id="@+id/refreshcaptcha" />
+
+            <EditText
+                android:layout_width="278dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/regfirstname"
+                android:hint="Ваше настоящее имя"
+                android:singleLine="true"/>
+
+            <EditText
+                android:layout_width="278dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/regsecondname"
+                android:hint="Ваша настоящая фамилия"
+                android:singleLine="true"/>
+
+            <EditText
+                android:layout_width="278dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/regthirdname"
+                android:hint="Ваше настоящее отчество"
+                android:singleLine="true"/>
+
+
+            <Spinner
+                android:layout_width="278dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner"
+                android:prompt="@string/choosecity" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Зарегистрироваться"
+                android:id="@+id/regbuttonsend"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
