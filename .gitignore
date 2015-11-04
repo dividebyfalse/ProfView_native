@@ -6,3 +6,4 @@
 /app/tmp
 gcm
 /app/google-services.json
+.gradle/2.4/taskArtifacts/fileSnapshots.bin
