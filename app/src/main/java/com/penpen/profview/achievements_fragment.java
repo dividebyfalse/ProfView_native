@@ -1,5 +1,6 @@
 package com.penpen.profview;
 
+<<<<<<< HEAD
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,12 +34,20 @@ import java.util.Map;
 
 import adapter.FeedListAdapter;
 import data.FeedItem;
+=======
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+>>>>>>> c807a6c82e85d3ba5d59fb3c77012286c21035a3
 
 /**
  * Created by penpen on 02.11.15.
  */
 public class achievements_fragment extends Fragment {
 
+<<<<<<< HEAD
     private ListView listView;
     public ArrayList<String> listItems=new ArrayList<String>();
     private ArrayAdapter listAdapter;
@@ -95,11 +104,20 @@ public class achievements_fragment extends Fragment {
 
         };
         queue.add(achreq);
+=======
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.achievements_list_fragment, container, false);
+
+>>>>>>> c807a6c82e85d3ba5d59fb3c77012286c21035a3
 
         return view;
     }
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> c807a6c82e85d3ba5d59fb3c77012286c21035a3
 }

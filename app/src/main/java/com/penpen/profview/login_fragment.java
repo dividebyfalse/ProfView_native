@@ -1,5 +1,6 @@
 package com.penpen.profview;
 
+<<<<<<< HEAD
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.SharedPreferences;
@@ -41,11 +42,19 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+=======
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+>>>>>>> c807a6c82e85d3ba5d59fb3c77012286c21035a3
 
 /**
  * Created by penpen on 02.11.15.
  */
 public class login_fragment extends Fragment {
+<<<<<<< HEAD
     public String phpsessid = "";
 
     @Override
@@ -212,10 +221,18 @@ public class login_fragment extends Fragment {
                 new getCAPTCHA().execute();
             }
         });
+=======
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.login_fragment, container, false);
+
+>>>>>>> c807a6c82e85d3ba5d59fb3c77012286c21035a3
 
         return view;
     }
 
+<<<<<<< HEAD
     class getCAPTCHA extends AsyncTask<Void, Void, Bitmap> {
 
         @Override
@@ -261,4 +278,6 @@ public class login_fragment extends Fragment {
             }
         }
     }
+=======
+>>>>>>> c807a6c82e85d3ba5d59fb3c77012286c21035a3
 }
