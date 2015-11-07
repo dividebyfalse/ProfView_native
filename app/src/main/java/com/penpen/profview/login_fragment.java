@@ -1,16 +1,18 @@
 package com.penpen.profview;
 
-<<<<<<< HEAD
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.inputmethodservice.KeyboardView;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,131 +44,28 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-=======
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
->>>>>>> c807a6c82e85d3ba5d59fb3c77012286c21035a3
+
+import app.authorization;
 
 /**
  * Created by penpen on 02.11.15.
  */
 public class login_fragment extends Fragment {
-<<<<<<< HEAD
     public String phpsessid = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.login_fragment, container, false);
         final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-        final RequestQueue queue = Volley.newRequestQueue(getContext());
         final EditText login = (EditText) view.findViewById(R.id.login);
         final EditText pass = (EditText) view.findViewById(R.id.pass);
         login.setText(settings.getString("login_preference", ""));
         pass.setText(settings.getString("pass_preference", ""));
-        final StringRequest sessidreq = new StringRequest(Request.Method.GET, "http://irk.yourplus.ru/personal/",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        phpsessid = response;
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        }){
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params = new HashMap<String, String>();
-                return params;
-            }
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Content-Type","application/x-www-form-urlencoded");
-                return params;
-            }
-            @Override
-            protected Response<String> parseNetworkResponse(NetworkResponse networkResponse) {
-                String sessionId = networkResponse.headers.get("Set-Cookie");
-                com.android.volley.Response<String> result = com.android.volley.Response.success(sessionId,
-                        HttpHeaderParser.parseCacheHeaders(networkResponse));
-                return result;
-            }
-
-        };
-        queue.add(sessidreq);
         Button loginb = (Button) view.findViewById(R.id.loginbutton);
         loginb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (phpsessid.length() != 0) {
-                    try {
-                        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://irk.yourplus.ru/personal/?login=yes",
-                                new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-                                        try {
-                                            String bitrixlogin = response.substring(0, response.indexOf(";"));
-                                            SharedPreferences.Editor editor = settings.edit();
-                                            if (login.getText().toString().equals(bitrixlogin.substring(16))) {
-                                                Log.d("succ", bitrixlogin.substring(16));
-                                                editor.putString("login_preference", login.getText().toString());
-                                                editor.putString("pass_preference", pass.getText().toString());
-                                                editor.putString("cookie", bitrixlogin+"; BITRIX_SM_SOUND_LOGIN_PLAYED=Y; " + phpsessid.substring(0, phpsessid.indexOf(";")));
-                                                editor.commit();
-                                                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Вход выполнен", Toast.LENGTH_SHORT);
-                                                toast.show();
-                                            } else {
-                                                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Неправильный Логин/Пароль", Toast.LENGTH_SHORT);
-                                                toast.show();
-                                            }
-                                        } catch(Exception e) {
-                                            Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Неправильный Логин/Пароль", Toast.LENGTH_SHORT);
-                                            toast.show();
-                                        }
-                                    }
-                                }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                            }
-                        }){
-                            @Override
-                            protected Map<String,String> getParams(){
-                                Map<String,String> params = new HashMap<String, String>();
-                                params.put("backurl", "/personal/");
-                                params.put("AUTH_FORM", "Y");
-                                params.put("TYPE", "AUTH");
-                                params.put("USER_LOGIN", login.getText().toString());
-                                params.put("USER_PASSWORD", pass.getText().toString());
-                                params.put("logout_butt", "Войти");
-                                return params;
-                            }
-
-                            @Override
-                            public Map<String, String> getHeaders() throws AuthFailureError {
-                                Map<String,String> params = new HashMap<String, String>();
-                                params.put("Content-Type","application/x-www-form-urlencoded");
-                                params.put("Connection", "keep-alive");
-                                params.put("Cookie", phpsessid.substring(0, phpsessid.indexOf(";")));
-                                return params;
-                            }
-                            @Override
-                            protected Response<String> parseNetworkResponse(NetworkResponse networkResponse) {
-                                String sessionId = networkResponse.headers.get("Set-Cookie");
-                                com.android.volley.Response<String> result = com.android.volley.Response.success(sessionId,
-                                        HttpHeaderParser.parseCacheHeaders(networkResponse));
-                                return result;
-                            }
-                        };
-                        queue.add(stringRequest);
-
-                    } catch (Exception e) {
-                    }
-                }
+              new auth().execute(login.getText().toString(), pass.getText().toString());
             }
         });
 
@@ -221,18 +120,22 @@ public class login_fragment extends Fragment {
                 new getCAPTCHA().execute();
             }
         });
-=======
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.login_fragment, container, false);
-
->>>>>>> c807a6c82e85d3ba5d59fb3c77012286c21035a3
-
+        pass.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction()!=KeyEvent.ACTION_DOWN)
+                return false;
+                if(keyCode == KeyEvent.KEYCODE_ENTER ){
+                    new auth().execute(login.getText().toString(), pass.getText().toString());
+                    return true;
+                }
+                return false;
+            }
+        });
         return view;
     }
 
-<<<<<<< HEAD
     class getCAPTCHA extends AsyncTask<Void, Void, Bitmap> {
 
         @Override
@@ -278,6 +181,48 @@ public class login_fragment extends Fragment {
             }
         }
     }
-=======
->>>>>>> c807a6c82e85d3ba5d59fb3c77012286c21035a3
+
+    class auth extends AsyncTask<String, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(String... params) {
+            String response = "";
+            Boolean result = false;
+            if (params.length>0) {
+                if (params[0].length() != 0 && params[1].length() != 0) {
+                    response = authorization.auth(getContext(), params[0], params[1]);
+                    Log.d("df", response);
+                }
+            }
+            if ((response.equals("error") == false) && (response.equals("no_login") == false) && (response.length() != 0)) {
+                result = true;
+            } else if (response.equals("no_login") == true) {
+                result = false;
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result == false) {
+                /*//Todo: test this
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new login_fragment())
+                        .commit();*/
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Неправильный Логин/Пароль", Toast.LENGTH_SHORT);
+                toast.show();
+            } else {
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+                EditText login = (EditText) getView().findViewById(R.id.login);
+                EditText pass = (EditText) getView().findViewById(R.id.pass);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("login_preference", login.getText().toString());
+                editor.putString("pass_preference", pass.getText().toString());
+                editor.commit();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Вход выполнен", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+    }
 }

@@ -166,6 +166,8 @@ public abstract class nf_fragment extends Fragment {
         BufferedReader reader = null;
         String resultJson = "";
         private String urlgroupsimages = "";
+        private String profimg ="";
+        private  String profname = "";
 
         public class JsonObjectComparator implements Comparator<JSONObject> {
             private final String fieldName;
@@ -225,6 +227,7 @@ public abstract class nf_fragment extends Fragment {
                 URL url = new URL(URL);
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
+                urlConnection.setConnectTimeout(3000);
                 urlConnection.connect();
                 InputStream inputStream = urlConnection.getInputStream();
                 StringBuffer buffer = new StringBuffer();
@@ -283,6 +286,20 @@ public abstract class nf_fragment extends Fragment {
                     resultJson = "{\"response\":[2244," +ssum +"]}";
                 } else {
                     resultJson = getJSON(url[0]);
+                    try {
+                        JSONObject dataJson = new JSONObject(getJSON(url[0].substring(0, url[0].length()-10) + "&count=1&extended=1"));
+                        JSONObject response = dataJson.getJSONObject("response");
+                        JSONArray groups = response.getJSONArray("groups");
+                        for (int k=0; k<groups.length(); k++) {
+                            if (groups.getJSONObject(k).getString("gid").equals(url[0].substring(url[0].indexOf("owner_id=-") + 10, url[0].indexOf("&", url[0].indexOf("owner_id=-"))))) {
+                                profimg = groups.getJSONObject(k).getString("photo_medium");
+                                profname = groups.getJSONObject(k).getString("name");
+                                break;
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             } else {
                 resultJson = params[1];
@@ -303,17 +320,18 @@ public abstract class nf_fragment extends Fragment {
                     if (urlgroupsimages != "") {
                         groups = new JSONObject(urlgroupsimages).getJSONObject("groups");
                     }
-                    //VolleyLog.d(TAG, feedArray.toString());
                     for (int i = 1; i < feedArray.length(); i++) {
                         JSONObject feedObj = (JSONObject) feedArray.get(i);
-                        /*VolleyLog.d(TAG, i);
-                        VolleyLog.d(TAG, "Error: " + feedArray.get(i).toString());*/
                         FeedItem item = new FeedItem();
                         item.setId(feedObj.getInt("id"));
                         if (groups != null) {
                             item.setName(groups.getJSONObject(feedObj.getString("to_id").substring(1)).getString("name"));
                         } else {
-                            item.setName("Разное");
+                            if (profname.length() !=0) {
+                                item.setName(profname);
+                            } else {
+                                item.setName("Разное");
+                            }
                         }
                         if (feedObj.isNull("attachment") == false) {
                             String image = feedObj.getJSONObject("attachment").isNull("photo") ? null : feedObj
@@ -332,7 +350,11 @@ public abstract class nf_fragment extends Fragment {
                         if (groups != null) {
                             item.setProfilePic(groups.getJSONObject(feedObj.getString("to_id").substring(1)).getString("photo").replace("\\", ""));
                         } else {
-                            item.setProfilePic("https://pp.vk.me/c410124/v410124933/a3fa/SF8mkyWprrY.jpg");
+                            if (profimg.length() != 0) {
+                                item.setProfilePic(profimg);
+                            } else {
+                                item.setProfilePic("https://pp.vk.me/c410124/v410124933/a3fa/SF8mkyWprrY.jpg");
+                            }
                         }
                         item.setTimeStamp(feedObj.getString("date")+"000");
                         feedItems.add(item);

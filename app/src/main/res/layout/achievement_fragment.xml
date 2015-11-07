@@ -19,7 +19,7 @@
             android:id="@+id/textView"
             android:layout_gravity="left|bottom"
             android:autoText="false"
-            android:textColor="#79000000"
+            android:textColor="#000000"
             android:textSize="16dp"
             android:layout_marginLeft="4dp" />
 
@@ -49,7 +49,7 @@
             android:layout_alignBottom="@+id/editText2"
             android:layout_alignParentLeft="true"
             android:layout_alignTop="@+id/editText2"
-            android:textColor="#79000000"
+            android:textColor="#000000"
             android:textSize="16dp"
             android:layout_gravity="bottom"
             android:layout_marginLeft="4dp" />
@@ -80,7 +80,7 @@
             android:layout_gravity="left|bottom"
             android:layout_below="@+id/textView2"
             android:layout_alignParentLeft="true"
-            android:textColor="#79000000"
+            android:textColor="#000000"
             android:textSize="16dp"
             android:layout_weight="0.61"
             android:layout_marginLeft="4dp" />
@@ -89,9 +89,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Указать категорию"
-            android:id="@+id/button"
+            android:id="@+id/categoryofachbutton"
             android:layout_alignBottom="@+id/textView4"
-            android:layout_alignLeft="@+id/button2"
+            android:layout_alignLeft="@+id/proof_button"
             android:layout_weight="0.37"
             android:layout_gravity="bottom|right" />
     </LinearLayout>
@@ -107,7 +107,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Документ подтверждающий достижение"
             android:id="@+id/textView4"
-            android:textColor="#79000000"
+            android:textColor="#000000"
             android:textSize="16dp"
             android:layout_below="@+id/textView3"
             android:layout_alignParentLeft="true"
@@ -118,8 +118,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Выбрать..."
-            android:id="@+id/button2"
-            android:layout_below="@+id/button"
+            android:id="@+id/proof_button"
+            android:layout_below="@+id/categoryofachbutton"
             android:layout_toRightOf="@+id/button3"
             android:layout_gravity="bottom|right" />
     </LinearLayout>
@@ -127,7 +127,7 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/imageView"
+        android:id="@+id/Proof_Pic"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.81" />
 

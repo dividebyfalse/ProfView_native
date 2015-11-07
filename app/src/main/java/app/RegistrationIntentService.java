@@ -123,14 +123,9 @@ public class RegistrationIntentService extends IntentService {
                 }
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                 String subscribes = String.valueOf(settings.getBoolean("club_gos", false))+";"+String.valueOf(settings.getBoolean("club_sno", false))+";"+String.valueOf(settings.getBoolean("club_volonter", false))+";"+String.valueOf(settings.getBoolean("club_gost", false))+";"+String.valueOf(settings.getBoolean("club_kok", false));
-<<<<<<< HEAD
                 //Log.d("b", subscribes);
                 params.put("at",token);
                 params.put("faculty", settings.getString("faculties_list", ""));
-=======
-                Log.d("b", subscribes);
-                params.put("at",token);
->>>>>>> c807a6c82e85d3ba5d59fb3c77012286c21035a3
                 params.put("email",gmail);
                 params.put("subscribes", subscribes);
                 return params;
