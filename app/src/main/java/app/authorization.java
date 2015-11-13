@@ -53,7 +53,7 @@ public  class  authorization {
                     urlConnection.disconnect();
                     if (out.equals("BITRIX_SM_SOUND_LOGIN_PLAYED=Y; path=/; domain=yourplus.ru")) {
                         Log.d("connected", "yes");
-                        retval = "BITRIX_SM_LOGIN=isuStudent1594; BITRIX_SM_SOUND_LOGIN_PLAYED=Y; " + cookie.substring(0, cookie.indexOf(";"));
+                        retval = "BITRIX_SM_LOGIN="+login+"; BITRIX_SM_SOUND_LOGIN_PLAYED=Y; " + cookie.substring(0, cookie.indexOf(";"));
                     }
                 } catch (Exception e) {
                     retval = "error";
