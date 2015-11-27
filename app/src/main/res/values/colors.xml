@@ -7,4 +7,6 @@
     <color name="feed_item_border">#c2c3c8</color>
     <color name="link">#0a80d1</color>
     <color name="timestamp">#a0a3a7</color>
+    <color name="menu_focused_pressed_gray_color">#404040</color>
+    <color name="blue_dark_color">#3280b8</color>
 </resources>

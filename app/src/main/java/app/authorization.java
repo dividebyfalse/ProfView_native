@@ -1,10 +1,16 @@
 package app;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -16,6 +22,7 @@ public  class  authorization {
     static private String retval;
     static private String login;
     static private String pass;
+    static public String responseHTML;
 
     static public String auth(Context context, String... val) {
         final SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
@@ -45,9 +52,18 @@ public  class  authorization {
                 urlConnection.setRequestMethod("POST");
                 urlConnection.addRequestProperty("Cookie", cookie.substring(0, cookie.indexOf(";")));
                 urlConnection.setDoInput(true);
+                urlConnection.setDoOutput(true);
                 String params = "?backurl=/personal/&AUTH_FORM=Y&TYPE=AUTH&USER_LOGIN=" + login + "&USER_PASSWORD=" + pass + "&logout_butt=Войти";
                 urlConnection.getOutputStream().write(params.getBytes("UTF-8"));
-                urlConnection.connect();
+                //urlConnection.connect();
+                String line = "";
+                StringBuffer htmlString = new StringBuffer();
+                BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                while ((line = br.readLine()) != null) {
+                    htmlString.append(line);
+                }
+                br.close();
+                responseHTML = htmlString.toString();
                 try {
                     final String out = urlConnection.getHeaderField("Set-Cookie");
                     urlConnection.disconnect();
@@ -66,4 +82,18 @@ public  class  authorization {
         }
         return retval;
     }
+
+    static public boolean isOnline(Activity activity) {
+        ConnectivityManager cm = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo nInfo = cm.getActiveNetworkInfo();
+        if (nInfo != null && nInfo.isConnected()) {
+            return true;
+        }
+        else {
+            Toast toast = Toast.makeText(activity.getApplicationContext(), "Проверьте интернет соединение", Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+        }
+    }
+
 }

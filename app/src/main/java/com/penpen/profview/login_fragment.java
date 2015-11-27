@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -48,6 +50,7 @@ import app.authorization;
  */
 public class login_fragment extends Fragment {
     private String CAPTCHAsid="";
+    private View viev;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,10 +63,13 @@ public class login_fragment extends Fragment {
         final Spinner spinner = (Spinner) view.findViewById(R.id.Faculty_reg);
         final Spinner URspinner = (Spinner) view.findViewById(R.id.University_reg);
         final Spinner CRspinner = (Spinner) view.findViewById(R.id.City_reg);
+        final LinearLayout loginlay = (LinearLayout) view.findViewById(R.id.loginlayout);
+        final ScrollView reglay = (ScrollView) view.findViewById(R.id.scrollreglayout);
         Button loginb = (Button) view.findViewById(R.id.loginbutton);
         loginb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (authorization.isOnline(getActivity()) == false) {return;}
                 new auth().execute(login.getText().toString(), pass.getText().toString());
             }
         });
@@ -72,16 +78,9 @@ public class login_fragment extends Fragment {
         regb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (authorization.isOnline(getActivity()) == false) {return;}
                 LinearLayout loginlay = (LinearLayout) view.findViewById(R.id.loginlayout);
                 loginlay.setVisibility(View.INVISIBLE);
-                if (login.getText().length() != 0) {
-                    EditText reglogin = (EditText) view.findViewById(R.id.reglogin);
-                    reglogin.setText(login.getText().toString());
-                }
-                if (pass.getText().length() != 0) {
-                    EditText regpass = (EditText) view.findViewById(R.id.regpass);
-                    regpass.setText(pass.getText().toString());
-                }
                 AccountManager manager = (AccountManager) getActivity().getSystemService(getActivity().ACCOUNT_SERVICE);
                 Account[] list = manager.getAccounts();
                 String gmail = "";
@@ -104,6 +103,9 @@ public class login_fragment extends Fragment {
         Button sendregb = (Button) view.findViewById(R.id.regbuttonsend);
         sendregb.setOnClickListener(new View.OnClickListener() {
             private void focusedit(EditText et, String message) {
+                if (authorization.isOnline(getActivity()) == false) {
+                    return;
+                }
                 Toast toast = Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT);
                 toast.show();
                 et.requestFocus();
@@ -113,49 +115,85 @@ public class login_fragment extends Fragment {
 
             @Override
             public void onClick(View v) {
+                if (authorization.isOnline(getActivity()) == false) {
+                    return;
+                }
                 EditText loginreg = (EditText) view.findViewById(R.id.reglogin);
                 EditText passreg = (EditText) view.findViewById(R.id.regpass);
                 EditText passconfirmreg = (EditText) view.findViewById(R.id.regpassconf);
                 EditText emailreg = (EditText) view.findViewById(R.id.regemail);
                 EditText captcha = (EditText) view.findViewById(R.id.regtextcaptcha);
+                EditText lastnamereg = (EditText) getView().findViewById(R.id.regsecondname);
+                EditText firstnamereg = (EditText) getView().findViewById(R.id.regfirstname);
+                EditText thirdnamereg = (EditText) getView().findViewById(R.id.regthirdname);
+                Spinner facultyspinner = (Spinner) getView().findViewById(R.id.Faculty_reg);
                 if (passreg.getText().toString().equals(passconfirmreg.getText().toString())) {
                     if (loginreg.getText().toString().length() != 0) {
-                        if (emailreg.getText().toString().length() !=0) {
-                            if (captcha.getText().toString().length() != 0) {
-                                new sendregfirst().execute(loginreg.getText().toString(), passreg.getText().toString(), emailreg.getText().toString(), captcha.getText().toString(), CAPTCHAsid);
-                                new auth().execute(loginreg.getText().toString(), passreg.getText().toString());
-                                loginreg.setText("");
-                                passreg.setText("");
-                                passconfirmreg.setText("");
-                                emailreg.setText("");
-                                captcha.setText("");
-                            } else {
-                                focusedit(captcha, "Введите каптчу");
-                            }
+                    if (passreg.getText().toString().length() !=0) {
+                        if (passconfirmreg.getText().toString().length() != 0) {
+
+                                if (emailreg.getText().toString().length() != 0) {
+                                    if (captcha.getText().toString().length() != 0) {
+                                        if (lastnamereg.getText().toString().length() != 0) {
+                                            if (firstnamereg.getText().toString().length() != 0) {
+                                                if (thirdnamereg.getText().toString().length() != 0) {
+                                                    if (facultyspinner.getSelectedItemPosition() != 0) {
+                                                        new sendregfirst().execute(loginreg.getText().toString(), passreg.getText().toString(), emailreg.getText().toString(), captcha.getText().toString(), CAPTCHAsid);
+                                                        new auth().execute(loginreg.getText().toString(), passreg.getText().toString(), "1", emailreg.getText().toString(), lastnamereg.getText().toString(), firstnamereg.getText().toString(), thirdnamereg.getText().toString());
+                                                        loginreg.setText("");
+                                                        passreg.setText("");
+                                                        passconfirmreg.setText("");
+                                                        emailreg.setText("");
+                                                        captcha.setText("");
+                                                        lastnamereg.setText("");
+                                                        firstnamereg.setText("");
+                                                        thirdnamereg.setText("");
+                                                    } else {
+                                                        if (authorization.isOnline(getActivity()) == false) {
+                                                            return;
+                                                        }
+                                                        Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Выберите факультет", Toast.LENGTH_SHORT);
+                                                        toast.show();
+                                                        facultyspinner.requestFocus();
+                                                        return;
+                                                    }
+                                                } else {
+                                                    focusedit(thirdnamereg, "Введите отчество");
+                                                    return;
+                                                }
+                                            } else {
+                                                focusedit(firstnamereg, "Введите имя");
+                                                return;
+                                            }
+                                        } else {
+                                            focusedit(lastnamereg, "Введите фамилию");
+                                            return;
+                                        }
+                                    } else {
+                                        focusedit(captcha, "Введите каптчу");
+                                        return;
+                                    }
+                                } else {
+                                    focusedit(emailreg, "Введите email");
+                                    return;
+                                }
+
                         } else {
-                            focusedit(emailreg, "Введите email");
+                            focusedit(passconfirmreg, "Введите подтверждение");
+                            return;
                         }
                     } else {
+                        focusedit(passreg, "Введите пароль");
+                        return;
+                    }
+                    } else {
                         focusedit(loginreg, "Введите логин");
+                        return;
                     }
                 } else {
                     focusedit(passreg, "Пароли не совпадают");
+                    return;
                 }
-                EditText lastnamereg = (EditText) view.findViewById(R.id.regsecondname);
-                EditText firstnamereg = (EditText) view.findViewById(R.id.regfirstname);
-                EditText thirdnamereg = (EditText) view.findViewById(R.id.regthirdname);
-                String[] city = new String[3];
-                city[0] = "19094";
-                city[1] = "19095";
-                city[2] = "45685";
-                String[] university_irkutsk = new String[13];
-                university_irkutsk[0] = "";
-                Log.d("cookie", authorization.cookie);
-                String sessid = authorization.cookie.substring(authorization.cookie.indexOf("PHPSESSID=") + 10, authorization.cookie.indexOf(";", authorization.cookie.indexOf("PHPSESSID=") + 10));
-                Log.d("sessid", sessid);
-                String userid = "";
-                //new sendregsecond().execute(sessid, userid, lastnamereg.getText().toString(), firstnamereg.getText().toString(), thirdnamereg.getText().toString(), loginreg.getText().toString(), emailreg.getText().toString(),);
-                //Log.d("b", spinner.getSelectedItem().toString());
                 LinearLayout loginlay = (LinearLayout) view.findViewById(R.id.loginlayout);
                 loginlay.setVisibility(View.VISIBLE);
                 ScrollView reglay = (ScrollView) view.findViewById(R.id.scrollreglayout);
@@ -167,6 +205,9 @@ public class login_fragment extends Fragment {
         refreshcaptcha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (authorization.isOnline(getActivity()) == false) {
+                    return;
+                }
                 new getCAPTCHA().execute();
             }
         });
@@ -174,6 +215,9 @@ public class login_fragment extends Fragment {
         pass.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (authorization.isOnline(getActivity()) == false) {
+                    return false;
+                }
                 if (event.getAction() != KeyEvent.ACTION_DOWN)
                     return false;
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
@@ -212,6 +256,7 @@ public class login_fragment extends Fragment {
                         adapter,
                         R.layout.reg_faculty_spinner,
                         view.getContext()));
+        viev = view;
         return view;
     }
 
@@ -235,7 +280,7 @@ public class login_fragment extends Fragment {
             if (doc!=null) {
                 Elements images =doc.body().getElementsByTag("img");
                 String CAPTCHAstr = images.attr("alt", "CAPTCHA").get(images.attr("alt", "CAPTCHA").size() - 1).toString();
-                Log.d("b", CAPTCHAstr);
+                //Log.d("b", CAPTCHAstr);
                 CAPTCHAsid = CAPTCHAstr.substring(CAPTCHAstr.indexOf("captcha_sid=")+12, CAPTCHAstr.indexOf("\"", CAPTCHAstr.indexOf("captcha_sid=")+12));
                 //Log.d("csid", CAPTCHAsid);
                 CAPTCHAstr = "http://irk.yourplus.ru" + CAPTCHAstr.substring(CAPTCHAstr.indexOf("src=")+5, CAPTCHAstr.indexOf("\"", CAPTCHAstr.indexOf("src=")+5));
@@ -254,8 +299,15 @@ public class login_fragment extends Fragment {
         protected void onPostExecute(Bitmap result) {
             super.onPostExecute(result);
             if (result != null) {
-                ImageView captchaIMG = (ImageView) getActivity().findViewById(R.id.regcaptcha);
-                captchaIMG.setImageBitmap(result);
+                ImageView captchaIMG = null;
+                try {
+                    captchaIMG = (ImageView) getActivity().findViewById(R.id.regcaptcha);
+                } catch (NullPointerException e) {
+
+                }
+                if (captchaIMG != null) {
+                    captchaIMG.setImageBitmap(result);
+                }
             } else {
                 Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Невозможно загрузить каптчу, попробуйте позже", Toast.LENGTH_SHORT);
                 toast.show();
@@ -264,9 +316,24 @@ public class login_fragment extends Fragment {
     }
 
     class auth extends AsyncTask<String, Void, Boolean> {
+        private Boolean isreg=false;
+        private String logi;
+        private String pas;
+        private String email;
+        private String ln;
+        private String fn;
+        private String tn;
 
         @Override
         protected Boolean doInBackground(String... params) {
+            logi=params[0];
+            pas = params[1];
+            if (params.length == 6) {
+                email = params[3];
+                ln = params[4];
+                fn = params[5];
+                tn = params[6];
+            }
             String response = "";
             Boolean result = false;
             if (params.length>0) {
@@ -277,6 +344,9 @@ public class login_fragment extends Fragment {
             }
             if ((response.equals("error") == false) && (response.equals("no_login") == false) && (response.length() != 0)) {
                 result = true;
+                if ((params.length == 6) && (params[2]=="1")) {
+                    isreg=true;
+                }
             } else if (response.equals("no_login") == true) {
                 result = false;
             }
@@ -294,29 +364,51 @@ public class login_fragment extends Fragment {
                 Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Неправильный Логин/Пароль", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 EditText login = (EditText) getView().findViewById(R.id.login);
                 EditText pass = (EditText) getView().findViewById(R.id.pass);
                 SharedPreferences.Editor editor = settings.edit();
-                editor.putString("login_preference", login.getText().toString());
-                editor.putString("pass_preference", pass.getText().toString());
+                editor.putString("login_preference", logi);
+                editor.putString("pass_preference", pas);
                 editor.commit();
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Вход выполнен", Toast.LENGTH_SHORT);
-                toast.show();
+                login.setText(settings.getString("login_preference", ""));
+                pass.setText(settings.getString("pass_preference", ""));
+                if (isreg) {
+                    Spinner cityspinner = (Spinner) getView().findViewById(R.id.City_reg);
+                    Spinner facultyspinner = (Spinner) getView().findViewById(R.id.Faculty_reg);
+                    String sessid = Jsoup.parse(authorization.responseHTML).body().getElementsByTag("input").get(0).attr("value");
+                    String userid = Jsoup.parse(authorization.responseHTML).body().getElementsByTag("input").get(1).attr("value");
+                    new sendregsecond().execute(
+                            sessid,
+                            userid,
+                            ln,
+                            fn,
+                            tn,
+                            logi,
+                            email,
+                            getResources().getStringArray(R.array.irkutskfacultyid)[facultyspinner.getSelectedItemPosition()],
+                            getResources().getStringArray(R.array.cityid)[cityspinner.getSelectedItemPosition()]);
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.container, new achievements_fragment()).commit();
+                } else {
+                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Вход выполнен", Toast.LENGTH_SHORT);
+                    toast.show();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.container, new achievements_fragment()).commit();
+                }
             }
         }
     }
 
     class sendregsecond extends AsyncTask<String, Void, Boolean> {
-
         @Override
         protected Boolean doInBackground(String... params) {
             Boolean result = false;
             String line;
             StringBuffer jsonString = new StringBuffer();
-            if (params.length == 5) {
+            if (params.length == 9) {
                 try {
-                    URL url = new URL("http://irk.yourplus.ru/registration/");
+                    URL url = new URL("http://irk.yourplus.ru/personal/");
                     String payload = "------WebKitFormBoundaryyRG7LAYrKtBYJ6ON\n" +
                             "Content-Disposition: form-data; name=\"sessid\"\n" +
                             "\n" +
@@ -340,15 +432,15 @@ public class login_fragment extends Fragment {
                             "------WebKitFormBoundaryyRG7LAYrKtBYJ6ON\n" +
                             "Content-Disposition: form-data; name=\"UF_LINK_CITY\"\n" +
                             "\n" +
-                            "45685\n" +
+                            params[8]+"\n" +
                             "------WebKitFormBoundaryyRG7LAYrKtBYJ6ON\n" +
                             "Content-Disposition: form-data; name=\"UF_LINK_SUBJECT\"\n" +
                             "\n" +
-                            "45830\n" +
+                            "19\n" +
                             "------WebKitFormBoundaryyRG7LAYrKtBYJ6ON\n" +
                             "Content-Disposition: form-data; name=\"UF_LINK_FACULTY\"\n" +
                             "\n" +
-                            "45873\n" +
+                            params[7]+"\n" +
                             "------WebKitFormBoundaryyRG7LAYrKtBYJ6ON\n" +
                             "Content-Disposition: form-data; name=\"LOGIN\"\n" +
                             "\n" +
@@ -370,11 +462,14 @@ public class login_fragment extends Fragment {
                             "\n" +
                             "Сохранить\n" +
                             "------WebKitFormBoundaryyRG7LAYrKtBYJ6ON--";
+                    Log.d("req", payload);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setDoInput(true);
                     connection.setDoOutput(true);
                     connection.setRequestMethod("POST");
-                    connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=----WebKitFormBoundaryyRG7LAYrKtBYJ6ON");
+                    connection.addRequestProperty("Content-Type", "multipart/form-data; boundary=----WebKitFormBoundaryyRG7LAYrKtBYJ6ON");
+                    connection.addRequestProperty("Cookie", authorization.cookie);
+                    connection.addRequestProperty("Upgrade-Insecure-Requests", "1");
                     OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), "UTF-8");
                     writer.write(payload);
                     writer.close();
@@ -387,7 +482,6 @@ public class login_fragment extends Fragment {
                 } catch (Exception e) {
                     throw new RuntimeException(e.getMessage());
                 }
-                //Log.d("out", jsonString.toString());
             }
             return result;
         }
@@ -397,7 +491,6 @@ public class login_fragment extends Fragment {
 
         }
     }
-
 
     class sendregfirst extends AsyncTask<String, Void, Boolean> {
 
@@ -455,7 +548,6 @@ public class login_fragment extends Fragment {
                 } catch (Exception e) {
                     throw new RuntimeException(e.getMessage());
                 }
-                //Log.d("out", jsonString.toString());
             }
             return result;
         }
@@ -464,5 +556,7 @@ public class login_fragment extends Fragment {
         protected void onPostExecute(Boolean result) {
 
         }
+
     }
+
 }

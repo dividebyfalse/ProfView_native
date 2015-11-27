@@ -22,5 +22,11 @@
     <string name="summary_password_preference">Пароль на сайте yourplus.ru</string>
     <string name="dialog_title_password_preference">Введите пароль:</string>
     <string name="choosecity">Выберите город</string>
-
+    <string name="choose_achievement_category">Выберите направление</string>
+    <string name="choose_achievement_subcategory">Выберите категорию</string>
+    <integer name="achievement_study_start_id">2913</integer>
+    <integer name="achievement_art_start_id">2917</integer>
+    <integer name="achievement_sport_start_id">2922</integer>
+    <integer name="achievement_science_start_id">2517</integer>
+    <integer name="achievement_social_start_id">2853</integer>
 </resources>

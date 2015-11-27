@@ -13,24 +13,28 @@
         android:visibility="visible">
 
         <EditText
-            android:layout_width="278dp"
-            android:layout_height="wrap_content"
+            android:layout_width="270dp"
+            android:layout_height="40dp"
             android:id="@+id/login"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:hint="Логин"
-            android:singleLine="true"/>
+            android:background="@drawable/edittextstyle"
+            android:singleLine="true"
+            android:layout_marginBottom="5dp" />
 
         <EditText
-            android:layout_width="278dp"
-            android:layout_height="wrap_content"
+            android:layout_width="270dp"
+            android:layout_height="40dp"
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/pass"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
+            android:background="@drawable/edittextstyle"
             android:hint="Пароль"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:layout_marginBottom="5dp" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -64,7 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/scrollreglayout"
-        android:visibility="visible">
+        android:visibility="invisible">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:orientation="vertical"
@@ -77,38 +81,47 @@
             android:id="@+id/reglayout">
 
             <EditText
-                android:layout_width="278dp"
-                android:layout_height="wrap_content"
+                android:layout_width="270dp"
+                android:layout_height="40dp"
                 android:id="@+id/reglogin"
                 android:layout_gravity="center_horizontal"
+                android:background="@drawable/edittextstyle"
                 android:hint="Логин"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp" />
 
             <EditText
-                android:layout_width="278dp"
-                android:layout_height="wrap_content"
+                android:layout_width="270dp"
+                android:layout_height="40dp"
                 android:id="@+id/regemail"
                 android:hint="E-mail"
-                android:singleLine="true"/>
+                android:background="@drawable/edittextstyle"
+                android:singleLine="true"
+                android:layout_marginBottom="5dp" />
 
             <EditText
-                android:layout_width="278dp"
-                android:layout_height="wrap_content"
+                android:layout_width="270dp"
+                android:layout_height="40dp"
                 android:inputType="textPassword"
                 android:ems="10"
+                android:background="@drawable/edittextstyle"
                 android:id="@+id/regpass"
                 android:hint="Пароль"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:layout_marginBottom="5dp" />
 
             <EditText
-                android:layout_width="278dp"
-                android:layout_height="wrap_content"
+                android:layout_width="270dp"
+                android:layout_height="40dp"
                 android:inputType="textPassword"
+                android:background="@drawable/edittextstyle"
                 android:ems="10"
                 android:id="@+id/regpassconf"
                 android:layout_gravity="center_horizontal"
                 android:hint="Повторите пароль"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:layout_marginBottom="5dp" />
 
             <ImageView
                 android:layout_width="278dp"
@@ -117,11 +130,14 @@
                 android:layout_gravity="center_horizontal" />
 
             <EditText
-                android:layout_width="278dp"
-                android:layout_height="wrap_content"
+                android:layout_width="270dp"
+                android:layout_height="40dp"
                 android:id="@+id/regtextcaptcha"
+                android:background="@drawable/edittextstyle"
                 android:hint="Текст на картинке сверху"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp" />
 
             <Button
                 android:layout_width="278dp"
@@ -130,31 +146,38 @@
                 android:id="@+id/refreshcaptcha" />
 
             <EditText
-                android:layout_width="278dp"
-                android:layout_height="wrap_content"
+                android:layout_width="270dp"
+                android:background="@drawable/edittextstyle"
+                android:layout_height="40dp"
                 android:id="@+id/regfirstname"
                 android:hint="Ваше настоящее имя"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:layout_marginBottom="5dp" />
 
             <EditText
-                android:layout_width="278dp"
-                android:layout_height="wrap_content"
+                android:layout_width="270dp"
+                android:layout_height="40dp"
                 android:id="@+id/regsecondname"
+                android:background="@drawable/edittextstyle"
                 android:hint="Ваша настоящая фамилия"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:layout_marginBottom="5dp" />
 
             <EditText
-                android:layout_width="278dp"
-                android:layout_height="wrap_content"
+                android:layout_width="270dp"
+                android:background="@drawable/edittextstyle"
+                android:layout_height="40dp"
                 android:id="@+id/regthirdname"
                 android:hint="Ваше настоящее отчество"
-                android:singleLine="true"/>
+                android:singleLine="true"
+                android:layout_marginBottom="5dp" />
 
 
             <Spinner
                 android:layout_width="278dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/City_reg"
+                android:entryValues="@array/cityid"
                 android:prompt="@string/choosecity" />
 
             <Spinner

@@ -10,5 +10,5 @@
     android:headerDividersEnabled="false"
     android:choiceMode="singleChoice"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#a2a7ae">
+    >
 </ListView>

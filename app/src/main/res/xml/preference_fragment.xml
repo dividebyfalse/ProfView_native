@@ -20,12 +20,14 @@
 
         <EditTextPreference
             android:key="login_preference"
+            android:background="@drawable/edittextstyle"
             android:title="@string/title_edittext_preference"
             android:summary="@string/summary_edittext_preference"
             android:dialogTitle="@string/dialog_title_edittext_preference" />
 
         <EditTextPreference
             android:key="pass_preference"
+            android:background="@drawable/edittextstyle"
             android:title="@string/title_password_preference"
             android:summary="@string/summary_password_preference"
             android:dialogTitle="@string/dialog_title_password_preference" />

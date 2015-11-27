@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
@@ -16,7 +17,9 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -24,6 +27,7 @@ import android.widget.ArrayAdapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.ScrollView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -38,23 +42,28 @@ import app.RegistrationIntentService;
 public class MainActivity extends FragmentActivity {
     SlidingMenu menu;
     private PreferenceFragment SettingsFragment;
-
+    private Fragment lf=null;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "MainActivity";
-
+    private View prevmenusel;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
+
 
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         menu = new SlidingMenu(this);
+        menu.setBackgroundColor(0xFF333333);
+        menu.setSelectorDrawable(R.drawable.sidemenu_items_background);
+        menu.setSelectorEnabled(true);
         menu.setMode(SlidingMenu.LEFT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         menu.setFadeDegree(0.35f);
         menu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
         menu.setMenu(R.layout.sidemenu);
         menu.setBehindWidthRes(R.dimen.slidingmenu_behind_width);
+
 
         String[] items = {"Войти", "Новости","Подать достижение", "Список достижений", "Настройки"};
         ((ListView) findViewById(R.id.sidemenu)).setAdapter(
@@ -70,6 +79,13 @@ public class MainActivity extends FragmentActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 menuToggle();
                 changeFragment(position);
+                if (prevmenusel != null) {
+                    LinearLayout sel = (LinearLayout) prevmenusel.findViewById(R.id.sel);
+                    sel.setVisibility(View.INVISIBLE);
+                }
+                LinearLayout sel = (LinearLayout) view.findViewById(R.id.sel);
+                sel.setVisibility(View.VISIBLE);
+                prevmenusel =view;
             }
         });
         setContentView(R.layout.activity_main);
@@ -120,17 +136,29 @@ public class MainActivity extends FragmentActivity {
                 new IntentFilter(QuickstartPreferences.REGISTRATION_COMPLETE));
     }
 
-
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if(menu.isMenuShowing()){
-                menu.toggle(true);
-                return false;
+                menu.toggle();
             }
+            if (lf != null && lf.isVisible()) {
+                LinearLayout loginlay = (LinearLayout) lf.getView().findViewById(R.id.loginlayout);
+                ScrollView reglay = (ScrollView) lf.getView().findViewById(R.id.scrollreglayout);
+                if (loginlay.getVisibility() == View.INVISIBLE) {
+                    loginlay.setVisibility(View.VISIBLE);
+                    reglay.setVisibility(View.INVISIBLE);
+                } else {
+                    return super.onKeyDown(keyCode, event);
+                }
+                return true;
+            }
+            return super.onKeyDown(keyCode, event);
+        } else if (keyCode == KeyEvent.KEYCODE_MENU) {
+            menu.toggle();
+                return true;
         }
-        return super.onKeyDown(keyCode, event);
+        return true;
     }
 
     private void changeFragment(int position) {
@@ -141,13 +169,16 @@ public class MainActivity extends FragmentActivity {
                     getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
                 }
                 mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
-                showFragment(new login_fragment());
+                //showFragment(new login_fragment());
+                lf = new login_fragment();
+                showFragment(lf);
                 break;
             case 1:
                 if (SettingsFragment != null) {
                     getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
                 }
                 mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
+                lf=null;
                 showFragment(new NewsFeed_fragment());
                 break;
             case 2:
@@ -155,6 +186,7 @@ public class MainActivity extends FragmentActivity {
                     getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
                 }
                 mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
+                lf=null;
                 showFragment(new achievement_fragment());
                 break;
             case 3:
@@ -162,12 +194,14 @@ public class MainActivity extends FragmentActivity {
                     getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
                 }
                 mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
+                lf=null;
                 showFragment(new achievements_fragment());
                 break;
             case 4:
                 mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
                 SettingsFragment = new settings_fragment();
                 getFragmentManager().beginTransaction().replace(R.id.container, SettingsFragment).commit();
+                lf=null;
                 showFragment(new settings_helper());
                 break;
         }

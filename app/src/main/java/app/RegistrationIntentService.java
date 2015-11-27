@@ -105,6 +105,7 @@ public class RegistrationIntentService extends IntentService {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.d("error reg", error.toString());
             }
         }){
             @Override

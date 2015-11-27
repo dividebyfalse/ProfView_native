@@ -34,6 +34,7 @@ import java.util.List;
 
 import adapter.FeedListAdapter;
 import app.AppController;
+import app.authorization;
 import data.FeedItem;
 
 import com.android.volley.Cache;
@@ -79,7 +80,7 @@ public abstract class nf_fragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (isOnline()) {
+                if (authorization.isOnline(getActivity())) {
                     is_ref = true;
                     List<String> ls = getURL();
                     String lss="";
@@ -91,6 +92,8 @@ public abstract class nf_fragment extends Fragment {
                     }
                     new ParseTask().execute(lss);
                     is_ref = false;
+                } else {
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             }
         });
@@ -112,7 +115,7 @@ public abstract class nf_fragment extends Fragment {
                 }
             }
         } else {*/
-            if (isOnline()) {
+            if (authorization.isOnline(getActivity())) {
                 List<String> ls = getURL();
                 String lss="";
                 if (ls.size()>0) {
@@ -122,7 +125,9 @@ public abstract class nf_fragment extends Fragment {
                     lss=lss.substring(0, lss.length()-1);
                 }
                 new ParseTask().execute(lss);
-            } /*else {
+            } else {
+                swipeRefreshLayout.setRefreshing(false);
+            /*else {
                 if (entry != null) {
                     try {
                         String data = new String(entry.data, "UTF-8");
@@ -133,6 +138,7 @@ public abstract class nf_fragment extends Fragment {
                     }
                 }
             }*/
+            }
         //}
     }
 
@@ -144,20 +150,6 @@ public abstract class nf_fragment extends Fragment {
         editor.putString("my", "test");
         editor.commit();
     }*/
-
-    public boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo nInfo = cm.getActiveNetworkInfo();
-        if (nInfo != null && nInfo.isConnected()) {
-            return true;
-        }
-        else {
-            Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Проверьте интернет соединение", Toast.LENGTH_SHORT);
-            toast.show();
-            swipeRefreshLayout.setRefreshing(false);
-            return false;
-        }
-    }
 
     protected abstract List<String> getURL();
 

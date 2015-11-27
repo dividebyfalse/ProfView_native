@@ -1,144 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
     android:weightSum="1"
     android:background="#d3d6db">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="144dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Название:"
-            android:id="@+id/textView"
-            android:layout_gravity="left|bottom"
-            android:autoText="false"
-            android:textColor="#000000"
-            android:textSize="16dp"
-            android:layout_marginLeft="4dp" />
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText"
-            android:layout_gravity="bottom|center_horizontal|right"
-            android:layout_alignBottom="@+id/textView"
-            android:layout_alignParentRight="true"
-            android:layout_toRightOf="@+id/textView"
-            android:singleLine="true"
-            android:hint="Максимум 60 символов" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="144dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Дата достижения"
-            android:id="@+id/textView2"
-            android:layout_alignBottom="@+id/editText2"
-            android:layout_alignParentLeft="true"
-            android:layout_alignTop="@+id/editText2"
-            android:textColor="#000000"
-            android:textSize="16dp"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="4dp" />
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/editText2"
-            android:layout_below="@+id/editText"
-            android:layout_alignLeft="@+id/button3"
-            android:layout_gravity="bottom|right" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:weightSum="1">
-
-        <TextView
-            android:layout_width="144dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Категория достижения"
-            android:id="@+id/textView3"
-            android:layout_gravity="left|bottom"
-            android:layout_below="@+id/textView2"
-            android:layout_alignParentLeft="true"
-            android:textColor="#000000"
-            android:textSize="16dp"
-            android:layout_weight="0.61"
-            android:layout_marginLeft="4dp" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Указать категорию"
-            android:id="@+id/categoryofachbutton"
-            android:layout_alignBottom="@+id/textView4"
-            android:layout_alignLeft="@+id/proof_button"
-            android:layout_weight="0.37"
-            android:layout_gravity="bottom|right" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="220dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Документ подтверждающий достижение"
-            android:id="@+id/textView4"
-            android:textColor="#000000"
-            android:textSize="16dp"
-            android:layout_below="@+id/textView3"
-            android:layout_alignParentLeft="true"
-            android:layout_gravity="left|bottom"
-            android:layout_marginLeft="4dp" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Выбрать..."
-            android:id="@+id/proof_button"
-            android:layout_below="@+id/categoryofachbutton"
-            android:layout_toRightOf="@+id/button3"
-            android:layout_gravity="bottom|right" />
-    </LinearLayout>
-
-    <ImageView
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/Proof_Pic"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.81" />
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView" >
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Отправить"
-        android:id="@+id/button3"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="59dp"
-        android:layout_gravity="bottom|center_horizontal" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="80dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/edittextstyle"
+                android:id="@+id/achievement_add_name"
+                android:layout_gravity="bottom|center_horizontal|right"
+                android:layout_alignBottom="@+id/textView"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/textView"
+                android:singleLine="false"
+                android:hint="Название достижения (максимум 60 символов)"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:minLines="3"
+                android:maxLines="3"
+                android:textIsSelectable="false"
+                android:maxLength="60"
+                android:editable="true" />
+
+            <DatePicker
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/achievemen_add_date"
+                android:layout_gravity="center_horizontal" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/achievemen_add_category"
+                android:layout_gravity="center_horizontal"
+                android:entryValues="@array/achievement_category"
+                android:prompt="@string/choose_achievement_category" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/achievemen_add_subcategory"
+                android:spinnerMode="dialog"
+                android:prompt="@string/choose_achievement_subcategory"/>
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Выбрать документ подтверждающий достижение..."
+                android:id="@+id/achievemen_add_proof_button"
+                android:layout_below="@+id/categoryofachbutton"
+                android:layout_toRightOf="@+id/achievemen_add_send_button"
+                android:layout_gravity="bottom|center|right"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/achievemen_add_Proof_Pic"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="0.81"
+                android:maxHeight="200dp"
+                android:padding="0dp"
+                android:visibility="invisible" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Отправить"
+                android:id="@+id/achievemen_add_send_button"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="59dp"
+                android:layout_gravity="bottom|center_horizontal" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
