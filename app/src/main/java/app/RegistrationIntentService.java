@@ -129,6 +129,7 @@ public class RegistrationIntentService extends IntentService {
                 params.put("faculty", settings.getString("faculties_list", ""));
                 params.put("email",gmail);
                 params.put("subscribes", subscribes);
+
                 return params;
             }
 
@@ -140,6 +141,7 @@ public class RegistrationIntentService extends IntentService {
             }
         };;
         queue.add(stringRequest);
+        queue.start();
     }
 
     /**

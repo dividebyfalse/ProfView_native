@@ -43,6 +43,7 @@ public class MainActivity extends FragmentActivity {
     SlidingMenu menu;
     private PreferenceFragment SettingsFragment;
     private Fragment lf=null;
+    private push_message_list_fragment mf = null;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "MainActivity";
     private View prevmenusel;
@@ -65,7 +66,7 @@ public class MainActivity extends FragmentActivity {
         menu.setBehindWidthRes(R.dimen.slidingmenu_behind_width);
 
 
-        String[] items = {"Войти", "Новости","Подать достижение", "Список достижений", "Настройки"};
+        String[] items = {"Войти", "Новости", "Сообщения", "Подать достижение", "Список достижений", "Настройки"};
         ((ListView) findViewById(R.id.sidemenu)).setAdapter(
                 new ArrayAdapter<Object>(
                         this,
@@ -89,7 +90,15 @@ public class MainActivity extends FragmentActivity {
             }
         });
         setContentView(R.layout.activity_main);
-        changeFragment(1);
+
+        Intent initintent = getIntent();
+        if (initintent.getBooleanExtra("isMessageList", false)) {
+            changeFragment(2);
+        } else if (initintent.getBooleanExtra("ShowMessageItem", false)) {
+            newMessage(initintent.getStringExtra("message"), initintent.getStringExtra("date"), initintent.getIntExtra("position", -1));
+        } else {
+            changeFragment(1);
+        }
 
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         if (settings.getBoolean("IsPushEnabled", true)) {
@@ -142,18 +151,29 @@ public class MainActivity extends FragmentActivity {
             if(menu.isMenuShowing()){
                 menu.toggle();
             }
-            if (lf != null && lf.isVisible()) {
-                LinearLayout loginlay = (LinearLayout) lf.getView().findViewById(R.id.loginlayout);
-                ScrollView reglay = (ScrollView) lf.getView().findViewById(R.id.scrollreglayout);
-                if (loginlay.getVisibility() == View.INVISIBLE) {
+            LinearLayout loginlay = null;
+            ScrollView reglay = null;
+            LinearLayout messageitemlay = null;
+            LinearLayout messagelistlay = null;
+            if (lf !=null) {
+                loginlay = (LinearLayout) lf.getView().findViewById(R.id.loginlayout);
+                reglay = (ScrollView) lf.getView().findViewById(R.id.scrollreglayout);
+            }
+            if (mf != null) {
+                messageitemlay = (LinearLayout) mf.getView().findViewById(R.id.messageread);
+                messagelistlay = (LinearLayout) mf.getView().findViewById(R.id.messagelistlay);
+            }
+                if (lf != null && lf.isVisible() && loginlay.getVisibility() == View.INVISIBLE) {
                     loginlay.setVisibility(View.VISIBLE);
                     reglay.setVisibility(View.INVISIBLE);
+                } else if (mf != null && mf.isVisible() && messageitemlay.getVisibility() == View.VISIBLE) {
+                    messageitemlay.setVisibility(View.INVISIBLE);
+                    messagelistlay.setVisibility(View.VISIBLE);
+                    changeFragment(2);
                 } else {
                     return super.onKeyDown(keyCode, event);
                 }
                 return true;
-            }
-            return super.onKeyDown(keyCode, event);
         } else if (keyCode == KeyEvent.KEYCODE_MENU) {
             menu.toggle();
                 return true;
@@ -161,8 +181,23 @@ public class MainActivity extends FragmentActivity {
         return true;
     }
 
+    public void newMessage(String message, String date, int position) {
+        mf = new push_message_list_fragment();
+        Bundle args = new Bundle();
+        args.putString("message", message);
+        args.putString("date", date);
+        args.putInt("position", position);
+        mf.setArguments(args);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, mf)
+                .commit();
+    }
+
     private void changeFragment(int position) {
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.container);
+        mf = null;
+        lf=null;
         switch (position) {
             case 0:
                 if (SettingsFragment != null) {
@@ -178,7 +213,6 @@ public class MainActivity extends FragmentActivity {
                     getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
                 }
                 mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
-                lf=null;
                 showFragment(new NewsFeed_fragment());
                 break;
             case 2:
@@ -186,22 +220,27 @@ public class MainActivity extends FragmentActivity {
                     getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
                 }
                 mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
-                lf=null;
-                showFragment(new achievement_fragment());
+                mf = new push_message_list_fragment();
+                showFragment(mf);
                 break;
             case 3:
                 if (SettingsFragment != null) {
                     getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
                 }
                 mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
-                lf=null;
-                showFragment(new achievements_fragment());
+                showFragment(new achievement_fragment());
                 break;
             case 4:
+                if (SettingsFragment != null) {
+                    getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
+                }
+                mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
+                showFragment(new achievements_fragment());
+                break;
+            case 5:
                 mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
                 SettingsFragment = new settings_fragment();
                 getFragmentManager().beginTransaction().replace(R.id.container, SettingsFragment).commit();
-                lf=null;
                 showFragment(new settings_helper());
                 break;
         }

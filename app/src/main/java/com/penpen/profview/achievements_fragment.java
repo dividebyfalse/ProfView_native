@@ -39,7 +39,6 @@ public class achievements_fragment extends Fragment {
     private ListView listView;
     public List<AchievementItem> achievementItems;
     private AchievementListAdapter listAdapter;
-    private ProgressDialog progressDialog;
     private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override

@@ -3,22 +3,25 @@ package app;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 import com.penpen.profview.MainActivity;
-import com.penpen.profview.PushMessageActivity;
 import com.penpen.profview.PushNewsActivity;
 import com.penpen.profview.R;
 
@@ -26,7 +29,7 @@ import com.penpen.profview.R;
  * Created by penpen on 20.10.15.
  */
 public class MyGcmListenerService extends GcmListenerService {
-
+    private DBHelper dbHelper;
     private static final String TAG = "MyGcmListenerService";
 
     /**
@@ -39,7 +42,7 @@ public class MyGcmListenerService extends GcmListenerService {
     // [START receive_message]
     @Override
     public void onMessageReceived(String from, Bundle data) {
-        String message = data.getString("message");
+        Bundle message = data;//.getString("message");
         String isAll = data.getString("toAll");
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
@@ -62,6 +65,17 @@ public class MyGcmListenerService extends GcmListenerService {
          * In some cases it may be useful to show a notification indicating to the user
          * that a message was received.
          */
+        dbHelper = new DBHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+            ContentValues cv = new ContentValues();
+            if (message.getString("message").length() != 0) {
+                cv.put("message", message.getString("message"));
+                cv.put("date", message.getString("date"));
+                cv.put("isnew", 1);
+                db.insert("pushmessagetable", null, cv);
+            }
+
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         if (settings.getBoolean("IsPushEnabled", true)) {
 
@@ -79,12 +93,16 @@ public class MyGcmListenerService extends GcmListenerService {
      * Create and show a simple notification containing the received GCM message.
      *
      * @param message GCM message received.
+     *
+     *
      */
-    private void sendNotification(String message, String activity) {
+    private void sendNotification(Bundle message, String activity) {
         Intent intent = new Intent(this, MainActivity.class);
         if (activity=="PushMessageActivity") {
-            intent = new Intent(this, PushMessageActivity.class);
-            intent.putExtra("text", message);
+            intent = new Intent(this, MainActivity.class);
+            intent.putExtra("isMessageList", true);
+           /* intent.putExtra("message", message.getString("message"));
+            intent.putExtra("date", message.getString("date"));*/
         }
         if (activity=="PushNewsActivity") {
             intent = new Intent(this, PushNewsActivity.class);
@@ -97,7 +115,7 @@ public class MyGcmListenerService extends GcmListenerService {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_profisu_notification)
                 .setContentTitle("ProfView")
-                .setContentText(message)
+                .setContentText(message.getString("message"))
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent)
@@ -108,5 +126,27 @@ public class MyGcmListenerService extends GcmListenerService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+
+    class DBHelper extends SQLiteOpenHelper {
+
+        public DBHelper(Context context) {
+            super(context, "myDB", null, 1);
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            Log.d("log", "--- onCreate database ---");
+            db.execSQL("create table pushmessagetable ("
+                    + "id integer primary key autoincrement,"
+                    + "message text,"
+                    + "date text," +
+                    "isnew int" + ");");
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        }
     }
 }
