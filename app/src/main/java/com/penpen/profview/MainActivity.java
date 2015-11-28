@@ -15,8 +15,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.preference.PreferenceScreen;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +40,7 @@ import java.util.List;
 
 import app.QuickstartPreferences;
 import app.RegistrationIntentService;
+import app.authorization;
 
 public class MainActivity extends FragmentActivity {
     SlidingMenu menu;
@@ -48,7 +51,10 @@ public class MainActivity extends FragmentActivity {
     private static final String TAG = "MainActivity";
     private View prevmenusel;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
-
+    static public boolean isLogin;
+    static public String[] items = {"", "Новости", "Сообщения", "Подать достижение", "Список достижений", "Настройки"};
+    static public ArrayAdapter menuadapter = null;
+    static public int fragmentnumber;
 
     @SuppressLint("NewApi")
     @Override
@@ -65,16 +71,21 @@ public class MainActivity extends FragmentActivity {
         menu.setMenu(R.layout.sidemenu);
         menu.setBehindWidthRes(R.dimen.slidingmenu_behind_width);
 
-
-        String[] items = {"Войти", "Новости", "Сообщения", "Подать достижение", "Список достижений", "Настройки"};
-        ((ListView) findViewById(R.id.sidemenu)).setAdapter(
-                new ArrayAdapter<Object>(
-                        this,
-                        R.layout.sidemenu_item,
-                        R.id.text,
-                        items
-                )
+        String log = "Войти";
+        isLogin = false;
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        if (settings.getString("login_preference", "").length() !=0) {
+            log = "Выйти";
+            isLogin = true;
+        }
+        menuadapter = new ArrayAdapter<Object>(
+                this,
+                R.layout.sidemenu_item,
+                R.id.text,
+                items
         );
+        items[0]=log;
+        ((ListView) findViewById(R.id.sidemenu)).setAdapter(menuadapter);
         ((ListView) findViewById(R.id.sidemenu)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -91,16 +102,22 @@ public class MainActivity extends FragmentActivity {
         });
         setContentView(R.layout.activity_main);
 
+        if (!settings.contains("IsPushEnabled")) {
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean("IsPushEnabled", true);
+            editor.commit();
+        }
+
         Intent initintent = getIntent();
         if (initintent.getBooleanExtra("isMessageList", false)) {
             changeFragment(2);
         } else if (initintent.getBooleanExtra("ShowMessageItem", false)) {
             newMessage(initintent.getStringExtra("message"), initintent.getStringExtra("date"), initintent.getIntExtra("position", -1));
         } else {
-            changeFragment(1);
+            authorization.cookie = settings.getString("cookie", "");
+            changeFragment(settings.getInt("fragmentnumber", 1));
         }
 
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         if (settings.getBoolean("IsPushEnabled", true)) {
             mRegistrationBroadcastReceiver = new BroadcastReceiver() {
                 @Override
@@ -171,6 +188,10 @@ public class MainActivity extends FragmentActivity {
                     messagelistlay.setVisibility(View.VISIBLE);
                     changeFragment(2);
                 } else {
+                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("fragmentnumber", "");
+                    editor.commit();
                     return super.onKeyDown(keyCode, event);
                 }
                 return true;
@@ -198,47 +219,40 @@ public class MainActivity extends FragmentActivity {
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.container);
         mf = null;
         lf=null;
+        if (SettingsFragment != null) {
+            getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
+        }
+        mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
+        fragmentnumber = position;
         switch (position) {
             case 0:
-                if (SettingsFragment != null) {
-                    getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
+                if (isLogin) {
+                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("login_preference", "");
+                    editor.putString("pass_preference", "");
+                    editor.commit();
+                    items[0]="Войти";
+                    menuadapter.notifyDataSetChanged();
+                    isLogin = false;
                 }
-                mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
-                //showFragment(new login_fragment());
                 lf = new login_fragment();
                 showFragment(lf);
                 break;
             case 1:
-                if (SettingsFragment != null) {
-                    getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
-                }
-                mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
                 showFragment(new NewsFeed_fragment());
                 break;
             case 2:
-                if (SettingsFragment != null) {
-                    getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
-                }
-                mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
                 mf = new push_message_list_fragment();
                 showFragment(mf);
                 break;
             case 3:
-                if (SettingsFragment != null) {
-                    getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
-                }
-                mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
                 showFragment(new achievement_fragment());
                 break;
             case 4:
-                if (SettingsFragment != null) {
-                    getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
-                }
-                mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
                 showFragment(new achievements_fragment());
                 break;
             case 5:
-                mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
                 SettingsFragment = new settings_fragment();
                 getFragmentManager().beginTransaction().replace(R.id.container, SettingsFragment).commit();
                 showFragment(new settings_helper());
@@ -256,14 +270,23 @@ public class MainActivity extends FragmentActivity {
         fragmentManager.beginTransaction()
                 .replace(R.id.container, currentFragment)
                 .commit();
+   }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("fragmentnumber", 1);
+        editor.commit();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        SharedPreferences settings = getSharedPreferences("temp", 0);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString("my", "test");
+        editor.putInt("fragmentnumber", 1);
         editor.commit();
     }
 
@@ -271,9 +294,10 @@ public class MainActivity extends FragmentActivity {
     protected void onPause() {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
-        SharedPreferences settings = getSharedPreferences("temp", 0);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString("my", "");
+        editor.putInt("fragmentnumber", fragmentnumber);
+        editor.putString("cookie", authorization.cookie);
         editor.commit();
     }
 

@@ -356,21 +356,21 @@ public class login_fragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             if (result == false) {
-                /*//Todo: test this
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, new login_fragment())
-                        .commit();*/
                 Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Неправильный Логин/Пароль", Toast.LENGTH_SHORT);
                 toast.show();
             } else {
-                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                EditText login = (EditText) getView().findViewById(R.id.login);
-                EditText pass = (EditText) getView().findViewById(R.id.pass);
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(viev.getContext());
+                EditText login = (EditText) viev.findViewById(R.id.login);
+                EditText pass = (EditText) viev.findViewById(R.id.pass);
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putString("login_preference", logi);
                 editor.putString("pass_preference", pas);
                 editor.commit();
+                MainActivity.isLogin = true;
+                MainActivity.items[0]="Выйти";
+                if (MainActivity.menuadapter != null) {
+                    MainActivity.menuadapter.notifyDataSetChanged();
+                }
                 login.setText(settings.getString("login_preference", ""));
                 pass.setText(settings.getString("pass_preference", ""));
                 if (isreg) {
@@ -388,13 +388,19 @@ public class login_fragment extends Fragment {
                             email,
                             getResources().getStringArray(R.array.irkutskfacultyid)[facultyspinner.getSelectedItemPosition()],
                             getResources().getStringArray(R.array.cityid)[cityspinner.getSelectedItemPosition()]);
+                    MainActivity.fragmentnumber=4;
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.container, new achievements_fragment()).commit();
                 } else {
-                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Вход выполнен", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(viev.getContext().getApplicationContext(), "Вход выполнен", Toast.LENGTH_SHORT);
                     toast.show();
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.container, new achievements_fragment()).commit();
+                    try {
+                        MainActivity.fragmentnumber=4;
+                        FragmentManager fragmentManager = getFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.container, new achievements_fragment()).commit();
+                    } catch (Exception e) {
+
+                    }
                 }
             }
         }

@@ -12,6 +12,7 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +54,7 @@ public class achievement_fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.achievement_fragment, container, false);
+        new authcheck().execute();
         final EditText name = (EditText) view.findViewById(R.id.achievement_add_name);
         final DatePicker date = (DatePicker) view.findViewById(R.id.achievemen_add_date);
         imageView = (ImageView) view.findViewById(R.id.achievemen_add_Proof_Pic);
@@ -168,10 +170,11 @@ public class achievement_fragment extends Fragment {
                 }
 
                 Log.d("out", String.valueOf(categoryid));
-                new sendachievement().execute(name.getText().toString(), strdate, String.valueOf(categoryid));
+                if (authorization.isOnline(getActivity())) {
+                    new sendachievement().execute(name.getText().toString(), strdate, String.valueOf(categoryid));
+                }
             }
         });
-
 
         return view;
     }
@@ -259,13 +262,57 @@ public class achievement_fragment extends Fragment {
         }
     }
 
+    class authcheck extends AsyncTask<String, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... params) {
+            Boolean result = false;
+            Log.d("cookie", authorization.cookie);
+            if (authorization.cookie.length() != 0) {
+                result = true;
+            } else {
+                String response = authorization.auth(getContext());
+                Log.d("resp", response);
+                if ((response.equals("error") == false) && (response.equals("no_login") == false) && (response.length() != 0)) {
+                    result = true;
+                } else if (response.equals("no_login") == true) {
+                    result = false;
+                }
+            }
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (!result && authorization.cookie.length() == 0) {
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new login_fragment())
+                        .commit();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Неправильный Логин/Пароль", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+    }
+
     class sendachievement extends AsyncTask<String, Void, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {
             Boolean result = false;
             String line;
             StringBuffer jsonString = new StringBuffer();
-            //if (params.length == 9) {
+            if (authorization.cookie.length() != 0) {
+                result = true;
+            } else {
+                String response = "";
+                response = authorization.auth(getContext());
+                if ((response.equals("error") == false) && (response.equals("no_login") == false) && (response.length() != 0)) {
+                    result = true;
+                } else if (response.equals("no_login") == true) {
+                    result = false;
+                }
+            }
+            if (result) {
+                //if (params.length == 9) {
                 try {
                     URL url = new URL("http://irk.yourplus.ru/rating/achievements/add/");
                     String payload = "------WebKitFormBoundarylHpOTMpTFaqnnId8\n" +
@@ -275,15 +322,15 @@ public class achievement_fragment extends Fragment {
                             "------WebKitFormBoundarylHpOTMpTFaqnnId8\n" +
                             "Content-Disposition: form-data; name=\"NAME\"\n" +
                             "\n" +
-                            params[0]+"\n" +
+                            params[0] + "\n" +
                             "------WebKitFormBoundarylHpOTMpTFaqnnId8\n" +
                             "Content-Disposition: form-data; name=\"DATE\"\n" +
                             "\n" +
-                            params[1]+"\n" +
+                            params[1] + "\n" +
                             "------WebKitFormBoundarylHpOTMpTFaqnnId8\n" +
                             "Content-Disposition: form-data; name=\"award[0][type]\"\n" +
                             "\n" +
-                            params[2]+"\n" +
+                            params[2] + "\n" +
                             "------WebKitFormBoundarylHpOTMpTFaqnnId8\n" +
                             "Content-Disposition: form-data; name=\"files[]\"; filename=\"\"\n" +
                             "Content-Type: application/octet-stream\n" +
@@ -310,12 +357,21 @@ public class achievement_fragment extends Fragment {
                 } catch (Exception e) {
                     throw new RuntimeException(e.getMessage());
                 }
+            }
             //}
             return result;
         }
 
         @Override
         protected void onPostExecute(Boolean result) {
+            if (result == false) {
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new login_fragment())
+                        .commit();
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Неправильный Логин/Пароль", Toast.LENGTH_SHORT);
+                toast.show();
+            }
             try {
                 File file = new File(outputFileUri.getPath());
                 file.delete();

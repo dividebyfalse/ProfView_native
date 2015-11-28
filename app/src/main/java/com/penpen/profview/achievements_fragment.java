@@ -89,10 +89,14 @@ public class achievements_fragment extends Fragment {
                      } else {
                          String response = "";
                          response = authorization.auth(getContext());
-                         if ((response.equals("error") == false) && (response.equals("no_login") == false) && (response.length() != 0)) {
+                         try {
+                             if ((response.equals("error") == false) && (response.equals("no_login") == false) && (response.length() != 0)) {
+                                 result = true;
+                             } else if (response.equals("no_login") == true) {
+                                 result = false;
+                             }
+                         } catch (Exception e) {
                              result = true;
-                         } else if (response.equals("no_login") == true) {
-                             result = false;
                          }
                      }
                      if (result) {
@@ -120,9 +124,8 @@ public class achievements_fragment extends Fragment {
                          }
                          return HTML;
                      } else {
-
+                         return "";
                      }
-                     return "";
                  }
 
                  @Override
