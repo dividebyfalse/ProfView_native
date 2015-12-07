@@ -30,12 +30,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PushMessageActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".PushNewsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

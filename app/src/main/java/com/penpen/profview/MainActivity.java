@@ -114,7 +114,7 @@ public class MainActivity extends FragmentActivity {
         } else if (initintent.getBooleanExtra("ShowMessageItem", false)) {
             newMessage(initintent.getStringExtra("message"), initintent.getStringExtra("date"), initintent.getIntExtra("position", -1));
         } else {
-            authorization.cookie = settings.getString("cookie", "");
+            //authorization.cookie = settings.getString("cookie", "");
             changeFragment(settings.getInt("fragmentnumber", 1));
         }
 
@@ -260,11 +260,6 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    public void setActivityBackgroundColor(int color) {
-        View view = this.getWindow().getDecorView();
-        view.setBackgroundColor(color);
-    }
-
    private void showFragment(Fragment currentFragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
@@ -297,7 +292,7 @@ public class MainActivity extends FragmentActivity {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("fragmentnumber", fragmentnumber);
-        editor.putString("cookie", authorization.cookie);
+        //editor.putString("cookie", authorization.cookie);
         editor.commit();
     }
 

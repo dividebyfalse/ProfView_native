@@ -9,8 +9,6 @@
       <root url="file://$PROJECT_DIR$/app/SlidingMenu/library/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/res" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES>
-      <root url="jar://$USER_HOME$/Android/Sdk/extras/android/m2repository/com/android/support/support-v4/23.0.1/support-v4-23.0.1-sources.jar!/" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>
