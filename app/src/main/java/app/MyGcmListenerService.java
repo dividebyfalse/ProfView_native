@@ -22,7 +22,6 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GcmListenerService;
 import com.penpen.profview.MainActivity;
-import com.penpen.profview.PushNewsActivity;
 import com.penpen.profview.R;
 
 /**
@@ -79,11 +78,11 @@ public class MyGcmListenerService extends GcmListenerService {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         if (settings.getBoolean("IsPushEnabled", true)) {
 
-            if (isAll.equals("true")) {
+            //if (isAll.equals("true")) {
                 sendNotification(message, "PushMessageActivity");
-            } else {
+           /* } else {
                 sendNotification(message, "PushNewsActivity");
-            }
+            }*/
         }
         // [END_EXCLUDE]
     }
@@ -98,15 +97,16 @@ public class MyGcmListenerService extends GcmListenerService {
      */
     private void sendNotification(Bundle message, String activity) {
         Intent intent = new Intent(this, MainActivity.class);
-        if (activity=="PushMessageActivity") {
+        //if (activity=="PushMessageActivity") {
             intent = new Intent(this, MainActivity.class);
             intent.putExtra("isMessageList", true);
            /* intent.putExtra("message", message.getString("message"));
             intent.putExtra("date", message.getString("date"));*/
-        }
-        if (activity=="PushNewsActivity") {
-            intent = new Intent(this, PushNewsActivity.class);
-        }
+       // }
+        /*if (activity=="PushNewsActivity") {
+            intent = new Intent(this, MainActivity.class);
+            intent.putExtra("isMessageList", true);
+        }*/
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -140,8 +140,11 @@ public class MyGcmListenerService extends GcmListenerService {
             db.execSQL("create table pushmessagetable ("
                     + "id integer primary key autoincrement,"
                     + "message text,"
-                    + "date text," +
-                    "isnew int" + ");");
+                    + "date text,"
+                    + "isnew int,"
+                    + "isnews int,"
+                    + "group_image text,"
+                    + "main_image text"+");");
         }
 
         @Override

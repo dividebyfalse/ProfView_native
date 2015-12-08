@@ -19,7 +19,7 @@ public class pbf_nf_fragment extends nf_fragment {
     protected List<String> getURL() {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
         List<String> urls = new ArrayList<>();
-        if (settings.getString("faculties_list", "") != "") {
+        if (!settings.getString("faculties_list", "").equals("")) {
             urls.add("https://api.vk.com/method/wall.get?owner_id=-" + settings.getString("faculties_list", "") + "&filter=all&count=100");
         }
         return urls;

@@ -89,8 +89,8 @@ public abstract class nf_fragment extends Fragment {
                             lss += ls.get(i) + ";";
                         }
                         lss=lss.substring(0, lss.length()-1);
+                        new ParseTask().execute(lss);
                     }
-                    new ParseTask().execute(lss);
                     is_ref = false;
                 } else {
                     swipeRefreshLayout.setRefreshing(false);
@@ -123,8 +123,8 @@ public abstract class nf_fragment extends Fragment {
                         lss += ls.get(i) + ";";
                     }
                     lss=lss.substring(0, lss.length()-1);
+                    new ParseTask().execute(lss);
                 }
-                new ParseTask().execute(lss);
             } else {
                 swipeRefreshLayout.setRefreshing(false);
             /*else {
@@ -276,7 +276,7 @@ public abstract class nf_fragment extends Fragment {
                         }
                     }
                     resultJson = "{\"response\":[2244," +ssum +"]}";
-                } else {
+                } else if (url.length>0) {
                     resultJson = getJSON(url[0]);
                     try {
                         JSONObject dataJson = new JSONObject(getJSON(url[0].substring(0, url[0].length()-10) + "&count=1&extended=1"));
