@@ -89,6 +89,8 @@ public class MessageListAdapter extends BaseAdapter {
                 db.delete("pushmessagetable", selection, selectionArgs);
                 messagesItems.remove(position);
                 adapter.notifyDataSetChanged();
+                db.close();
+                dbHelper.close();
             }
         });
 
@@ -103,15 +105,23 @@ public class MessageListAdapter extends BaseAdapter {
                 cv.put("isnew", 0);
                 db.update("pushmessagetable", cv, selection, selectionArgs);
                 messagesItems.get(Integer.parseInt(String.valueOf(position))).setIsnew(false);
-                db.close();
-                dbHelper.close();
                 adapter.notifyDataSetChanged();
                 Intent intent = new Intent(activity, MainActivity.class);
-                intent.putExtra("ShowMessageItem", true);
                 intent.putExtra("message", messagesItems.get(position).getMessage());
                 intent.putExtra("date", messagesItems.get(position).getDate());
                 intent.putExtra("position", position);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                if (messagesItems.get(position).getIsnews()) {
+                    intent.putExtra("ShowMessageItem", false);
+                    intent.putExtra("image", messagesItems.get(position).getImage());
+                    intent.putExtra("profilename", messagesItems.get(position).getProfile_name());
+                    intent.putExtra("profilepic", messagesItems.get(position).getProfile_pic());
+                    Log.d("log", "news");
+                } else {
+                    intent.putExtra("ShowMessageItem", true);
+                    Log.d("log", "item");
+                }
                 PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0 /* Request code */, intent,
                         PendingIntent.FLAG_ONE_SHOT);
                 try {
@@ -119,6 +129,8 @@ public class MessageListAdapter extends BaseAdapter {
                 } catch (Exception e) {
 
                 }
+                db.close();
+                dbHelper.close();
             }
         });
         return convertView;
@@ -136,8 +148,12 @@ public class MessageListAdapter extends BaseAdapter {
             db.execSQL("create table pushmessagetable ("
                     + "id integer primary key autoincrement,"
                     + "message text,"
-                    + "date text," +
-                    "isnew int" + ");");
+                    + "date text,"
+                    + "isnew int,"
+                    + "isnews int,"
+                    + "groupimage text,"
+                    + "mainimage text,"
+                    + "groupdesc text"+");");
         }
 
         @Override

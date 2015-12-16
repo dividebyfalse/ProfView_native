@@ -280,9 +280,7 @@ public class login_fragment extends Fragment {
             if (doc!=null) {
                 Elements images =doc.body().getElementsByTag("img");
                 String CAPTCHAstr = images.attr("alt", "CAPTCHA").get(images.attr("alt", "CAPTCHA").size() - 1).toString();
-                //Log.d("b", CAPTCHAstr);
                 CAPTCHAsid = CAPTCHAstr.substring(CAPTCHAstr.indexOf("captcha_sid=")+12, CAPTCHAstr.indexOf("\"", CAPTCHAstr.indexOf("captcha_sid=")+12));
-                //Log.d("csid", CAPTCHAsid);
                 CAPTCHAstr = "http://irk.yourplus.ru" + CAPTCHAstr.substring(CAPTCHAstr.indexOf("src=")+5, CAPTCHAstr.indexOf("\"", CAPTCHAstr.indexOf("src=")+5));
                 try {
                     InputStream in = new java.net.URL(CAPTCHAstr).openStream();

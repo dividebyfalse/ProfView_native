@@ -47,6 +47,7 @@ public class MainActivity extends FragmentActivity {
     private PreferenceFragment SettingsFragment;
     private Fragment lf=null;
     private push_message_list_fragment mf = null;
+    private push_message_list_fragment nf = null;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "MainActivity";
     private View prevmenusel;
@@ -113,6 +114,15 @@ public class MainActivity extends FragmentActivity {
             changeFragment(2);
         } else if (initintent.getBooleanExtra("ShowMessageItem", false)) {
             newMessage(initintent.getStringExtra("message"), initintent.getStringExtra("date"), initintent.getIntExtra("position", -1));
+        } else if (!initintent.getBooleanExtra("ShowMessageItem", true)) {
+            newNews(initintent.getStringExtra("message"),
+                    initintent.getStringExtra("date"),
+                    initintent.getIntExtra("position", -1),
+                    !initintent.getBooleanExtra("ShowMessageItem", false),
+                    initintent.getStringExtra("image"),
+                    initintent.getStringExtra("profilename"),
+                    initintent.getStringExtra("profilepic")
+            );
         } else {
             //authorization.cookie = settings.getString("cookie", "");
             changeFragment(settings.getInt("fragmentnumber", 1));
@@ -176,25 +186,33 @@ public class MainActivity extends FragmentActivity {
                 loginlay = (LinearLayout) lf.getView().findViewById(R.id.loginlayout);
                 reglay = (ScrollView) lf.getView().findViewById(R.id.scrollreglayout);
             }
+            if (nf != null) {
+                messageitemlay = (LinearLayout) nf.getView().findViewById(R.id.newsread);
+                messagelistlay = (LinearLayout) nf.getView().findViewById(R.id.messagelistlay);
+            }
             if (mf != null) {
                 messageitemlay = (LinearLayout) mf.getView().findViewById(R.id.messageread);
                 messagelistlay = (LinearLayout) mf.getView().findViewById(R.id.messagelistlay);
             }
-                if (lf != null && lf.isVisible() && loginlay.getVisibility() == View.INVISIBLE) {
-                    loginlay.setVisibility(View.VISIBLE);
-                    reglay.setVisibility(View.INVISIBLE);
-                } else if (mf != null && mf.isVisible() && messageitemlay.getVisibility() == View.VISIBLE) {
-                    messageitemlay.setVisibility(View.INVISIBLE);
-                    messagelistlay.setVisibility(View.VISIBLE);
-                    changeFragment(2);
-                } else {
-                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putString("fragmentnumber", "");
-                    editor.commit();
-                    return super.onKeyDown(keyCode, event);
-                }
-                return true;
+            if (lf != null && lf.isVisible() && loginlay.getVisibility() == View.INVISIBLE) {
+                loginlay.setVisibility(View.VISIBLE);
+                reglay.setVisibility(View.INVISIBLE);
+            } else if (mf != null && mf.isVisible() && messageitemlay.getVisibility() == View.VISIBLE) {
+                messageitemlay.setVisibility(View.INVISIBLE);
+                messagelistlay.setVisibility(View.VISIBLE);
+                changeFragment(2);
+            } else if (nf != null && nf.isVisible() && messageitemlay.getVisibility() == View.VISIBLE) {
+                messageitemlay.setVisibility(View.INVISIBLE);
+                messagelistlay.setVisibility(View.VISIBLE);
+                changeFragment(2);
+            } else {
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("fragmentnumber", "");
+                editor.commit();
+                return super.onKeyDown(keyCode, event);
+            }
+            return true;
         } else if (keyCode == KeyEvent.KEYCODE_MENU) {
             menu.toggle();
                 return true;
@@ -212,6 +230,23 @@ public class MainActivity extends FragmentActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, mf)
+                .commit();
+    }
+
+    public void newNews(String message, String date, int position, Boolean isnews, String image, String pn, String pi) {
+        nf = new push_message_list_fragment();
+        Bundle args = new Bundle();
+        args.putString("message", message);
+        args.putString("date", date);
+        args.putInt("position", position);
+        args.putBoolean("isnews", isnews);
+        args.putString("mainimage", image);
+        args.putString("pn", pn);
+        args.putString("pi", pi);
+        nf.setArguments(args);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, nf)
                 .commit();
     }
 
