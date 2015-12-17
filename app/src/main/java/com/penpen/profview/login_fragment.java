@@ -51,6 +51,10 @@ import app.authorization;
 public class login_fragment extends Fragment {
     private String CAPTCHAsid="";
     private View viev;
+    private Button loginb;
+    private View.OnKeyListener passonclick;
+    private Button regb;
+    private Button sendregb;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,16 +69,19 @@ public class login_fragment extends Fragment {
         final Spinner CRspinner = (Spinner) view.findViewById(R.id.City_reg);
         final LinearLayout loginlay = (LinearLayout) view.findViewById(R.id.loginlayout);
         final ScrollView reglay = (ScrollView) view.findViewById(R.id.scrollreglayout);
-        Button loginb = (Button) view.findViewById(R.id.loginbutton);
+        loginb = (Button) view.findViewById(R.id.loginbutton);
         loginb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (authorization.isOnline(getActivity()) == false) {return;}
                 new auth().execute(login.getText().toString(), pass.getText().toString());
+                loginb.setEnabled(false);
+                regb.setEnabled(false);
+                pass.setOnKeyListener(null);
             }
         });
 
-        Button regb = (Button) view.findViewById(R.id.regbutton);
+        regb = (Button) view.findViewById(R.id.regbutton);
         regb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,7 +107,7 @@ public class login_fragment extends Fragment {
             }
         });
 
-        Button sendregb = (Button) view.findViewById(R.id.regbuttonsend);
+        sendregb = (Button) view.findViewById(R.id.regbuttonsend);
         sendregb.setOnClickListener(new View.OnClickListener() {
             private void focusedit(EditText et, String message) {
                 if (authorization.isOnline(getActivity()) == false) {
@@ -130,53 +137,52 @@ public class login_fragment extends Fragment {
                 if (passreg.getText().toString().equals(passconfirmreg.getText().toString())) {
                     if (loginreg.getText().toString().length() != 0) {
                     if (passreg.getText().toString().length() !=0) {
-                        if (passconfirmreg.getText().toString().length() != 0) {
-
-                                if (emailreg.getText().toString().length() != 0) {
-                                    if (captcha.getText().toString().length() != 0) {
-                                        if (lastnamereg.getText().toString().length() != 0) {
-                                            if (firstnamereg.getText().toString().length() != 0) {
-                                                if (thirdnamereg.getText().toString().length() != 0) {
-                                                    if (facultyspinner.getSelectedItemPosition() != 0) {
-                                                        new sendregfirst().execute(loginreg.getText().toString(), passreg.getText().toString(), emailreg.getText().toString(), captcha.getText().toString(), CAPTCHAsid);
-                                                        new auth().execute(loginreg.getText().toString(), passreg.getText().toString(), "1", emailreg.getText().toString(), lastnamereg.getText().toString(), firstnamereg.getText().toString(), thirdnamereg.getText().toString());
-                                                        loginreg.setText("");
-                                                        passreg.setText("");
-                                                        passconfirmreg.setText("");
-                                                        emailreg.setText("");
-                                                        captcha.setText("");
-                                                        lastnamereg.setText("");
-                                                        firstnamereg.setText("");
-                                                        thirdnamereg.setText("");
-                                                    } else {
-                                                        if (authorization.isOnline(getActivity()) == false) {
-                                                            return;
-                                                        }
-                                                        Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Выберите факультет", Toast.LENGTH_SHORT);
-                                                        toast.show();
-                                                        facultyspinner.requestFocus();
-                                                        return;
-                                                    }
-                                                } else {
-                                                    focusedit(thirdnamereg, "Введите отчество");
+                        if (passconfirmreg.getText().toString().length() != 0) {if (emailreg.getText().toString().length() != 0) {
+                            if (captcha.getText().toString().length() != 0) {
+                                if (lastnamereg.getText().toString().length() != 0) {
+                                    if (firstnamereg.getText().toString().length() != 0) {
+                                        if (thirdnamereg.getText().toString().length() != 0) {
+                                            if (facultyspinner.getSelectedItemPosition() != 0) {
+                                                sendregb.setEnabled(false);
+                                                new sendregfirst().execute(loginreg.getText().toString(), passreg.getText().toString(), emailreg.getText().toString(), captcha.getText().toString(), CAPTCHAsid);
+                                                new auth().execute(loginreg.getText().toString(), passreg.getText().toString(), "1", emailreg.getText().toString(), lastnamereg.getText().toString(), firstnamereg.getText().toString(), thirdnamereg.getText().toString());
+                                                loginreg.setText("");
+                                                passreg.setText("");
+                                                passconfirmreg.setText("");
+                                                emailreg.setText("");
+                                                captcha.setText("");
+                                                lastnamereg.setText("");
+                                                firstnamereg.setText("");
+                                                thirdnamereg.setText("");
+                                            } else {
+                                                if (authorization.isOnline(getActivity()) == false) {
                                                     return;
                                                 }
-                                            } else {
-                                                focusedit(firstnamereg, "Введите имя");
+                                                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Выберите факультет", Toast.LENGTH_SHORT);
+                                                toast.show();
+                                                facultyspinner.requestFocus();
                                                 return;
                                             }
                                         } else {
-                                            focusedit(lastnamereg, "Введите фамилию");
+                                            focusedit(thirdnamereg, "Введите отчество");
                                             return;
                                         }
                                     } else {
-                                        focusedit(captcha, "Введите каптчу");
+                                        focusedit(firstnamereg, "Введите имя");
                                         return;
                                     }
                                 } else {
-                                    focusedit(emailreg, "Введите email");
+                                    focusedit(lastnamereg, "Введите фамилию");
                                     return;
                                 }
+                            } else {
+                                focusedit(captcha, "Введите каптчу");
+                                return;
+                            }
+                        } else {
+                            focusedit(emailreg, "Введите email");
+                            return;
+                        }
 
                         } else {
                             focusedit(passconfirmreg, "Введите подтверждение");
@@ -212,7 +218,7 @@ public class login_fragment extends Fragment {
             }
         });
 
-        pass.setOnKeyListener(new View.OnKeyListener() {
+        passonclick = new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (authorization.isOnline(getActivity()) == false) {
@@ -222,11 +228,16 @@ public class login_fragment extends Fragment {
                     return false;
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
                     new auth().execute(login.getText().toString(), pass.getText().toString());
+                    pass.setOnKeyListener(null);
+                    loginb.setEnabled(false);
+                    regb.setEnabled(false);
                     return true;
                 }
                 return false;
             }
-        });
+        };
+
+        pass.setOnKeyListener(passonclick);
 
         ArrayAdapter<CharSequence> CRadapter = ArrayAdapter.createFromResource(view.getContext(), R.array.city, android.R.layout.simple_spinner_item);
         CRadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -353,13 +364,16 @@ public class login_fragment extends Fragment {
 
         @Override
         protected void onPostExecute(Boolean result) {
+            EditText pass = (EditText) viev.findViewById(R.id.pass);
             if (result == false) {
                 Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Неправильный Логин/Пароль", Toast.LENGTH_SHORT);
                 toast.show();
+                loginb.setEnabled(true);
+                pass.setOnKeyListener(passonclick);
+                regb.setEnabled(true);
             } else {
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(viev.getContext());
                 EditText login = (EditText) viev.findViewById(R.id.login);
-                EditText pass = (EditText) viev.findViewById(R.id.pass);
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putString("login_preference", logi);
                 editor.putString("pass_preference", pas);
@@ -389,6 +403,7 @@ public class login_fragment extends Fragment {
                     MainActivity.fragmentnumber=4;
                     FragmentManager fragmentManager = getFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.container, new achievements_fragment()).commit();
+                    sendregb.setEnabled(true);
                 } else {
                     Toast toast = Toast.makeText(viev.getContext().getApplicationContext(), "Вход выполнен", Toast.LENGTH_SHORT);
                     toast.show();
@@ -397,8 +412,13 @@ public class login_fragment extends Fragment {
                         FragmentManager fragmentManager = getFragmentManager();
                         fragmentManager.beginTransaction().replace(R.id.container, new achievements_fragment()).commit();
                     } catch (Exception e) {
-
+                        loginb.setEnabled(true);
+                        pass.setOnKeyListener(passonclick);
+                        regb.setEnabled(true);
                     }
+                    loginb.setEnabled(true);
+                    pass.setOnKeyListener(passonclick);
+                    regb.setEnabled(true);
                 }
             }
         }

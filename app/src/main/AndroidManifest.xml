@@ -29,12 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".PushNewsActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"

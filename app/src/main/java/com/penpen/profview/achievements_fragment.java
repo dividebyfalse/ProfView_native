@@ -1,6 +1,5 @@
 package com.penpen.profview;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,7 +10,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -84,9 +82,9 @@ public class achievements_fragment extends Fragment {
                  @Override
                  protected String doInBackground(String... params) {
                      Boolean result = false;
-                     if (authorization.cookie.length() != 0) {
+                     /*if (authorization.cookie.length() != 0) {
                          result = true;
-                     } else {
+                     } else {*/
                          String response = "";
                          response = authorization.auth(getContext());
                          try {
@@ -98,7 +96,7 @@ public class achievements_fragment extends Fragment {
                          } catch (Exception e) {
                              result = true;
                          }
-                     }
+                     //}
                      if (result) {
                          String HTML = "";
                          try {

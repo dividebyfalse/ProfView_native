@@ -49,6 +49,7 @@ public class achievement_fragment extends Fragment {
     private Uri outputFileUri;
     private Integer YOUR_SELECT_PICTURE_REQUEST_CODE = 2244;
     private ImageView imageView;
+    private Button send;
     View view;
 
     @Override
@@ -120,7 +121,7 @@ public class achievement_fragment extends Fragment {
                 openImageIntent();
             }
         });
-        Button send = (Button) view.findViewById(R.id.achievemen_add_send_button);
+        send = (Button) view.findViewById(R.id.achievemen_add_send_button);
         send.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -171,6 +172,7 @@ public class achievement_fragment extends Fragment {
 
                 Log.d("out", String.valueOf(categoryid));
                 if (authorization.isOnline(getActivity())) {
+                    send.setEnabled(false);
                     new sendachievement().execute(name.getText().toString(), strdate, String.valueOf(categoryid));
                 }
             }
@@ -266,10 +268,10 @@ public class achievement_fragment extends Fragment {
         @Override
         protected Boolean doInBackground(String... params) {
             Boolean result = false;
-            Log.d("cookie", authorization.cookie);
-            if (authorization.cookie.length() != 0) {
+            //Log.d("cookie", authorization.cookie);
+            /*if (authorization.cookie.length() != 0) {
                 result = true;
-            } else {
+            } else {*/
                 String response = authorization.auth(getContext());
                 Log.d("resp", response);
                 if ((response.equals("error") == false) && (response.equals("no_login") == false) && (response.length() != 0)) {
@@ -277,7 +279,7 @@ public class achievement_fragment extends Fragment {
                 } else if (response.equals("no_login") == true) {
                     result = false;
                 }
-            }
+            //}
             return result;
         }
 
@@ -337,7 +339,7 @@ public class achievement_fragment extends Fragment {
                             "\n" +
                             "\n" +
                             "------WebKitFormBoundarylHpOTMpTFaqnnId8--";
-                    Log.d("req", payload);
+                    //Log.d("req", payload);
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     connection.setDoInput(true);
                     connection.setDoOutput(true);
@@ -371,6 +373,11 @@ public class achievement_fragment extends Fragment {
                         .commit();
                 Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Неправильный Логин/Пароль", Toast.LENGTH_SHORT);
                 toast.show();
+                send.setEnabled(true);
+            } else {
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Достижение добавлено", Toast.LENGTH_SHORT);
+                toast.show();
+                send.setEnabled(true);
             }
             try {
                 File file = new File(outputFileUri.getPath());
