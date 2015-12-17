@@ -115,14 +115,33 @@ public class push_message_list_fragment extends Fragment {
                 TextView pn = (TextView) view.findViewById(R.id.message_news_group_name);
                 TextView date = (TextView) view.findViewById(R.id.message_news_date);
                 TextView message = (TextView) view.findViewById(R.id.message_news_text);
+                TextView datebottom = (TextView) view.findViewById(R.id.datenews);
                 message.setText(bundle.getString("message"));
                 CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(
                         Long.parseLong(bundle.getString("date")) * 1000,
                         System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS);
                 date.setText(timeAgo);
+                datebottom.setText(timeAgo);
                 pn.setText(bundle.getString("pn"));
                 new getmi().execute(bundle.getString("mainimage"));
                 new getpi().execute(bundle.getString("pi"));
+
+                Button delmessage = (Button) view.findViewById(R.id.delnews);
+                delmessage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DBHelper dbHelper = new DBHelper(v.getContext());
+                        SQLiteDatabase db = dbHelper.getWritableDatabase();
+                        String selection = "date = ?";
+                        String[] selectionArgs = new String[]{bundle.getString("date")};
+                        db.delete("pushmessagetable", selection, selectionArgs);
+                        messageItems.remove(bundle.getInt("position"));
+                        db.close();
+                        dbHelper.close();
+                        messagelistlay.setVisibility(View.VISIBLE);
+                        newsviewlay.setVisibility(View.INVISIBLE);
+                    }
+                });
 
                 messagelistlay.setVisibility(View.INVISIBLE);
                 messageviewlay.setVisibility(View.INVISIBLE);

@@ -86,19 +86,20 @@ public class MainActivity extends FragmentActivity {
                 items
         );
         items[0]=log;
-        ((ListView) findViewById(R.id.sidemenu)).setAdapter(menuadapter);
-        ((ListView) findViewById(R.id.sidemenu)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ListView listView = ((ListView) findViewById(R.id.sidemenu));
+        listView.setAdapter(menuadapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 menuToggle();
-                changeFragment(position);
                 if (prevmenusel != null) {
                     LinearLayout sel = (LinearLayout) prevmenusel.findViewById(R.id.sel);
                     sel.setVisibility(View.INVISIBLE);
                 }
                 LinearLayout sel = (LinearLayout) view.findViewById(R.id.sel);
                 sel.setVisibility(View.VISIBLE);
-                prevmenusel =view;
+                prevmenusel = view;
+                changeFragment(position);
             }
         });
         setContentView(R.layout.activity_main);
@@ -111,10 +112,16 @@ public class MainActivity extends FragmentActivity {
 
         Intent initintent = getIntent();
         if (initintent.getBooleanExtra("isMessageList", false)) {
-            changeFragment(2);
+            menu.showMenu();
+            listView.performItemClick(listView.getAdapter().getView(2, null, null), 2, listView.getItemIdAtPosition(2));
+            //changeFragment(2);
         } else if (initintent.getBooleanExtra("ShowMessageItem", false)) {
+            menu.showMenu();
+            listView.performItemClick(listView.getAdapter().getView(2, null, null), 2, listView.getItemIdAtPosition(2));
             newMessage(initintent.getStringExtra("message"), initintent.getStringExtra("date"), initintent.getIntExtra("position", -1));
         } else if (!initintent.getBooleanExtra("ShowMessageItem", true)) {
+            /*menu.showMenu();
+            listView.performItemClick(listView.getAdapter().getView(2, null, null), 2, listView.getItemIdAtPosition(2));*/
             newNews(initintent.getStringExtra("message"),
                     initintent.getStringExtra("date"),
                     initintent.getIntExtra("position", -1),
@@ -124,8 +131,9 @@ public class MainActivity extends FragmentActivity {
                     initintent.getStringExtra("profilepic")
             );
         } else {
-            //authorization.cookie = settings.getString("cookie", "");
-            changeFragment(settings.getInt("fragmentnumber", 1));
+            menu.showMenu();
+            listView.performItemClick(listView.getAdapter().getView(1, null, null), 1, listView.getItemIdAtPosition(1));
+            //changeFragment(settings.getInt("fragmentnumber", 1));
         }
 
         if (settings.getBoolean("IsPushEnabled", true)) {
@@ -152,9 +160,9 @@ public class MainActivity extends FragmentActivity {
             }
         }
 
-        //SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+
         List<String> urls = new ArrayList<>();
-        //Set<String> els = new ArraySet<>();
         Log.d("b", settings.getString("faculties_list", ""));
     }
 
@@ -254,8 +262,13 @@ public class MainActivity extends FragmentActivity {
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.container);
         mf = null;
         lf=null;
+        nf = null;
         if (SettingsFragment != null) {
             getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
+        }
+        if (prevmenusel != null) {
+            LinearLayout sel = (LinearLayout) prevmenusel.findViewById(R.id.sel);
+            sel.setVisibility(View.VISIBLE);
         }
         mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
         fragmentnumber = position;
