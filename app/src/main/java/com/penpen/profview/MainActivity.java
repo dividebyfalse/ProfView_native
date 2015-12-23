@@ -13,6 +13,7 @@ import android.preference.PreferenceFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTabHost;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.preference.PreferenceScreen;

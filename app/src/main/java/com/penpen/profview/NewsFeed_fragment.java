@@ -1,9 +1,11 @@
 package com.penpen.profview;
 
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v7.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -42,7 +44,30 @@ public class NewsFeed_fragment extends Fragment {
         if (tag == "Клубы") {
             img_src = R.drawable.ic_club;
         } else if (tag == "Профбюро факультета") {
-            img_src = R.drawable.ic_prof;
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getContext());
+            if (settings.getString("faculties_list", "").equals("62036525")) {
+                img_src = R.mipmap.ic_bio;
+            } else if (settings.getString("faculties_list", "").equals("38960668")) {
+                img_src = R.mipmap.ic_geog;
+            } else if (settings.getString("faculties_list", "").equals("52008207")) {
+                img_src = R.mipmap.ic_hist;
+            } else if (settings.getString("faculties_list", "").equals("101769965")) {
+                img_src = R.mipmap.ic_saf;
+            } else if (settings.getString("faculties_list", "").equals("12998578")) {
+                img_src = R.mipmap.ic_bio;
+            } else if (settings.getString("faculties_list", "").equals("49383548")) {
+                img_src = R.mipmap.ic_cp;
+            } else if (settings.getString("faculties_list", "").equals("58317625")) {
+                img_src = R.mipmap.ic_ffizh;
+            } else if (settings.getString("faculties_list", "").equals("49341230")) {
+                img_src = R.mipmap.ic_phys;
+            } else if (settings.getString("faculties_list", "").equals("62125802")) {
+                img_src = R.mipmap.ic_chem;
+            } else if (settings.getString("faculties_list", "").equals("44589291")) {
+                img_src = R.mipmap.ic_ui;
+            } else {
+                img_src = R.drawable.ic_prof;
+            }
         } else if (tag == "Профком ИГУ") {
             img_src = R.drawable.ic_tab_home;
         } else {

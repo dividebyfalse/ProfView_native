@@ -7,3 +7,4 @@
 gcm
 /app/google-services.json
 *fileSnapshots.bin
+/materials/*
