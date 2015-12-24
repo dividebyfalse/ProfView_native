@@ -1,11 +1,9 @@
 package com.penpen.profview;
 
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
-import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import app.RegistrationIntentService;
@@ -45,6 +43,4 @@ public class settings_fragment extends PreferenceFragment implements SharedPrefe
         }
 
     }
-
-
 }

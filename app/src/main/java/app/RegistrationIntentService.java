@@ -45,6 +45,10 @@ public class RegistrationIntentService extends IntentService {
         super(TAG);
     }
 
+    int boolToInt(Boolean b) {
+        return b.compareTo(false);
+    }
+
     @Override
     protected void onHandleIntent(Intent intent) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -90,7 +94,10 @@ public class RegistrationIntentService extends IntentService {
      * maintained by your application.
      *
      * @param token The new token.
+     *
      */
+
+
     private void sendRegistrationToServer(final String token) {
         // Add custom implementation, as needed.
         // Instantiate the RequestQueue.
@@ -122,13 +129,33 @@ public class RegistrationIntentService extends IntentService {
                         break;
                     }
                 }
+
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                String subscribes = String.valueOf(settings.getBoolean("club_gos", false))+";"+String.valueOf(settings.getBoolean("club_sno", false))+";"+String.valueOf(settings.getBoolean("club_volonter", false))+";"+String.valueOf(settings.getBoolean("club_gost", false))+";"+String.valueOf(settings.getBoolean("club_kok", false));
+                String subscribes = String.valueOf(settings.getBoolean("club_gos", false))+";"+
+                        String.valueOf(settings.getBoolean("club_sno", false))+";"+
+                        String.valueOf(settings.getBoolean("club_volonter", false))+";"+
+                        String.valueOf(settings.getBoolean("club_gost", false))+";"+
+                        String.valueOf(settings.getBoolean("club_kok", false));
+                String tags = String.valueOf(boolToInt(settings.getBoolean("stip", false)))+
+                                String.valueOf(boolToInt(settings.getBoolean("obsh", false)))+
+                                String.valueOf(boolToInt(settings.getBoolean("soc", false)))+
+                                String.valueOf(boolToInt(settings.getBoolean("trud", false)))+
+                                String.valueOf(boolToInt(settings.getBoolean("sem", false)))+
+                                String.valueOf(boolToInt(settings.getBoolean("sem", false)))+
+                                String.valueOf(boolToInt(settings.getBoolean("nauk", false)))+
+                                String.valueOf(boolToInt(settings.getBoolean("sob", false)))+
+                                String.valueOf(boolToInt(settings.getBoolean("disc", false)))+
+                                String.valueOf(boolToInt(settings.getBoolean("otd", false)))+
+                                String.valueOf(boolToInt(settings.getBoolean("novostigu", false)))+
+                                String.valueOf(boolToInt(settings.getBoolean("novostiplus", false)))+
+                                String.valueOf(boolToInt(settings.getBoolean("novostiother", false)))+
+                                String.valueOf(boolToInt(settings.getBoolean("stud", false)));
                 //Log.d("b", subscribes);
                 params.put("at",token);
                 params.put("faculty", settings.getString("faculties_list", ""));
                 params.put("email",gmail);
                 params.put("subscribes", subscribes);
+                params.put("tags", tags);
 
                 return params;
             }

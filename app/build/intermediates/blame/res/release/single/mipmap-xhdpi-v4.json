@@ -1,0 +1,42 @@
+[
+    {
+        "merged": "/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/res/merged/release/mipmap-xhdpi-v4/ic_launcher.png",
+        "source": "/home/penpen/AndroidStudioProjects/ProfView/app/src/main/res/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/res/merged/release/mipmap-xhdpi-v4/ic_hist.png",
+        "source": "/home/penpen/AndroidStudioProjects/ProfView/app/src/main/res/mipmap-xhdpi/ic_hist.png"
+    },
+    {
+        "merged": "/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/res/merged/release/mipmap-xhdpi-v4/ic_ui.png",
+        "source": "/home/penpen/AndroidStudioProjects/ProfView/app/src/main/res/mipmap-xhdpi/ic_ui.png"
+    },
+    {
+        "merged": "/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/res/merged/release/mipmap-xhdpi-v4/ic_phys.png",
+        "source": "/home/penpen/AndroidStudioProjects/ProfView/app/src/main/res/mipmap-xhdpi/ic_phys.png"
+    },
+    {
+        "merged": "/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/res/merged/release/mipmap-xhdpi-v4/ic_geog.png",
+        "source": "/home/penpen/AndroidStudioProjects/ProfView/app/src/main/res/mipmap-xhdpi/ic_geog.png"
+    },
+    {
+        "merged": "/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/res/merged/release/mipmap-xhdpi-v4/ic_saf.png",
+        "source": "/home/penpen/AndroidStudioProjects/ProfView/app/src/main/res/mipmap-xhdpi/ic_saf.png"
+    },
+    {
+        "merged": "/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/res/merged/release/mipmap-xhdpi-v4/ic_cp.png",
+        "source": "/home/penpen/AndroidStudioProjects/ProfView/app/src/main/res/mipmap-xhdpi/ic_cp.png"
+    },
+    {
+        "merged": "/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/res/merged/release/mipmap-xhdpi-v4/ic_ffizh.png",
+        "source": "/home/penpen/AndroidStudioProjects/ProfView/app/src/main/res/mipmap-xhdpi/ic_ffizh.png"
+    },
+    {
+        "merged": "/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/res/merged/release/mipmap-xhdpi-v4/ic_bio.png",
+        "source": "/home/penpen/AndroidStudioProjects/ProfView/app/src/main/res/mipmap-xhdpi/ic_bio.png"
+    },
+    {
+        "merged": "/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/res/merged/release/mipmap-xhdpi-v4/ic_chem.png",
+        "source": "/home/penpen/AndroidStudioProjects/ProfView/app/src/main/res/mipmap-xhdpi/ic_chem.png"
+    }
+]

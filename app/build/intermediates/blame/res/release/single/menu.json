@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/res/merged/release/menu/menu_main.xml",
+        "source": "/home/penpen/AndroidStudioProjects/ProfView/app/src/main/res/menu/menu_main.xml"
+    },
+    {
+        "merged": "/home/penpen/AndroidStudioProjects/ProfView/app/build/intermediates/res/merged/release/menu/main.xml",
+        "source": "/home/penpen/AndroidStudioProjects/ProfView/app/src/main/res/menu/main.xml"
+    }
+]

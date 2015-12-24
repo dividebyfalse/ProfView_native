@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:visibility="visible"
+    android:id="@+id/all_category">
+
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Спортивная деятельность"
+        android:id="@+id/sport_category_button" />
+
+    <Button
+        android:id="@+id/study_category_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Успехи в учебе" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Творческая деятельность"
+        android:id="@+id/art_category_button"
+        android:layout_alignTop="@+id/study_category_button"
+        android:layout_toRightOf="@+id/study_category_button" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Научная деятельность"
+        android:id="@+id/science_category_button" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Общественная деятельность"
+        android:id="@+id/social_category_button"
+        android:layout_gravity="center" />
+
+
+
+
+</LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/study_lay"
+        android:visibility="invisible">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Получение студентом по итогам промежуточной аттестации в течение не менее 2 следующих друг за другом семестров, предшествующих назначению стипендии, оценок «отлично» и «хорошо» при наличии не менее 50 процентов оценок «отлично»"
+                    android:id="@+id/study1b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Признание студента победителем или призером проводимых учреждением высшего профессионального образования, общественной и иной организацией международной олимпиады, конкурса, соревнования, состязания и иного мероприятия, направленных на выявление учебных достижений студентов, проведенных в течение 2 лет, предшествующих назначению стипендии."
+                    android:id="@+id/study2b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Признание студента победителем или призером проводимых учреждением высшего профессионального образования, общественной и иной организацией всероссийской олимпиады, конкурса, соревнования, состязания и иного мероприятия, направленных на выявление учебных достижений студентов, проведенных в течение 2 лет, предшествующих назначению стипендии."
+                    android:id="@+id/study3b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Признание студента победителем или призером проводимых учреждением высшего профессионального образования, общественной и иной организацией ведомственной или региональной олимпиады, конкурса, соревнования, состязания и иного мероприятия, направленных на выявление учебных достижений студентов, проведенных в течение 2 лет, предшествующих назначению стипендии."
+                    android:id="@+id/study4b" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/art_lay"
+        android:visibility="invisible">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Получение студентом в течение 2 лет, предшествующих назначению повышенной стипендии, награды (приза) за результаты культурно-творческой деятельности, осуществленной им в рамках деятельности, проводимой учреждением высшего профессионального образования или иной организацией, в том числе в рамках конкурса, смотра и иного аналогичного международного мероприятия."
+                    android:id="@+id/art1b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Получение студентом в течение 2 лет, предшествующих назначению повышенной стипендии, награды (приза) за результаты культурно-творческой деятельности, осуществленной им в рамках деятельности, проводимой учреждением высшего профессионального образования или иной организацией, в том числе в рамках конкурса, смотра и иного аналогичного всероссийского мероприятия."
+                    android:id="@+id/art2b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Получение студентом в течение 2 лет, предшествующих назначению повышенной стипендии, награды (приза) за результаты культурно-творческой деятельности, осуществленной им в рамках деятельности, проводимой учреждением высшего профессионального образования или иной организацией, в том числе в рамках конкурса, смотра и иного аналогичного ведомственного и регионального мероприятия."
+                    android:id="@+id/art3b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Публичное представление студентом в течение года, предшествующего назначению повышенной стипендии, созданного им произведения литературы или искусства (литературного произведения, драматического, музыкально-драматического произведения, сценарного произведения, хореографического произведения, пантомимы, музыкального произведения с текстом или без текста, аудиовизуального произведения, произведения живописи, скульптуры, графики, дизайна, графического рассказа, комикса, другого произведения изобразительного искусства, произведения декоративно-прикладного, сценографического искусства, произведения архитектуры, градостроительства, садово-паркового искусства, в том числе в виде проекта, чертежа, изображения, макета, фотографического произведения, произведения, полученного способом, аналогичным фотографии, географической, геологической, другой карты, плана, эскиза, пластического произведения, относящегося к географии, топографии и другим наукам, а также другого произведения)."
+                    android:id="@+id/art4b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Участие студента в проведении (обеспечении проведения) публичной культурно-творческой деятельности воспитательного, пропагандистского характера и иной общественно значимой публичной культурно-творческой деятельности; баллы выставляются за каждое мероприятие."
+                    android:id="@+id/art5b" />
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/sport_lay"
+        android:visibility="invisible">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Получение студентом в течение 2 лет, предшествующих назначению повышенной стипендии, награды (приза) за результаты спортивной деятельности, осуществленной им в рамках спортивных международных, мероприятий, проводимых учреждением высшего профессионального образования или иной организацией."
+                    android:id="@+id/sport1b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Получение студентом в течение 2 лет, предшествующих назначению повышенной стипендии, награды (приза) за результаты спортивной деятельности, осуществленной им в рамках спортивных всероссийских мероприятий, проводимых учреждением высшего профессионального образования или иной организацией."
+                    android:id="@+id/sport2b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Получение студентом в течение 2 лет, предшествующих назначению повышенной стипендии, награды (приза) за результаты спортивной деятельности, осуществленной им в рамках спортивных ведомственных или региональных мероприятий, проводимых учреждением высшего профессионального образования или иной организацией."
+                    android:id="@+id/sport3b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Участие студента в спортивных мероприятиях воспитательного, пропагандистского характера и (или) иных общественно значимых спортивных мероприятиях; баллы выставляются за каждое мероприятие."
+                    android:id="@+id/sport4b" />
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/social_lay"
+        android:visibility="invisible">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Участие в деятельности общественного объединения."
+                    android:id="@+id/social1b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Участие студента в проведении (обеспечении проведения) социально ориентированной, культурной (культурно-просветительской, культурно-воспитательной) деятельности в форме шефской помощи, благотворительных акций и иных подобных формах; баллы выставляются за каждое мероприятие."
+                    android:id="@+id/social2b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Участие студента в проведении (обеспечении проведения) общественной деятельности, направленной на пропаганду общечеловеческих ценностей, уважения к правам и свободам человека, а также на защиту природы; баллы выставляются за каждое мероприятие."
+                    android:id="@+id/social3b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Участие студента в проведении (обеспечении проведения) общественно значимых культурно-массовых мероприятий; баллы выставляются за каждое мероприятие."
+                    android:id="@+id/social4b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Участие студента в деятельности по информационному обеспечению общественно значимых мероприятий, общественной жизни учреждения высшего профессионального образования (в разработке сайта учреждения высшего профессионального образования, организации и обеспечении деятельности средств массовой информации, в том числе в издании газеты, журнала, создании и реализации теле- и радиопрограмм учреждения высшего профессионального образования); баллы выставляются за каждый информационный материал."
+                    android:id="@+id/social5b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Участие студента в обеспечении защиты прав студентов; баллы выставляются за каждое мероприятие."
+                    android:id="@+id/social6b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Безвозмездное выполнение студентом общественно полезной деятельности, в том числе организационной, направленной на поддержание общественной безопасности, благоустройство окружающей среды, природоохранной деятельности или иной аналогичной деятельности; баллы выставляются за каждое мероприятие."
+                    android:id="@+id/social7b" />
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/science_lay"
+        android:visibility="invisible">
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Получение студентом в течение 2 лет, предшествующих назначению повышенной стипендии награды (приза) за результаты научно-исследовательской работы, проводимой учреждением высшего профессионального образования или иной организацией."
+                    android:id="@+id/science1b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Получение студентом в течение 2 лет, предшествующих назначению повышенной стипендии документа, удостоверяющего исключительное право студента на достигнутый им научный (научно-методический, научно-технический, научно-творческий) результат интеллектуальной деятельности (патент, свидетельство)."
+                    android:id="@+id/science2b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/science3b"
+                    android:text="Получение студентом в течение 2 лет, предшествующих назначению повышенной стипендии гранта на выполнение научно-исследовательской работы." />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Наличие у студента публикации в научном (учебно-научном, учебно-методическом) международном издании, индексируемом в базе данных &quot;Сеть науки&quot; (Web of Science), в течение года, предшествующего назначению повышенной стипендии."
+                    android:id="@+id/science4b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/science5b"
+                    android:text="Наличие у студента публикации в научном (учебно-научном, учебно-методическом) международном издании учреждения высшего профессионального образования или иной организации в течение года, предшествующего назначению повышенной стипендии." />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/science6b"
+                    android:text="Наличие у студента публикации в научном (учебно-научном, учебно-методическом) всероссийском издании учреждения высшего профессионального образования или иной организации в течение года, предшествующего назначению повышенной стипендии." />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/science7b"
+                    android:text="Наличие у студента публикации в научном (учебно-научном, учебно-методическом) ведомственном или региональном издании, в издании учреждения высшего профессионального образования или иной организации в течение года, предшествующего назначению повышенной стипендии." />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Публичное представление студентом в течение года, предшествующего назначению повышенной стипендии, результатов научно-исследовательской работы, в том числе путем выступления с докладом (сообщением) на конференции, семинаре и ином международном мероприятии, проводимом учреждением высшего профессионального образования, общественной или иной организацией."
+                    android:id="@+id/science8b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Публичное представление студентом в течение года, предшествующего назначению повышенной стипендии, результатов научно-исследовательской работы, в том числе путем выступления с докладом (сообщением) на конференции, семинаре и ином всероссийском мероприятии, проводимом учреждением высшего профессионального образования, общественной или иной организацией."
+                    android:id="@+id/science9b" />
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Публичное представление студентом в течение года, предшествующего назначению повышенной стипендии, результатов научно-исследовательской работы, в том числе путем выступления с докладом (сообщением) на конференции, семинаре и ином ведомственном или региональном мероприятии, проводимом учреждением высшего профессионального образования, общественной или иной организацией."
+                    android:id="@+id/science10b" />
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+</RelativeLayout>

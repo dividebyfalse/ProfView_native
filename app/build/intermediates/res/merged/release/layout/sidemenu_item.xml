@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout android:layout_width="fill_parent"
+    android:layout_height="40dp"
+    android:layout_margin="0dp"
+    android:orientation="horizontal"
+
+
+    android:paddingRight="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/sidemenu_items_background"
+    android:gravity="left">
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="8dp"
+        android:layout_height="fill_parent"
+        android:id="@+id/sel"
+        android:background="@color/blue_dark_color"
+        android:visibility="invisible"
+        android:layout_gravity="left"></LinearLayout>
+
+    <TextView android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="TextView"
+        android:textColor="#fff"
+        android:layout_gravity="center_vertical" />
+
+</LinearLayout>
