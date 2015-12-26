@@ -13,6 +13,7 @@ public class pbf_nf_fragment extends nf_fragment {
         layid = R.id.pbf;
         lay = R.layout.pbf_feed;
         lvid = R.id.listpbf;
+        ee = "Факультет не выбран.\nВыберите ваш факультет в настройках.";
     }
 
     @Override

@@ -5,13 +5,14 @@ package data;
  */
 public class FeedItem {
     private int id;
-    private String name, status, image, profilePic, timeStamp, url;
+    private String name, status, image, profilePic, timeStamp, url, newsid;
+
 
     public FeedItem() {
     }
 
     public FeedItem(int id, String name, String image, String status,
-                    String profilePic, String timeStamp, String url) {
+                    String profilePic, String timeStamp, String url, String newsid) {
         super();
         this.id = id;
         this.name = name;
@@ -20,6 +21,7 @@ public class FeedItem {
         this.profilePic = profilePic;
         this.timeStamp = timeStamp;
         this.url = url;
+        this.newsid = newsid;
     }
 
     public int getId() {
@@ -76,5 +78,13 @@ public class FeedItem {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getNewsid() {
+        return newsid;
+    }
+
+    public void setNewsid(String newsid) {
+        this.newsid = newsid;
     }
 }

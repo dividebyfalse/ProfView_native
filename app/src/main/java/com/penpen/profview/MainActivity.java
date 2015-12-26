@@ -6,30 +6,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTabHost;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.preference.PreferenceManager;
-import android.support.v7.preference.PreferenceScreen;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ArrayAdapter;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.widget.ScrollView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -41,12 +32,12 @@ import java.util.List;
 
 import app.QuickstartPreferences;
 import app.RegistrationIntentService;
-import app.authorization;
 
 public class MainActivity extends FragmentActivity {
     SlidingMenu menu;
     private PreferenceFragment SettingsFragment;
     private Fragment lf=null;
+    private Fragment nff = null;
     private push_message_list_fragment mf = null;
     private push_message_list_fragment nf = null;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -67,6 +58,7 @@ public class MainActivity extends FragmentActivity {
         menu.setSelectorDrawable(R.drawable.sidemenu_items_background);
         menu.setSelectorEnabled(true);
         menu.setMode(SlidingMenu.LEFT);
+
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         menu.setFadeDegree(0.35f);
         menu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
@@ -97,6 +89,7 @@ public class MainActivity extends FragmentActivity {
                     LinearLayout sel = (LinearLayout) prevmenusel.findViewById(R.id.sel);
                     sel.setVisibility(View.INVISIBLE);
                 }
+
                 LinearLayout sel = (LinearLayout) view.findViewById(R.id.sel);
                 sel.setVisibility(View.VISIBLE);
                 prevmenusel = view;
@@ -131,6 +124,12 @@ public class MainActivity extends FragmentActivity {
                     initintent.getStringExtra("profilename"),
                     initintent.getStringExtra("profilepic")
             );
+        } else if ((initintent.getStringExtra("newsid") != null) && !initintent.getStringExtra("newsid").equals("")) {
+            showextendednews(initintent);
+        } else if (initintent.getIntExtra("changepos", -1) != -1) {
+            menu.showMenu();
+            int pos = initintent.getIntExtra("changepos", -1);
+            listView.performItemClick(listView.getAdapter().getView(pos, null, null), pos, listView.getItemIdAtPosition(pos));
         } else {
             menu.showMenu();
             listView.performItemClick(listView.getAdapter().getView(1, null, null), 1, listView.getItemIdAtPosition(1));
@@ -214,6 +213,21 @@ public class MainActivity extends FragmentActivity {
                 messageitemlay.setVisibility(View.INVISIBLE);
                 messagelistlay.setVisibility(View.VISIBLE);
                 changeFragment(2);
+            }else if ((nff != null)) {
+                nff = new NewsFeed_fragment();
+                SharedPreferences sharedPreferences =
+                        PreferenceManager.getDefaultSharedPreferences(this);
+                Bundle args = new Bundle();
+                args.putInt("position", sharedPreferences.getInt("tab", 0));
+                nff.setArguments(args);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt("tab", 0);
+                editor.apply();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, nff)
+                        .commit();
+                nff = null;
             } else {
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
                 SharedPreferences.Editor editor = settings.edit();
@@ -242,6 +256,17 @@ public class MainActivity extends FragmentActivity {
                 .commit();
     }
 
+    public void showextendednews(Intent i) {
+        Bundle args = new Bundle();
+        args.putString("newsid", i.getStringExtra("newsid"));
+        nff = new news_item_fragment();
+        nff.setArguments(args);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.container, nff)
+                .commit();
+    }
+
     public void newNews(String message, String date, int position, Boolean isnews, String image, String pn, String pi) {
         nf = new push_message_list_fragment();
         Bundle args = new Bundle();
@@ -259,7 +284,7 @@ public class MainActivity extends FragmentActivity {
                 .commit();
     }
 
-    private void changeFragment(int position) {
+    public void changeFragment(int position) {
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.container);
         mf = null;
         lf=null;

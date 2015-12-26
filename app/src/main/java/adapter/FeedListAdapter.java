@@ -10,7 +10,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.Html;
@@ -27,10 +29,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.penpen.profview.MainActivity;
 import com.penpen.profview.R;
 
 /**
@@ -63,7 +67,7 @@ public class FeedListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         if (inflater == null)
             inflater = (LayoutInflater) activity
@@ -76,11 +80,28 @@ public class FeedListAdapter extends BaseAdapter {
 
         ImageView linkpic = (ImageView) convertView.findViewById(R.id.imgUrl);
         TextView name = (TextView) convertView.findViewById(R.id.name);
-        TextView timestamp = (TextView) convertView
-                .findViewById(R.id.timestamp);
-        TextView statusMsg = (TextView) convertView
-                .findViewById(R.id.txtStatusMsg);
+        TextView timestamp = (TextView) convertView.findViewById(R.id.timestamp);
+        TextView statusMsg = (TextView) convertView.findViewById(R.id.txtStatusMsg);
         TextView url = (TextView) convertView.findViewById(R.id.txtUrl);
+        LinearLayout ll = (LinearLayout) convertView.findViewById(R.id.nl);
+        View.OnClickListener cl = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, MainActivity.class);
+                intent.putExtra("newsid", feedItems.get(position).getNewsid());
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0 /* Request code */, intent,
+                        PendingIntent.FLAG_ONE_SHOT);
+                try {
+                    pendingIntent.send();
+                } catch (Exception e) {
+
+                }
+            }
+        };
+        ll.setOnClickListener(cl);
+        //statusMsg.setOnClickListener(cl);
+
         NetworkImageView profilePic = (NetworkImageView) convertView
                 .findViewById(R.id.profilePic);
         FeedImageView feedImageView = (FeedImageView) convertView

@@ -1,5 +1,7 @@
 package com.penpen.profview;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +12,8 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -38,11 +42,29 @@ public class achievements_fragment extends Fragment {
     public List<AchievementItem> achievementItems;
     private AchievementListAdapter listAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private LinearLayout na;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.achievements_list_fragment, container, false);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.achievements_layout);
+        na = (LinearLayout) view.findViewById(R.id.empty_ach);
+        Button add = (Button) na.findViewById(R.id.addach);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra("changepos", 3);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0 /* Request code */, intent,
+                        PendingIntent.FLAG_ONE_SHOT);
+                try {
+                    pendingIntent.send();
+                } catch (Exception ignored) {
+
+                }
+            }
+        });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -130,12 +152,14 @@ public class achievements_fragment extends Fragment {
                  protected void onPostExecute(String result) {
                      if (result.length() == 0) {
                          swipeRefreshLayout.setRefreshing(false);
-                         FragmentManager fragmentManager = getFragmentManager();
-                         fragmentManager.beginTransaction()
-                                 .replace(R.id.container, new login_fragment())
-                                 .commit();
-                         Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Неправильный Логин/Пароль", Toast.LENGTH_SHORT);
-                         toast.show();
+                         try {
+                             FragmentManager fragmentManager = getFragmentManager();
+                             fragmentManager.beginTransaction()
+                                     .replace(R.id.container, new login_fragment())
+                                     .commit();
+                             Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Неправильный Логин/Пароль", Toast.LENGTH_SHORT);
+                             toast.show();
+                         } catch (NullPointerException e) { }
                      } else {
                          Document doc = null;
                          doc = Jsoup.parse(result);
@@ -188,7 +212,8 @@ public class achievements_fragment extends Fragment {
                          }
                          listView.setAdapter(listAdapter);
                          } catch (NullPointerException e) {
-                         //TODO: список достижений пуст listItems.add("Вы пока что не добавили каких либо достижений");
+                             swipeRefreshLayout.setVisibility(View.INVISIBLE);
+                             na.setVisibility(View.VISIBLE);
                          }
                          swipeRefreshLayout.setRefreshing(false);
                      }

@@ -1,49 +1,32 @@
 package com.penpen.profview;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Html;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.TextView;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import adapter.FeedListAdapter;
-import app.AppController;
 import app.authorization;
 import data.FeedItem;
-
-import com.android.volley.Cache;
-import com.android.volley.Cache.Entry;
-import com.android.volley.Request.Method;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,8 +44,10 @@ public abstract class nf_fragment extends Fragment {
     public static int lay;
     public static int lvid;
     public static int layid;
+    public static String ee;
     boolean is_ref;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private LinearLayout eelay;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,6 +61,7 @@ public abstract class nf_fragment extends Fragment {
         feedItems = new ArrayList<FeedItem>();
         listAdapter = new FeedListAdapter(getActivity(), feedItems);
         listView.setAdapter(listAdapter);
+        eelay = (LinearLayout) view.findViewById(R.id.eel);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(layid);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -90,10 +76,16 @@ public abstract class nf_fragment extends Fragment {
                         }
                         lss=lss.substring(0, lss.length()-1);
                         new ParseTask().execute(lss);
+                    } else {
+                        TextView eet = (TextView) eelay.findViewById(R.id.eet);
+                        eet.setText(ee);
+                        eelay.setVisibility(View.VISIBLE);
+                        swipeRefreshLayout.setVisibility(View.INVISIBLE);
                     }
                     is_ref = false;
                 } else {
                     swipeRefreshLayout.setRefreshing(false);
+
                 }
             }
         });
@@ -124,6 +116,12 @@ public abstract class nf_fragment extends Fragment {
                     }
                     lss=lss.substring(0, lss.length()-1);
                     new ParseTask().execute(lss);
+                    //at.cancel(true);
+                } else {
+                    TextView eet = (TextView) eelay.findViewById(R.id.eet);
+                    eet.setText(ee);
+                    eelay.setVisibility(View.VISIBLE);
+                    swipeRefreshLayout.setVisibility(View.INVISIBLE);
                 }
             } else {
                 swipeRefreshLayout.setRefreshing(false);
@@ -348,6 +346,7 @@ public abstract class nf_fragment extends Fragment {
                                 item.setProfilePic("https://pp.vk.me/c410124/v410124933/a3fa/SF8mkyWprrY.jpg");
                             }
                         }
+                        item.setNewsid(feedObj.getString("to_id")+"_"+feedObj.getString("id"));
                         item.setTimeStamp(feedObj.getString("date")+"000");
                         feedItems.add(item);
                     }

@@ -1,13 +1,11 @@
 package com.penpen.profview;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,7 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,9 +25,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import adapter.AchievementListAdapter;
 import adapter.MessageListAdapter;
-import data.AchievementItem;
 import data.MessageItem;
 
 /**
@@ -49,6 +44,7 @@ public class push_message_list_fragment extends Fragment {
         final LinearLayout messageviewlay = (LinearLayout) view.findViewById(R.id.messageread);
         final LinearLayout messagelistlay = (LinearLayout) view.findViewById(R.id.messagelistlay);
         final LinearLayout newsviewlay = (LinearLayout) view.findViewById(R.id.newsread);
+        final LinearLayout el = (LinearLayout) view.findViewById(R.id.el);
         dbHelper = new DBHelper(getActivity());
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         messageItems = new ArrayList<MessageItem>();
@@ -77,8 +73,10 @@ public class push_message_list_fragment extends Fragment {
                                                           c.getString(piColIndex));
                 messageItems.add(messageitem);
             } while (c.moveToPrevious());
-        } else
-            Log.d("log", "0 rows");
+        } else {
+            el.setVisibility(View.VISIBLE);
+            messagelistlay.setVisibility(View.INVISIBLE);
+        }
         messagelist.setAdapter(listAdapter);
         c.close();
         dbHelper.close();
@@ -210,6 +208,7 @@ public class push_message_list_fragment extends Fragment {
             Bitmap pib = null;
             try {
                 InputStream in = new java.net.URL(params[0]).openStream();
+
                 pib = BitmapFactory.decodeStream(in);
             } catch (IOException e) {
                 e.printStackTrace();

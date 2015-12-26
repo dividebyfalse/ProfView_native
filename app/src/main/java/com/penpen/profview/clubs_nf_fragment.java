@@ -13,6 +13,7 @@ public class clubs_nf_fragment extends nf_fragment {
             layid = R.id.clf;
             lay = R.layout.clubs_feed;
             lvid = R.id.listcl;
+            ee = "Ни одного клуба не выбрано.\nВыберите интересующие вас клубы в настройках.";
       }
 
     @Override

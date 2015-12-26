@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:background="#ededed"
+    android:background="@drawable/back_fragmenttabhost_nf_category"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:baselineAligned="false"
@@ -27,6 +27,17 @@
         android:textSize="12dp"
         android:textAlignment="center"
         android:layout_gravity="center_horizontal"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:id="@+id/sel"
+        android:layout_marginTop="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginLeft="1dp"></LinearLayout>
 
 </LinearLayout>
