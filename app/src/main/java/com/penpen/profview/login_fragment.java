@@ -2,6 +2,7 @@ package com.penpen.profview;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -330,6 +331,13 @@ public class login_fragment extends Fragment {
         private String ln;
         private String fn;
         private String tn;
+        private ProgressDialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = ProgressDialog.show(getActivity(), "Подождите", "Выполняется вход...", true);
+        }
 
         @Override
         protected Boolean doInBackground(String... params) {
@@ -369,6 +377,7 @@ public class login_fragment extends Fragment {
                 loginb.setEnabled(true);
                 pass.setOnKeyListener(passonclick);
                 regb.setEnabled(true);
+                dialog.dismiss();
             } else {
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(viev.getContext());
                 EditText login = (EditText) viev.findViewById(R.id.login);
@@ -413,10 +422,12 @@ public class login_fragment extends Fragment {
                         loginb.setEnabled(true);
                         pass.setOnKeyListener(passonclick);
                         regb.setEnabled(true);
+                        dialog.dismiss();
                     }
                     loginb.setEnabled(true);
                     pass.setOnKeyListener(passonclick);
                     regb.setEnabled(true);
+                    dialog.dismiss();
                 }
             }
         }

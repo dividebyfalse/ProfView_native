@@ -185,5 +185,29 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/bg_parent_rounded_corner"
+            android:gravity="center_vertical|right">
+
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/ach_edit"
+                android:layout_gravity="center_vertical|right"
+                android:background="@mipmap/ic_edit"
+                android:layout_marginRight="20dp" />
+
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/ach_delete"
+                android:layout_gravity="center_vertical|right"
+                android:background="@mipmap/ic_trash"
+                android:layout_marginRight="10dp" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

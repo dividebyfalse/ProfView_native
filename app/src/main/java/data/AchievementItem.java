@@ -4,10 +4,10 @@ package data;
  * Created by penpen on 24.11.15.
  */
 public class AchievementItem {
-    private String name, category, date, dateofadd;
+    private String name, category, date, dateofadd, achid;
     private int id, isprem, isstip;
 
-    public AchievementItem(int id, String name, String category, String date, String dateofadd, int isprem, int isstip) {
+    public AchievementItem(int id, String name, String category, String date, String dateofadd, int isprem, int isstip, String achid) {
         super();
         this.id = id;
         this.name = name;
@@ -16,6 +16,7 @@ public class AchievementItem {
         this.dateofadd = dateofadd;
         this.isprem = isprem;
         this.isstip = isstip;
+        this.achid = achid;
     }
 
     public AchievementItem() {
@@ -75,5 +76,13 @@ public class AchievementItem {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getAchid() {
+        return achid;
+    }
+
+    public void setAchid(String achid) {
+        this.achid = achid;
     }
 }

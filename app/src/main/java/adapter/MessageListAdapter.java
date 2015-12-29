@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -21,6 +23,8 @@ import android.widget.TextView;
 
 import com.penpen.profview.MainActivity;
 import com.penpen.profview.R;
+import com.penpen.profview.achievements_fragment;
+import com.penpen.profview.push_message_list_fragment;
 
 import java.util.List;
 
@@ -30,13 +34,13 @@ import data.MessageItem;
  * Created by penpen on 27.11.15.
  */
 public class MessageListAdapter extends BaseAdapter {
-    private Activity activity;
+    private FragmentActivity activity;
     private LayoutInflater inflater;
     private List<MessageItem> messagesItems;
     private BaseAdapter adapter;
 
 
-    public MessageListAdapter(Activity activity, List<MessageItem> messagesItems) {
+    public MessageListAdapter(FragmentActivity activity, List<MessageItem> messagesItems) {
         this.activity = activity;
         this.messagesItems = messagesItems;
     }
@@ -91,6 +95,10 @@ public class MessageListAdapter extends BaseAdapter {
                 adapter.notifyDataSetChanged();
                 db.close();
                 dbHelper.close();
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new push_message_list_fragment())
+                        .commit();
             }
         });
 

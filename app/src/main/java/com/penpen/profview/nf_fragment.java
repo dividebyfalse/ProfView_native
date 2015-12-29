@@ -41,28 +41,24 @@ public abstract class nf_fragment extends Fragment {
     private ListView listView;
     private FeedListAdapter listAdapter;
     private List<FeedItem> feedItems;
-    public static int lay;
-    public static int lvid;
-    public static int layid;
-    public static String ee;
     boolean is_ref;
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayout eelay;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(lay, container, false);
+        return inflater.inflate(getlay(), container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        listView = (ListView) getActivity().findViewById(lvid);
+        listView = (ListView) getActivity().findViewById(getlvid());
         feedItems = new ArrayList<FeedItem>();
         listAdapter = new FeedListAdapter(getActivity(), feedItems);
         listView.setAdapter(listAdapter);
         eelay = (LinearLayout) view.findViewById(R.id.eel);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(layid);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(getlayid());
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -78,7 +74,7 @@ public abstract class nf_fragment extends Fragment {
                         new ParseTask().execute(lss);
                     } else {
                         TextView eet = (TextView) eelay.findViewById(R.id.eet);
-                        eet.setText(ee);
+                        eet.setText(getee());
                         eelay.setVisibility(View.VISIBLE);
                         swipeRefreshLayout.setVisibility(View.INVISIBLE);
                     }
@@ -119,7 +115,7 @@ public abstract class nf_fragment extends Fragment {
                     //at.cancel(true);
                 } else {
                     TextView eet = (TextView) eelay.findViewById(R.id.eet);
-                    eet.setText(ee);
+                    eet.setText(getee());
                     eelay.setVisibility(View.VISIBLE);
                     swipeRefreshLayout.setVisibility(View.INVISIBLE);
                 }
@@ -148,6 +144,13 @@ public abstract class nf_fragment extends Fragment {
         editor.putString("my", "test");
         editor.commit();
     }*/
+    protected abstract int getlvid();
+
+    protected abstract int getlayid();
+
+    protected abstract String getee();
+
+    protected abstract int getlay();
 
     protected abstract List<String> getURL();
 

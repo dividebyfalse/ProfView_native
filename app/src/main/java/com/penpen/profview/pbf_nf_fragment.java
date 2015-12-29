@@ -9,11 +9,26 @@ import java.util.List;
  * Created by penpen on 13.10.15.
  */
 public class pbf_nf_fragment extends nf_fragment {
-    static {
-        layid = R.id.pbf;
-        lay = R.layout.pbf_feed;
-        lvid = R.id.listpbf;
-        ee = "Факультет не выбран.\nВыберите ваш факультет в настройках.";
+    @Override
+    protected int getlvid() {
+        return R.id.listpbf;
+    }
+
+    @Override
+    protected int getlayid() {
+        return R.id.pbf;
+    }
+
+
+    @Override
+    protected String getee() {
+        return "Факультет не выбран.\n" +
+                "Выберите ваш факультет в настройках.";
+    }
+
+    @Override
+    protected int getlay() {
+        return R.layout.pbf_feed;
     }
 
     @Override

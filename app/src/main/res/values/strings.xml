@@ -28,5 +28,5 @@
     <integer name="achievement_art_start_id">2917</integer>
     <integer name="achievement_sport_start_id">2922</integer>
     <integer name="achievement_science_start_id">2517</integer>
-    <integer name="achievement_social_start_id">2853</integer>
+    <integer name="achievement_social_start_id">2932</integer>
 </resources>

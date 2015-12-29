@@ -9,12 +9,27 @@ import java.util.List;
  * Created by penpen on 13.10.15.
  */
 public class clubs_nf_fragment extends nf_fragment {
-      static {
-            layid = R.id.clf;
-            lay = R.layout.clubs_feed;
-            lvid = R.id.listcl;
-            ee = "Ни одного клуба не выбрано.\nВыберите интересующие вас клубы в настройках.";
-      }
+    @Override
+    protected int getlvid() {
+        return R.id.listcl;
+    }
+
+    @Override
+    protected int getlayid() {
+        return R.id.clf;
+    }
+
+
+    @Override
+    protected String getee() {
+        return "Ни одного клуба не выбрано.\n" +
+                "Выберите интересующие вас клубы в настройках.";
+    }
+
+    @Override
+    protected int getlay() {
+        return R.layout.clubs_feed;
+    }
 
     @Override
     protected List<String> getURL() {

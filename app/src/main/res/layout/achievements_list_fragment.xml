@@ -1,9 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#d3d6db"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#1e88e5"
+        android:id="@+id/viewA">
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:id="@+id/showmenu"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:background="@mipmap/ic_menu" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Достижения"
+            android:id="@+id/textView7"
+            android:textColor="#FFFFFF"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp" />
+
+    </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:orientation="horizontal"
@@ -11,7 +39,9 @@
         android:layout_height="match_parent"
         android:id="@+id/achievements_layout"
         android:background="#d3d6db"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:layout_marginTop="60dp">
+
 
         <ListView
             android:layout_width="match_parent"
@@ -28,7 +58,8 @@
         android:layout_height="match_parent"
         android:id="@+id/empty_ach"
         android:visibility="invisible"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:layout_marginTop="60dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,16 +69,29 @@
             android:textSize="16dp"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp" />
-
-        <Button
-            android:layout_width="240dp"
-            android:layout_height="60dp"
-            android:id="@+id/addach"
-            android:background="@drawable/add_ach_button_back"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="40dp" />
 
     </LinearLayout>
 
-</RelativeLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addach"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:src="@drawable/ic_profisu_notification"
+        app:layout_anchor="@id/viewA"
+        app:layout_anchorGravity="center|right|end"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="false"
+        android:layout_alignWithParentIfMissing="false"
+        android:layout_alignParentLeft="false"
+        app:backgroundTint="#64b5f6"
+        android:layout_marginTop="15dp" />
+    </RelativeLayout>

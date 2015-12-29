@@ -4,11 +4,39 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#1e88e5">
+
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:id="@+id/showmenu"
+            android:background="@mipmap/ic_menu"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Сообщения"
+            android:id="@+id/textView5"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:textColor="#FFFFFF"
+            android:layout_marginLeft="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/messagelistlay"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:layout_marginTop="60dp">
 
         <ListView
             android:layout_width="match_parent"
@@ -16,6 +44,7 @@
             android:id="@+id/messagelist"
             android:layout_gravity="center_horizontal"
             android:background="#d3d6db" />
+
     </LinearLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -107,7 +136,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:id="@+id/delmessage"
-                android:background="@drawable/ic_trash"
+                android:background="@mipmap/ic_trash"
                 android:layout_gravity="center_vertical" />
 
         </LinearLayout>
@@ -232,7 +261,7 @@
                 android:layout_height="60dp"
                 android:id="@+id/delnews"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/ic_trash" />
+                android:background="@mipmap/ic_trash" />
         </LinearLayout>
 
     </LinearLayout>
@@ -242,7 +271,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/el"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        android:layout_marginTop="60dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -253,4 +283,5 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp" />
     </LinearLayout>
+
 </RelativeLayout>

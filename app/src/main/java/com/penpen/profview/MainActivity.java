@@ -45,7 +45,7 @@ public class MainActivity extends FragmentActivity {
     private View prevmenusel;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     static public boolean isLogin;
-    static public String[] items = {"", "Новости", "Сообщения", "Подать достижение", "Список достижений", "Настройки"};
+    static public String[] items = {"", "Новости", "Сообщения", "Список достижений", "Настройки"};
     static public ArrayAdapter menuadapter = null;
     static public int fragmentnumber;
 
@@ -58,7 +58,6 @@ public class MainActivity extends FragmentActivity {
         menu.setSelectorDrawable(R.drawable.sidemenu_items_background);
         menu.setSelectorEnabled(true);
         menu.setMode(SlidingMenu.LEFT);
-
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
         menu.setFadeDegree(0.35f);
         menu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
@@ -126,10 +125,6 @@ public class MainActivity extends FragmentActivity {
             );
         } else if ((initintent.getStringExtra("newsid") != null) && !initintent.getStringExtra("newsid").equals("")) {
             showextendednews(initintent);
-        } else if (initintent.getIntExtra("changepos", -1) != -1) {
-            menu.showMenu();
-            int pos = initintent.getIntExtra("changepos", -1);
-            listView.performItemClick(listView.getAdapter().getView(pos, null, null), pos, listView.getItemIdAtPosition(pos));
         } else {
             menu.showMenu();
             listView.performItemClick(listView.getAdapter().getView(1, null, null), 1, listView.getItemIdAtPosition(1));
@@ -159,8 +154,6 @@ public class MainActivity extends FragmentActivity {
                 startService(intent);
             }
         }
-
-
 
         List<String> urls = new ArrayList<>();
         Log.d("b", settings.getString("faculties_list", ""));
@@ -321,12 +314,9 @@ public class MainActivity extends FragmentActivity {
                 showFragment(mf);
                 break;
             case 3:
-                showFragment(new achievement_fragment());
-                break;
-            case 4:
                 showFragment(new achievements_fragment());
                 break;
-            case 5:
+            case 4:
                 SettingsFragment = new settings_fragment();
                 getFragmentManager().beginTransaction().replace(R.id.container, SettingsFragment).commit();
                 showFragment(new settings_helper());

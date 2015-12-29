@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import org.jsoup.Jsoup;
@@ -49,20 +51,22 @@ public class achievements_fragment extends Fragment {
         View view = inflater.inflate(R.layout.achievements_list_fragment, container, false);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.achievements_layout);
         na = (LinearLayout) view.findViewById(R.id.empty_ach);
-        Button add = (Button) na.findViewById(R.id.addach);
+        FloatingActionButton add = (FloatingActionButton) view.findViewById(R.id.addach);
+        Button showmenu = (Button) view.findViewById(R.id.showmenu);
+        showmenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity ma = (MainActivity) getActivity();
+                ma.menuToggle();
+            }
+        });
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                intent.putExtra("changepos", 3);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0 /* Request code */, intent,
-                        PendingIntent.FLAG_ONE_SHOT);
-                try {
-                    pendingIntent.send();
-                } catch (Exception ignored) {
-
-                }
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new achievement_fragment())
+                        .commit();
             }
         });
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -141,6 +145,7 @@ public class achievements_fragment extends Fragment {
                              urlConnection.disconnect();
                          } catch (Exception e) {
                              e.printStackTrace();
+                             return "";
                          }
                          return HTML;
                      } else {
@@ -151,7 +156,6 @@ public class achievements_fragment extends Fragment {
                  @Override
                  protected void onPostExecute(String result) {
                      if (result.length() == 0) {
-                         swipeRefreshLayout.setRefreshing(false);
                          try {
                              FragmentManager fragmentManager = getFragmentManager();
                              fragmentManager.beginTransaction()
@@ -159,7 +163,8 @@ public class achievements_fragment extends Fragment {
                                      .commit();
                              Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Неправильный Логин/Пароль", Toast.LENGTH_SHORT);
                              toast.show();
-                         } catch (NullPointerException e) { }
+                         } catch (NullPointerException ignored) { }
+                         swipeRefreshLayout.setRefreshing(false);
                      } else {
                          Document doc = null;
                          doc = Jsoup.parse(result);
@@ -201,6 +206,7 @@ public class achievements_fragment extends Fragment {
                              }
 
                              AchievementItem na = new AchievementItem();
+                             na.setAchid(ratingTable.get(i).getElementsByTag("td").get(1).child(0).attr("href").replace("/rating/achievements/edit/", "").replace("/", ""));
                              na.setId(i);
                              na.setName(ratingTable.get(i).getElementsByTag("td").get(1).child(0).text());
                              na.setCategory(ratingTable.get(i).getElementsByTag("td").get(3).text());

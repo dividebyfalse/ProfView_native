@@ -3,16 +3,16 @@
     android:orientation="vertical"
     android:background="@drawable/back_fragmenttabhost_nf_category"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="65dp"
     android:baselineAligned="false"
     android:clickable="true">
 
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:id="@+id/news_tab_icon"
         android:layout_gravity="center_horizontal|top"
-        android:src="@drawable/ic_tab_home"
+        android:src="@mipmap/ic_menu"
         android:minHeight="20dp"
         android:minWidth="20dp"
         android:visibility="visible" />
@@ -22,7 +22,7 @@
     android:layout_height="wrap_content"
         android:id="@+id/news_tab_caption"
         android:text="Профком ИГУ"
-        android:textColor="#48a1d9"
+        android:textColor="#FFFFFF"
         android:textStyle="bold"
         android:textSize="12dp"
         android:textAlignment="center"

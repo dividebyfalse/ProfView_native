@@ -87,16 +87,16 @@ public class FeedListAdapter extends BaseAdapter {
         View.OnClickListener cl = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, MainActivity.class);
+                /*Intent intent = new Intent(activity, MainActivity.class);
                 intent.putExtra("newsid", feedItems.get(position).getNewsid());
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0 /* Request code */, intent,
+                PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0 /* Request code , intent,
                         PendingIntent.FLAG_ONE_SHOT);
                 try {
                     pendingIntent.send();
                 } catch (Exception e) {
 
-                }
+                }*/
             }
         };
         ll.setOnClickListener(cl);

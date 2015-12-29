@@ -7,10 +7,24 @@ import java.util.List;
  * Created by penpen on 13.10.15.
  */
 public class mpg_nf_fragment extends nf_fragment {
-    static {
-        layid = R.id.mpg;
-        lay = R.layout.mpg_feed;
-        lvid = R.id.listmpg;
+    @Override
+    protected int getlvid() {
+        return R.id.listmpg;
+    }
+
+    @Override
+    protected int getlayid() {
+        return R.id.mpg;
+    }
+
+    @Override
+    protected String getee() {
+        return "";
+    }
+
+    @Override
+    protected int getlay() {
+        return R.layout.mpg_feed;
     }
 
     @Override

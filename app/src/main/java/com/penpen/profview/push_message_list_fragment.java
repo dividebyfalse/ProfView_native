@@ -45,6 +45,14 @@ public class push_message_list_fragment extends Fragment {
         final LinearLayout messagelistlay = (LinearLayout) view.findViewById(R.id.messagelistlay);
         final LinearLayout newsviewlay = (LinearLayout) view.findViewById(R.id.newsread);
         final LinearLayout el = (LinearLayout) view.findViewById(R.id.el);
+        Button showmenu = (Button) view.findViewById(R.id.showmenu);
+        showmenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity ma = (MainActivity) getActivity();
+                ma.menuToggle();
+            }
+        });
         dbHelper = new DBHelper(getActivity());
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         messageItems = new ArrayList<MessageItem>();

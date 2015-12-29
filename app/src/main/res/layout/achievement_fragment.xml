@@ -41,7 +41,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/achievemen_add_date"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:nestedScrollingEnabled="false"
+                android:spinnersShown="true"
+                android:datePickerMode="spinner"
+                android:calendarViewShown="false" />
 
             <Spinner
                 android:layout_width="match_parent"
