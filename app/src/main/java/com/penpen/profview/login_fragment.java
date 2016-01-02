@@ -84,7 +84,7 @@ public class login_fragment extends Fragment {
         regb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (authorization.isOnline(getActivity()) == false) {return;}
+                if (!authorization.isOnline(getActivity())) {return;}
                 LinearLayout loginlay = (LinearLayout) view.findViewById(R.id.loginlayout);
                 loginlay.setVisibility(View.INVISIBLE);
                 AccountManager manager = (AccountManager) getActivity().getSystemService(getActivity().ACCOUNT_SERVICE);
@@ -109,7 +109,7 @@ public class login_fragment extends Fragment {
         sendregb = (Button) view.findViewById(R.id.regbuttonsend);
         sendregb.setOnClickListener(new View.OnClickListener() {
             private void focusedit(EditText et, String message) {
-                if (authorization.isOnline(getActivity()) == false) {
+                if (!authorization.isOnline(getActivity())) {
                     return;
                 }
                 Toast toast = Toast.makeText(getActivity().getApplicationContext(), message, Toast.LENGTH_SHORT);
@@ -121,7 +121,7 @@ public class login_fragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                if (authorization.isOnline(getActivity()) == false) {
+                if (!authorization.isOnline(getActivity())) {
                     return;
                 }
                 EditText loginreg = (EditText) view.findViewById(R.id.reglogin);
@@ -154,7 +154,7 @@ public class login_fragment extends Fragment {
                                                 firstnamereg.setText("");
                                                 thirdnamereg.setText("");
                                             } else {
-                                                if (authorization.isOnline(getActivity()) == false) {
+                                                if (!authorization.isOnline(getActivity())) {
                                                     return;
                                                 }
                                                 Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Выберите факультет", Toast.LENGTH_SHORT);
@@ -210,7 +210,7 @@ public class login_fragment extends Fragment {
         refreshcaptcha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (authorization.isOnline(getActivity()) == false) {
+                if (!authorization.isOnline(getActivity())) {
                     return;
                 }
                 new getCAPTCHA().execute();
@@ -220,7 +220,7 @@ public class login_fragment extends Fragment {
         passonclick = new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (authorization.isOnline(getActivity()) == false) {
+                if (!authorization.isOnline(getActivity())) {
                     return false;
                 }
                 if (event.getAction() != KeyEvent.ACTION_DOWN)
@@ -310,9 +310,7 @@ public class login_fragment extends Fragment {
                 ImageView captchaIMG = null;
                 try {
                     captchaIMG = (ImageView) getActivity().findViewById(R.id.regcaptcha);
-                } catch (NullPointerException e) {
-
-                }
+                } catch (NullPointerException ignored) { }
                 if (captchaIMG != null) {
                     captchaIMG.setImageBitmap(result);
                 }
@@ -357,12 +355,12 @@ public class login_fragment extends Fragment {
                     Log.d("df", response);
                 }
             }
-            if ((response.equals("error") == false) && (response.equals("no_login") == false) && (response.length() != 0)) {
+            if ((!response.equals("error")) && (!response.equals("no_login")) && (response.length() != 0)) {
                 result = true;
                 if ((params.length == 6) && (params[2]=="1")) {
                     isreg=true;
                 }
-            } else if (response.equals("no_login") == true) {
+            } else if (response.equals("no_login")) {
                 result = false;
             }
             return result;
@@ -371,7 +369,8 @@ public class login_fragment extends Fragment {
         @Override
         protected void onPostExecute(Boolean result) {
             EditText pass = (EditText) viev.findViewById(R.id.pass);
-            if (result == false) {
+            MainActivity ma = (MainActivity) getActivity();
+            if (!result) {
                 Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Неправильный Логин/Пароль", Toast.LENGTH_SHORT);
                 toast.show();
                 loginb.setEnabled(true);
@@ -408,16 +407,18 @@ public class login_fragment extends Fragment {
                             getResources().getStringArray(R.array.irkutskfacultyid)[facultyspinner.getSelectedItemPosition()],
                             getResources().getStringArray(R.array.cityid)[cityspinner.getSelectedItemPosition()]);
                     MainActivity.fragmentnumber=4;
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.container, new achievements_fragment()).commit();
+                    ma.changeFragment(3);
+                    /*FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.container, new achievements_fragment()).commit();*/
                     sendregb.setEnabled(true);
                 } else {
                     Toast toast = Toast.makeText(viev.getContext().getApplicationContext(), "Вход выполнен", Toast.LENGTH_SHORT);
                     toast.show();
                     try {
                         MainActivity.fragmentnumber=4;
-                        FragmentManager fragmentManager = getFragmentManager();
-                        fragmentManager.beginTransaction().replace(R.id.container, new achievements_fragment()).commit();
+                        ma.changeFragment(3);
+                        /*FragmentManager fragmentManager = getFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.container, new achievements_fragment()).commit();*/
                     } catch (Exception e) {
                         loginb.setEnabled(true);
                         pass.setOnKeyListener(passonclick);
@@ -589,7 +590,5 @@ public class login_fragment extends Fragment {
         protected void onPostExecute(Boolean result) {
 
         }
-
     }
-
 }

@@ -24,6 +24,9 @@
     <string name="choosecity">Выберите город</string>
     <string name="choose_achievement_category">Выберите направление</string>
     <string name="choose_achievement_subcategory">Выберите категорию</string>
+    <string name="notifications_code_title">Ввести код для получения уведомлений</string>
+    <string name="notifications_code_title_ex">Каждый код вводится с новой строки</string>
+    <string name="notifications_code_title_dialog">Каждый код вводится с новой строки</string>
     <integer name="achievement_study_start_id">2913</integer>
     <integer name="achievement_art_start_id">2917</integer>
     <integer name="achievement_sport_start_id">2922</integer>

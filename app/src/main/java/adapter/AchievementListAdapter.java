@@ -1,15 +1,17 @@
 package adapter;
 
 /**
+ *
  * Created by penpen on 24.11.15.
+ *
  */
 import app.authorization;
 import data.AchievementItem;
+
+import com.penpen.profview.MainActivity;
 import com.penpen.profview.R;
 import com.penpen.profview.achievement_fragment;
 import com.penpen.profview.achievements_fragment;
-import com.penpen.profview.login_fragment;
-import com.penpen.profview.push_message_list_fragment;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -19,18 +21,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,9 +50,11 @@ public class AchievementListAdapter extends BaseAdapter {
     private int position;
     private String category;
     private String subcategory;
+    private MainActivity ma;
 
     public AchievementListAdapter(FragmentActivity activity, List<AchievementItem> achievementsItems) {
         this.activity = activity;
+        ma = (MainActivity) this.activity;
         this.achievementsItems = achievementsItems;
     }
 
@@ -156,8 +156,8 @@ public class AchievementListAdapter extends BaseAdapter {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            String result = "";
-            BufferedReader reader = null;
+            String result;
+            BufferedReader reader;
             achid = params[0];
             name = params[1];
             date = params[2];
@@ -170,7 +170,7 @@ public class AchievementListAdapter extends BaseAdapter {
                 connection.addRequestProperty("Upgrade-Insecure-Requests", "1");
                 connection.connect();
                 InputStream inputStream = connection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder buffer = new StringBuilder();
                 reader = new BufferedReader(new InputStreamReader(inputStream));
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -192,7 +192,7 @@ public class AchievementListAdapter extends BaseAdapter {
         protected void onPostExecute(Boolean result) {
             dialog.dismiss();
             if (result) {
-                Fragment nf = new achievement_fragment();
+                ma.af = new achievement_fragment();
                 Bundle args = new Bundle();
                 args.putString("name", name);
                 args.putString("date", date);
@@ -200,10 +200,10 @@ public class AchievementListAdapter extends BaseAdapter {
                 args.putString("category", category);
                 args.putString("subcategory", subcategory);
                 args.putString("id", achid);
-                nf.setArguments(args);
+                ma.af.setArguments(args);
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, nf)
+                        .replace(R.id.container, ma.af)
                         .commit();
             }
         }
@@ -222,7 +222,7 @@ public class AchievementListAdapter extends BaseAdapter {
 
         private String getCategory(String URL) {
             String result = "";
-            BufferedReader reader = null;
+            BufferedReader reader;
             try {
                 URL url = new URL(URL);
                 connection = (HttpURLConnection) url.openConnection();
@@ -232,7 +232,7 @@ public class AchievementListAdapter extends BaseAdapter {
                 connection.addRequestProperty("Upgrade-Insecure-Requests", "1");
                 connection.connect();
                 InputStream inputStream = connection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder buffer = new StringBuilder();
                 reader = new BufferedReader(new InputStreamReader(inputStream));
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -253,7 +253,7 @@ public class AchievementListAdapter extends BaseAdapter {
                      /*if (authorization.cookie.length() != 0) {
                          result = true;
                      } else {*/
-            String response = "";
+            String response;
             response = authorization.auth(activity);
             try {
                 if ((!response.equals("error")) && (!response.equals("no_login")) && (response.length() != 0)) {
@@ -267,7 +267,7 @@ public class AchievementListAdapter extends BaseAdapter {
             //}
             if (result) {
                 String line;
-                StringBuffer jsonString = new StringBuffer();
+                StringBuilder jsonString = new StringBuilder();
                 String category = getCategory("http://irk.yourplus.ru/rating/achievements/edit/"+params[0]+"/");
                 try {
                     URL url = new URL("http://irk.yourplus.ru/rating/achievements/edit/"+params[0]+"/");

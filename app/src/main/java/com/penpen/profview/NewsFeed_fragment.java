@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
@@ -42,6 +43,14 @@ public class NewsFeed_fragment extends Fragment {
             ll.setBackgroundColor(Color.parseColor("#01579b"));
             prevsel = ll;
         }
+        Button mb = (Button) mTabHost.findViewById(R.id.menu_button);
+        mb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity ma = (MainActivity) getActivity();
+                ma.menuToggle();
+            }
+        });
         LinearLayout ml = (LinearLayout) mTabHost.findViewById(R.id.menu);
         ml.setOnClickListener(new View.OnClickListener() {
             @Override

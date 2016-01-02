@@ -1,6 +1,5 @@
 package app;
 
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.ContentValues;
@@ -14,9 +13,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
@@ -30,12 +26,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -43,7 +36,6 @@ import java.net.URL;
  */
 public class MyGcmListenerService extends GcmListenerService {
     private DBHelper dbHelper;
-    private static final String TAG = "MyGcmListenerService";
     private String message;
     private  MyGcmListenerService th;
 
@@ -58,13 +50,13 @@ public class MyGcmListenerService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         th = this;
-        Log.d(TAG, "From: " + from);
+        /*Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + data);
         if (from.startsWith("/topics/")) {
             // message received from some topic.
         } else {
             // normal downstream message.
-        }
+        }*/
 
         // [START_EXCLUDE]
         /**
@@ -81,7 +73,7 @@ public class MyGcmListenerService extends GcmListenerService {
         dbHelper = new DBHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        if (data.getString("toAll").equals("true")) {
+        if (data.getString("toAll", "").equals("true")) {
             cv.put("message", data.getString("message"));
             cv.put("date", data.getString("date"));
             cv.put("isnew", 1);
@@ -90,11 +82,11 @@ public class MyGcmListenerService extends GcmListenerService {
             dbHelper.close();
             SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
             if (settings.getBoolean("IsPushEnabled", true)) {
-                sendNotification(data.getString("message"), "PushMessageActivity");
+                sendNotification(data.getString("message"));
             }
-        } else if (data.getString("toAll").equals("false")) {
+        } else if (data.getString("toAll", "").equals("false")) {
             message = data.getString("message");
-            String [] items = data.getString("items").substring(1, data.getString("items").length()-1).split(",");
+            String [] items = data.getString("items", "").substring(1, data.getString("items", "").length()-1).split(",");
             for(int i=0;i<items.length; i++) {
                 items[i]= items[i].replace("\"", "");
             }
@@ -118,7 +110,7 @@ public class MyGcmListenerService extends GcmListenerService {
      *
      *
      */
-    private void sendNotification(String message, String activity) {
+    private void sendNotification(String message) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("isMessageList", true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -192,7 +184,7 @@ public class MyGcmListenerService extends GcmListenerService {
                 urlConnection.setConnectTimeout(3000);
                 urlConnection.connect();
                 InputStream inputStream = urlConnection.getInputStream();
-                StringBuffer buffer = new StringBuffer();
+                StringBuilder buffer = new StringBuilder();
                 reader = new BufferedReader(new InputStreamReader(inputStream));
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -257,7 +249,7 @@ public class MyGcmListenerService extends GcmListenerService {
                 if (islast) {
                     SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(th);
                     if (settings.getBoolean("IsPushEnabled", true)) {
-                        sendNotification(message, "PushMessageActivity");
+                        sendNotification(message);
                     }
                 }
             }

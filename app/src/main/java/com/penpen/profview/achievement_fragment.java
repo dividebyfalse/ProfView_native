@@ -34,13 +34,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import adapter.NothingSelectedSpinnerAdapter;
 import app.authorization;
 
 /**
+ *
  * Created by penpen on 13.10.15.
+ *
  */
 public class achievement_fragment extends Fragment {
     private Uri outputFileUri;
@@ -49,13 +50,14 @@ public class achievement_fragment extends Fragment {
     private Button send;
     private String achid = "";
     private ArrayAdapter<CharSequence> subcategory1adapter;
+    private MainActivity ma;
     View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.achievement_fragment, container, false);
         Bundle  bundle = getArguments();
-        new authcheck().execute();
+        ma = (MainActivity) getActivity();
         final EditText name = (EditText) view.findViewById(R.id.achievement_add_name);
         final DatePicker date = (DatePicker) view.findViewById(R.id.achievemen_add_date);
         imageView = (ImageView) view.findViewById(R.id.achievemen_add_Proof_Pic);
@@ -115,7 +117,7 @@ public class achievement_fragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                String strdate = "";
+                String strdate;
                 if (date.getMonth() < 10) {
                     strdate = String.valueOf(date.getDayOfMonth()) + ".0" + String.valueOf(date.getMonth()) + "." + String.valueOf(date.getYear());
                 } else {
@@ -179,10 +181,10 @@ public class achievement_fragment extends Fragment {
         if (bundle != null) {
             name.setText(bundle.getString("name"));
             String[] ardate ;
-            ardate= bundle.getString("date").split("\\.");
+            ardate= bundle.getString("date", "").split("\\.");
             date.updateDate(Integer.parseInt(ardate[2]), Integer.parseInt(ardate[1]), Integer.parseInt(ardate[0]));
-            final int categoryval = Integer.parseInt(bundle.getString("category"));
-            int categoryv=-1;
+            final int categoryval = Integer.parseInt(bundle.getString("category", ""));
+            int categoryv;
             if (categoryval<2917 && categoryval>2913) {
                 category.setSelection(1);
                 categoryv=0;
@@ -278,10 +280,7 @@ public class achievement_fragment extends Fragment {
     /* Checks if external storage is available for read and write */
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            return true;
-        }
-        return false;
+        return Environment.MEDIA_MOUNTED.equals(state);
     }
 
     private void openImageIntent() {
@@ -303,7 +302,7 @@ public class achievement_fragment extends Fragment {
         outputFileUri = Uri.fromFile(sdImageMainDirectory);
 
         // Camera.
-        final List<Intent> cameraIntents = new ArrayList<Intent>();
+        final List<Intent> cameraIntents = new ArrayList<>();
         final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         final PackageManager packageManager = getActivity().getPackageManager();
         final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
@@ -339,11 +338,7 @@ public class achievement_fragment extends Fragment {
                     isCamera = true;
                 } else {
                     final String action = data.getAction();
-                    if (action == null) {
-                        isCamera = false;
-                    } else {
-                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                    }
+                    isCamera = action != null && action.equals(MediaStore.ACTION_IMAGE_CAPTURE);
                 }
 
                 Uri selectedImageUri;
@@ -358,52 +353,12 @@ public class achievement_fragment extends Fragment {
         }
     }
 
-    class authcheck extends AsyncTask<String, Void, Boolean> {
-        @Override
-        protected Boolean doInBackground(String... params) {
-            Boolean result = false;
-            //Log.d("cookie", authorization.cookie);
-            /*if (authorization.cookie.length() != 0) {
-                result = true;
-            } else {*/
-                String response = authorization.auth(getActivity());
-                //Log.d("resp", response);
-            try {
-                if ((!response.equals("error")) && (!response.equals("no_login")) && (response.length() != 0)) {
-                    result = true;
-                } else if (response.equals("no_login")) {
-                    result = false;
-                }
-            } catch (Exception e) {
-                result = false;
-            }
-            //}
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean result) {
-            if (!result && authorization.cookie.length() == 0) {
-                try {
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.container, new login_fragment())
-                            .commit();
-                    Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Неправильный Логин/Пароль", Toast.LENGTH_SHORT);
-                    toast.show();
-                } catch (Exception ignored) {
-
-                }
-            }
-        }
-    }
-
     class sendachievement extends AsyncTask<String, Void, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {
             Boolean result = false;
             String line;
-            StringBuffer jsonString = new StringBuffer();
+            StringBuilder jsonString = new StringBuilder();
            /* if (authorization.cookie.length() != 0) {
                 result = true;
             } else {*/
@@ -416,7 +371,6 @@ public class achievement_fragment extends Fragment {
                 }
            // }
             if (result) {
-                //if (params.length == 9) {
                 try {
                     URL url;
                     String payload;
@@ -498,7 +452,6 @@ public class achievement_fragment extends Fragment {
                     throw new RuntimeException(e.getMessage());
                 }
             }
-            //}
             return result;
         }
 
@@ -524,6 +477,7 @@ public class achievement_fragment extends Fragment {
                 } else {
                     Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Достижение отредактировано", Toast.LENGTH_SHORT);
                     toast.show();
+                    ma.af = null;
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     fragmentManager.beginTransaction()
                             .replace(R.id.container, new achievements_fragment())

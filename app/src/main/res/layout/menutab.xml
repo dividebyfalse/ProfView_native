@@ -9,15 +9,12 @@
     android:gravity="center"
     android:id="@+id/menu">
 
-    <ImageView
+    <Button
         android:layout_width="30dp"
-        android:layout_height="50dp"
-        android:id="@+id/news_tab_icon"
-        android:layout_gravity="center_horizontal"
-        android:src="@mipmap/ic_menu"
-        android:minHeight="20dp"
-        android:minWidth="20dp"
-        android:visibility="visible"
-        android:layout_marginRight="15dp" />
+        android:layout_height="40dp"
+        android:id="@+id/menu_button"
+        android:background="@mipmap/ic_menu"
+        android:layout_marginRight="14dp"
+        android:layout_marginBottom="4dp" />
 
 </LinearLayout>

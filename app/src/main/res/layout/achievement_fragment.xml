@@ -4,7 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:background="#d3d6db">
+    android:background="#d3d6db"
+    android:id="@+id/achievemen_ml">
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -84,15 +85,24 @@
                 android:padding="0dp"
                 android:visibility="invisible" />
 
-            <Button
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Отправить"
-                android:id="@+id/achievemen_add_send_button"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
+                android:layout_height="match_parent"
                 android:layout_marginBottom="59dp"
-                android:layout_gravity="bottom|center_horizontal" />
+                android:layout_gravity="center">
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Отправить"
+                    android:id="@+id/achievemen_add_send_button"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center|right"
+                    android:gravity="fill_horizontal|center_vertical" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

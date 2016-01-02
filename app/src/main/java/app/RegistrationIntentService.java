@@ -150,12 +150,14 @@ public class RegistrationIntentService extends IntentService {
                                 String.valueOf(boolToInt(settings.getBoolean("novostiplus", false)))+
                                 String.valueOf(boolToInt(settings.getBoolean("novostiother", false)))+
                                 String.valueOf(boolToInt(settings.getBoolean("stud", false)));
+                String codes = settings.getString("notifications_code", "").replace("\n", ";");
                 //Log.d("b", subscribes);
                 params.put("at",token);
                 params.put("faculty", settings.getString("faculties_list", ""));
                 params.put("email",gmail);
                 params.put("subscribes", subscribes);
                 params.put("tags", tags);
+                params.put("codes", codes);
 
                 return params;
             }

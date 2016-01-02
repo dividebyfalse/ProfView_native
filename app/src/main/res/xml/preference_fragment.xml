@@ -5,8 +5,7 @@
     android:id="@+id/preference_fragment">
 
     <PreferenceCategory
-        android:title="@string/inline_preferences"
-        android:layout="@layout/pref_category">
+        android:title="@string/inline_preferences">
 
         <CheckBoxPreference
             android:key="IsPushEnabled"
@@ -16,8 +15,7 @@
         <PreferenceScreen
             android:key="clubs"
             android:title="Список тэгов"
-            android:summary="Список тэгов для которых будут приниматься уведомления"
-            android:background="#78909c">
+            android:summary="Список тэгов для которых будут приниматься уведомления">
 
             <CheckBoxPreference
                 android:key="stip"
@@ -73,22 +71,26 @@
                 android:summary="#СтудентыИГУ" />
         </PreferenceScreen>
 
+        <EditTextPreference
+            android:key="notifications_code"
+            android:title="@string/notifications_code_title"
+            android:summary="@string/notifications_code_title_ex"
+            android:inputType="textMultiLine"
+            android:dialogTitle="@string/notifications_code_title_dialog" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/dialog_based_preferences"
-        android:layout="@layout/pref_category">
+        android:title="@string/dialog_based_preferences">
 
         <EditTextPreference
             android:key="login_preference"
-            android:background="@drawable/edittextstyle"
             android:title="@string/title_edittext_preference"
             android:summary="@string/summary_edittext_preference"
             android:dialogTitle="@string/dialog_title_edittext_preference" />
 
         <EditTextPreference
             android:key="pass_preference"
-            android:background="@drawable/edittextstyle"
             android:title="@string/title_password_preference"
             android:summary="@string/summary_password_preference"
             android:dialogTitle="@string/dialog_title_password_preference" />
@@ -97,14 +99,12 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/launch_preferences"
-        android:layout="@layout/pref_category">
+        android:title="@string/launch_preferences">
 
         <PreferenceScreen
             android:key="clubs"
             android:title="@string/title_screen_preference"
-            android:summary="@string/summary_screen_preference"
-            android:background="#d3d6db">
+            android:summary="@string/summary_screen_preference">
 
             <CheckBoxPreference
                 android:key="club_gos"

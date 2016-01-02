@@ -38,6 +38,7 @@ public class MainActivity extends FragmentActivity {
     private PreferenceFragment SettingsFragment;
     private Fragment lf=null;
     private Fragment nff = null;
+    public achievement_fragment af;
     private push_message_list_fragment mf = null;
     private push_message_list_fragment nf = null;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -211,16 +212,22 @@ public class MainActivity extends FragmentActivity {
                 SharedPreferences sharedPreferences =
                         PreferenceManager.getDefaultSharedPreferences(this);
                 Bundle args = new Bundle();
-                args.putInt("position", sharedPreferences.getInt("tab", 0));
+                args.putInt("position", sharedPreferences.getInt("tab", 1));
                 nff.setArguments(args);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putInt("tab", 0);
-                editor.apply();
+                editor.putInt("tab", 1);
+                editor.commit();
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, nff)
                         .commit();
                 nff = null;
+            } else if (af !=null) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new achievements_fragment())
+                        .commit();
+                af = null;
             } else {
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
                 SharedPreferences.Editor editor = settings.edit();
