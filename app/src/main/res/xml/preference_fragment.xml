@@ -1,71 +1,69 @@
-<PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/preference_fragment">
 
     <PreferenceCategory
         android:title="@string/inline_preferences">
 
-        <CheckBoxPreference
+        <SwitchPreferenceCompat
             android:key="IsPushEnabled"
             android:title="@string/title_checkbox_preference"
             android:summary="@string/summary_checkbox_preference"/>
 
         <PreferenceScreen
-            android:key="clubs"
+            android:key="tags"
             android:title="Список тэгов"
             android:summary="Список тэгов для которых будут приниматься уведомления">
 
-            <CheckBoxPreference
+            <SwitchPreferenceCompat
                 android:key="stip"
                 android:title="Стипендии"
-                android:summary="#СтипендияИГУ" />
-            <CheckBoxPreference
+                android:summary="#СтипендияИГУ"
+                android:selectable="true"/>
+            <SwitchPreferenceCompat
                 android:key="obsh"
                 android:title="Общежития"
                 android:summary="#ОбщежитиеИГУ" />
-            <CheckBoxPreference
+            <SwitchPreferenceCompat
                 android:key="soc"
                 android:title="Соцпомощь, проездные, мед.полисы"
                 android:summary="#СоцпомощьИГУ" />
-            <CheckBoxPreference
+            <SwitchPreferenceCompat
                 android:key="trud"
                 android:title="Трудоустройство"
                 android:summary="#РаботаИГУ" />
-            <CheckBoxPreference
+            <SwitchPreferenceCompat
                 android:key="sem"
                 android:title="Курсы,семинары, мастер-классы"
                 android:summary="#УчебаИГУ/#Обучение ИГУ" />
-            <CheckBoxPreference
+            <SwitchPreferenceCompat
                 android:key="nauk"
                 android:title="Научная жизнь"
                 android:summary="#НаукаИГУ" />
-            <CheckBoxPreference
+            <SwitchPreferenceCompat
                 android:key="sob"
                 android:title="События, акции, тусовки"
                 android:summary="#СобытияИГУ" />
-            <CheckBoxPreference
+            <SwitchPreferenceCompat
                 android:key="disc"
                 android:title="Скидки и бонусы"
                 android:summary="#ДисконтИГУ" />
-            <CheckBoxPreference
+            <SwitchPreferenceCompat
                 android:key="otd"
                 android:title="Отдых и оздоровление"
                 android:summary="#ОтдыхИГУ" />
-            <CheckBoxPreference
+            <SwitchPreferenceCompat
                 android:key="novostigu"
                 android:title="Новости ИГУ и профкома"
                 android:summary="#НовостиИГУ" />
-            <CheckBoxPreference
+            <SwitchPreferenceCompat
                 android:key="novostiplus"
                 android:title="Новости портала твой плюс"
                 android:summary="#Твойплюс" />
-            <CheckBoxPreference
+            <SwitchPreferenceCompat
                 android:key="novostiother"
                 android:title="Новости партнеров"
                 android:summary="#ПартнерыИГУ" />
-            <CheckBoxPreference
+            <SwitchPreferenceCompat
                 android:key="stud"
                 android:title="Студенты ИГУ"
                 android:summary="#СтудентыИГУ" />
@@ -106,23 +104,23 @@
             android:title="@string/title_screen_preference"
             android:summary="@string/summary_screen_preference">
 
-            <CheckBoxPreference
+            <SwitchPreferenceCompat
                 android:key="club_gos"
                 android:title="Г.О.С. ИГУ"
                 android:summary="Проект-студия Г.О.С." />
-            <CheckBoxPreference
+            <SwitchPreferenceCompat
                 android:key="club_sno"
                 android:title="CНО ИГУ"
                 android:summary="Студенческое научное общество ИГУ" />
-            <CheckBoxPreference
+            <SwitchPreferenceCompat
                 android:key="club_volonter"
                 android:title="Волонтёрский центр ППОС ИГУ"
                 android:summary="Волонтёрский центр ППОС ИГУ" />
-            <CheckBoxPreference
+            <SwitchPreferenceCompat
                 android:key="club_gost"
                 android:title="ГОСт"
                 android:summary="Газета профкома ИГУ" />
-            <CheckBoxPreference
+            <SwitchPreferenceCompat
                 android:key="club_kok"
                 android:title="КОК ИГУ"
                 android:summary="Комиссия общественного контроля ППОС ИГУ" />

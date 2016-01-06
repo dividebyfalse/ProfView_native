@@ -26,6 +26,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -88,6 +89,7 @@ public class AchievementListAdapter extends BaseAdapter {
         LinearLayout stip = (LinearLayout) convertView.findViewById(R.id.achievement_stip);
         Button del = (Button) convertView.findViewById(R.id.ach_delete);
         Button edit = (Button) convertView.findViewById(R.id.ach_edit);
+
         adapter = this;
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,24 +119,36 @@ public class AchievementListAdapter extends BaseAdapter {
         switch (item.getIsprem()) {
             case 0:
                 prem.setBackgroundColor(Color.parseColor("#008000"));
+                edit.setEnabled(false);
+                edit.setVisibility(View.INVISIBLE);
                 break;
             case 1:
                 prem.setBackgroundColor(Color.parseColor("#FFA605"));
+                edit.setEnabled(true);
+                edit.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 prem.setBackgroundColor(Color.parseColor("#FF0000"));
+                edit.setEnabled(false);
+                edit.setVisibility(View.INVISIBLE);
                 break;
         }
 
         switch (item.getIsstip()) {
             case 0:
                 stip.setBackgroundColor(Color.parseColor("#008000"));
+                edit.setEnabled(false);
+                edit.setVisibility(View.INVISIBLE);
                 break;
             case 1:
                 stip.setBackgroundColor(Color.parseColor("#FFA605"));
+               /* edit.setEnabled(true);
+                edit.setVisibility(View.VISIBLE);*/
                 break;
             case 2:
                 stip.setBackgroundColor(Color.parseColor("#FF0000"));
+                /*edit.setEnabled(true);
+                edit.setVisibility(View.VISIBLE);*/
                 break;
         }
 
@@ -192,7 +206,7 @@ public class AchievementListAdapter extends BaseAdapter {
         protected void onPostExecute(Boolean result) {
             dialog.dismiss();
             if (result) {
-                ma.af = new achievement_fragment();
+                Fragment af = new achievement_fragment();
                 Bundle args = new Bundle();
                 args.putString("name", name);
                 args.putString("date", date);
@@ -200,10 +214,11 @@ public class AchievementListAdapter extends BaseAdapter {
                 args.putString("category", category);
                 args.putString("subcategory", subcategory);
                 args.putString("id", achid);
-                ma.af.setArguments(args);
+                af.setArguments(args);
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, ma.af)
+                        .replace(R.id.container, af)
+                        .addToBackStack(null)
                         .commit();
             }
         }

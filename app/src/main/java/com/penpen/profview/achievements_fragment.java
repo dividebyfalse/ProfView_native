@@ -61,10 +61,11 @@ public class achievements_fragment extends Fragment {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ma.af = new achievement_fragment();
+                Fragment af = new achievement_fragment();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, ma.af)
+                        .replace(R.id.container, af)
+                        .addToBackStack(null)
                         .commit();
             }
         });

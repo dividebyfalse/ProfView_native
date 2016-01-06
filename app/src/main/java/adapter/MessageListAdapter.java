@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -98,6 +99,7 @@ public class MessageListAdapter extends BaseAdapter {
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new push_message_list_fragment())
+                        .addToBackStack(null)
                         .commit();
             }
         });
@@ -114,6 +116,21 @@ public class MessageListAdapter extends BaseAdapter {
                 db.update("pushmessagetable", cv, selection, selectionArgs);
                 messagesItems.get(Integer.parseInt(String.valueOf(position))).setIsnew(false);
                 adapter.notifyDataSetChanged();
+
+                //TODO:fix this
+                Fragment mf = new push_message_list_fragment();
+                Bundle args = new Bundle();
+                args.putString("message", messagesItems.get(position).getMessage());
+                args.putString("date", messagesItems.get(position).getDate());
+                args.putInt("position", position);
+                mf.setArguments(args);
+                FragmentManager fragmentManager = activity.getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, mf)
+                        .addToBackStack(null)
+                        .commit();
+
+                /*
                 Intent intent = new Intent(activity, MainActivity.class);
                 intent.putExtra("message", messagesItems.get(position).getMessage());
                 intent.putExtra("date", messagesItems.get(position).getDate());
@@ -130,13 +147,14 @@ public class MessageListAdapter extends BaseAdapter {
                     intent.putExtra("ShowMessageItem", true);
                     Log.d("log", "item");
                 }
-                PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0 /* Request code */, intent,
+                PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, intent,
                         PendingIntent.FLAG_ONE_SHOT);
                 try {
                     pendingIntent.send();
                 } catch (Exception e) {
+                }*/
 
-                }
+
                 db.close();
                 dbHelper.close();
             }

@@ -19,7 +19,6 @@ public class pbf_nf_fragment extends nf_fragment {
         return R.id.pbf;
     }
 
-
     @Override
     protected String getee() {
         return "Факультет не выбран.\n" +

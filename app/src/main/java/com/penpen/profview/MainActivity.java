@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -35,12 +34,13 @@ import app.RegistrationIntentService;
 
 public class MainActivity extends FragmentActivity {
     SlidingMenu menu;
-    private PreferenceFragment SettingsFragment;
     private Fragment lf=null;
     private Fragment nff = null;
+    public Fragment sh = null;
+    /*
     public achievement_fragment af;
-    private push_message_list_fragment mf = null;
-    private push_message_list_fragment nf = null;
+    private push_message_list_fragment mf = null;*/
+    //private push_message_list_fragment nf = null;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "MainActivity";
     private View prevmenusel;
@@ -49,6 +49,8 @@ public class MainActivity extends FragmentActivity {
     static public String[] items = {"", "Новости", "Сообщения", "Список достижений", "Настройки"};
     static public ArrayAdapter menuadapter = null;
     static public int fragmentnumber;
+    private Fragment nf;
+    public List<Integer> tabstack;
 
     @SuppressLint("NewApi")
     @Override
@@ -64,6 +66,8 @@ public class MainActivity extends FragmentActivity {
         menu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
         menu.setMenu(R.layout.sidemenu);
         menu.setBehindWidthRes(R.dimen.slidingmenu_behind_width);
+
+        tabstack = new ArrayList<>();
 
         String log = "Войти";
         isLogin = false;
@@ -182,24 +186,24 @@ public class MainActivity extends FragmentActivity {
             }
             LinearLayout loginlay = null;
             ScrollView reglay = null;
-            LinearLayout messageitemlay = null;
-            LinearLayout messagelistlay = null;
+            /*LinearLayout messageitemlay = null;
+            LinearLayout messagelistlay = null;*/
             if (lf !=null) {
                 loginlay = (LinearLayout) lf.getView().findViewById(R.id.loginlayout);
                 reglay = (ScrollView) lf.getView().findViewById(R.id.scrollreglayout);
             }
-            if (nf != null) {
+            /*if (nf != null) {
                 messageitemlay = (LinearLayout) nf.getView().findViewById(R.id.newsread);
                 messagelistlay = (LinearLayout) nf.getView().findViewById(R.id.messagelistlay);
             }
             if (mf != null) {
                 messageitemlay = (LinearLayout) mf.getView().findViewById(R.id.messageread);
                 messagelistlay = (LinearLayout) mf.getView().findViewById(R.id.messagelistlay);
-            }
+            }*/
             if (lf != null && lf.isVisible() && loginlay.getVisibility() == View.INVISIBLE) {
                 loginlay.setVisibility(View.VISIBLE);
                 reglay.setVisibility(View.INVISIBLE);
-            } else if (mf != null && mf.isVisible() && messageitemlay.getVisibility() == View.VISIBLE) {
+            }/* else if (mf != null && mf.isVisible() && messageitemlay.getVisibility() == View.VISIBLE) {
                 messageitemlay.setVisibility(View.INVISIBLE);
                 messagelistlay.setVisibility(View.VISIBLE);
                 changeFragment(2);
@@ -207,8 +211,8 @@ public class MainActivity extends FragmentActivity {
                 messageitemlay.setVisibility(View.INVISIBLE);
                 messagelistlay.setVisibility(View.VISIBLE);
                 changeFragment(2);
-            }else if ((nff != null)) {
-                nff = new NewsFeed_fragment();
+            }else*/ if (nff != null && nff.isVisible()) {
+                /*nff = new NewsFeed_fragment();
                 SharedPreferences sharedPreferences =
                         PreferenceManager.getDefaultSharedPreferences(this);
                 Bundle args = new Bundle();
@@ -220,14 +224,23 @@ public class MainActivity extends FragmentActivity {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, nff)
-                        .commit();
-                nff = null;
-            } else if (af !=null) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, new achievements_fragment())
-                        .commit();
-                af = null;
+                        .addToBackStack(null)
+                        .commit();    */
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("fragmentnumber", "");
+                editor.commit();
+                NewsFeed_fragment myFragment = (NewsFeed_fragment) nff;
+                if (nff != null && nff.isVisible()) {
+                    if (tabstack.size() != 0) {
+                        myFragment.mTabHost.setCurrentTab(tabstack.get(tabstack.size() - 1));
+                        tabstack.remove(tabstack.size() - 1);
+                        Log.d("ds", "rem");
+                        return true;
+                    } else {
+                        return super.onKeyDown(keyCode, event);
+                    }
+                }
             } else {
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
                 SharedPreferences.Editor editor = settings.edit();
@@ -238,13 +251,32 @@ public class MainActivity extends FragmentActivity {
             return true;
         } else if (keyCode == KeyEvent.KEYCODE_MENU) {
             menu.toggle();
-                return true;
+            return true;
         }
         return true;
     }
 
+    @Override
+    public void onBackPressed(){
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            Log.i("MainActivity", "popping backstack");
+            if (fm.getBackStackEntryCount() == 1) {
+                fm.popBackStack();
+                changeFragment(1);
+                Log.d("as", "true");
+            } else {
+                fm.popBackStack();
+            }
+
+        } else {
+            Log.i("MainActivity", "nothing on backstack, calling super");
+            super.onBackPressed();
+        }
+    }
+
     public void newMessage(String message, String date, int position) {
-        mf = new push_message_list_fragment();
+        Fragment mf = new push_message_list_fragment();
         Bundle args = new Bundle();
         args.putString("message", message);
         args.putString("date", date);
@@ -253,6 +285,7 @@ public class MainActivity extends FragmentActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, mf)
+                .addToBackStack(null)
                 .commit();
     }
 
@@ -264,6 +297,7 @@ public class MainActivity extends FragmentActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, nff)
+                .addToBackStack(null)
                 .commit();
     }
 
@@ -281,17 +315,15 @@ public class MainActivity extends FragmentActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, nf)
+                .addToBackStack(null)
                 .commit();
     }
 
     public void changeFragment(int position) {
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.container);
-        mf = null;
+        /*mf = null;*/
         lf=null;
-        nf = null;
-        if (SettingsFragment != null) {
-            getFragmentManager().beginTransaction().remove(SettingsFragment).commit();
-        }
+        nff = null;
         if (prevmenusel != null) {
             LinearLayout sel = (LinearLayout) prevmenusel.findViewById(R.id.sel);
             sel.setVisibility(View.VISIBLE);
@@ -314,19 +346,22 @@ public class MainActivity extends FragmentActivity {
                 showFragment(lf);
                 break;
             case 1:
-                showFragment(new NewsFeed_fragment());
+                nff = new NewsFeed_fragment();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, nff)
+                        .commit();
+                //showFragment(nf);
                 break;
             case 2:
-                mf = new push_message_list_fragment();
-                showFragment(mf);
+                //mf = new push_message_list_fragment();
+                showFragment(new push_message_list_fragment());
                 break;
             case 3:
                 showFragment(new achievements_fragment());
                 break;
             case 4:
-                SettingsFragment = new settings_fragment();
-                getFragmentManager().beginTransaction().replace(R.id.container, SettingsFragment).commit();
-                showFragment(new settings_helper());
+                showFragment(new settings_fragment());
                 break;
         }
     }
@@ -335,6 +370,7 @@ public class MainActivity extends FragmentActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, currentFragment)
+                .addToBackStack(null)
                 .commit();
    }
 

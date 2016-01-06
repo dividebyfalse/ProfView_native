@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentTabHost;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,16 +16,30 @@ import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by penpen on 09.10.15.
  */
 public class NewsFeed_fragment extends Fragment {
-    private FragmentTabHost mTabHost;
+    public FragmentTabHost mTabHost;
     private LinearLayout prevsel;
+    private int ptt;
+    private MainActivity ma;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ma = (MainActivity) getActivity();
+        if (ma.tabstack.size() == 0) {
+            ptt = 1;
+            Log.d("ds",String.valueOf(ptt));
+        } else {
+            ptt = ma.tabstack.get(ma.tabstack.size()-1);
+            ma.tabstack.remove(ma.tabstack.size()-1);
+            Log.d("ds",String.valueOf(ptt));
+        }
         mTabHost = new FragmentTabHost(getActivity());
         mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.realtabcontent);
         mTabHost.addTab(mTabHost.newTabSpec("menu").setIndicator(buildTabLayout("")),
@@ -37,7 +50,7 @@ public class NewsFeed_fragment extends Fragment {
                 pbf_nf_fragment.class, null);
         mTabHost.addTab(mTabHost.newTabSpec("clubs").setIndicator(buildTabLayout("Клубы")),
                 clubs_nf_fragment.class, null);
-        mTabHost.setCurrentTab(1);
+        mTabHost.setCurrentTab(ptt);
         if (mTabHost.getCurrentTab() !=0) {
             LinearLayout ll = (LinearLayout) mTabHost.getCurrentTabView().findViewById(R.id.sel);
             ll.setBackgroundColor(Color.parseColor("#01579b"));
@@ -47,7 +60,6 @@ public class NewsFeed_fragment extends Fragment {
         mb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity ma = (MainActivity) getActivity();
                 ma.menuToggle();
             }
         });
@@ -55,7 +67,6 @@ public class NewsFeed_fragment extends Fragment {
         ml.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity ma = (MainActivity) getActivity();
                 ma.menuToggle();
             }
         });
@@ -66,12 +77,16 @@ public class NewsFeed_fragment extends Fragment {
                     prevsel.setBackgroundColor(Color.parseColor("#1e88e5"));
                 }
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                if ((ma.tabstack.size() != 0 && ma.tabstack.get(ma.tabstack.size()-1) != ptt) || (ma.tabstack.size() == 0)) {
+                    ma.tabstack.add(ptt);
+                }
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putInt("tab", mTabHost.getCurrentTab());
                 editor.apply();
                 LinearLayout ll = (LinearLayout) mTabHost.getCurrentTabView().findViewById(R.id.sel);
                 ll.setBackgroundColor(Color.parseColor("#01579b"));
                 prevsel = ll;
+                ptt = mTabHost.getCurrentTab();
             }
         });
 
@@ -136,6 +151,7 @@ public class NewsFeed_fragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        ma.tabstack.add(ptt);
         mTabHost = null;
     }
 }

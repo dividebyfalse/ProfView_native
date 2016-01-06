@@ -477,7 +477,7 @@ public class achievement_fragment extends Fragment {
                 } else {
                     Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Достижение отредактировано", Toast.LENGTH_SHORT);
                     toast.show();
-                    ma.af = null;
+                  //  ma.af = null;
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     fragmentManager.beginTransaction()
                             .replace(R.id.container, new achievements_fragment())

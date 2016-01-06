@@ -28,7 +28,8 @@
                 android:layout_marginRight="0dp"
                 android:paddingRight="40dp"
                 android:layout_gravity="left"
-                android:minWidth="300dp">
+                android:minWidth="300dp"
+                android:gravity="left">
 
                 <TextView
                     android:layout_width="fill_parent"
@@ -57,16 +58,25 @@
 
             </LinearLayout>
 
-            <Button
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:id="@+id/deletemessage"
-                android:minWidth="40dp"
-                android:layout_gravity="center"
-                android:paddingRight="0dp"
-                android:background="@drawable/ic_delete"
-                android:minHeight="40dp"
-                android:visibility="visible" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical|right">
+
+                <Button
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/deletemessage"
+                    android:minWidth="40dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:background="@drawable/ic_delete"
+                    android:minHeight="40dp"
+                    android:visibility="visible"
+                    android:gravity="center_vertical|right"
+                    android:layout_marginRight="10dp" />
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
