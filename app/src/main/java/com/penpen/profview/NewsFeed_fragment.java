@@ -77,7 +77,8 @@ public class NewsFeed_fragment extends Fragment {
                     prevsel.setBackgroundColor(Color.parseColor("#1e88e5"));
                 }
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
-                if ((ma.tabstack.size() != 0 && ma.tabstack.get(ma.tabstack.size()-1) != ptt) || (ma.tabstack.size() == 0)) {
+                if ((ma.tabstack.size() != 0 && ma.tabstack.get(ma.tabstack.size()-1) != ptt && ma.tabstack.get(ma.tabstack.size()-1) != mTabHost.getCurrentTab()) || (ma.tabstack.size() == 0)) {
+                    Log.d("dg", String.valueOf(ptt));
                     ma.tabstack.add(ptt);
                 }
                 SharedPreferences.Editor editor = settings.edit();

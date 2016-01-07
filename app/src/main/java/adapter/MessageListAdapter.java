@@ -1,10 +1,7 @@
 package adapter;
 
-import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
@@ -22,9 +19,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.penpen.profview.MainActivity;
 import com.penpen.profview.R;
-import com.penpen.profview.achievements_fragment;
 import com.penpen.profview.push_message_list_fragment;
 
 import java.util.List;
@@ -99,7 +94,6 @@ public class MessageListAdapter extends BaseAdapter {
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new push_message_list_fragment())
-                        .addToBackStack(null)
                         .commit();
             }
         });
@@ -117,44 +111,24 @@ public class MessageListAdapter extends BaseAdapter {
                 messagesItems.get(Integer.parseInt(String.valueOf(position))).setIsnew(false);
                 adapter.notifyDataSetChanged();
 
-                //TODO:fix this
                 Fragment mf = new push_message_list_fragment();
                 Bundle args = new Bundle();
                 args.putString("message", messagesItems.get(position).getMessage());
                 args.putString("date", messagesItems.get(position).getDate());
                 args.putInt("position", position);
+
+                if (messagesItems.get(position).getIsnews()) {
+                    args.putBoolean("isnews", true);
+                    args.putString("mainimage", messagesItems.get(position).getImage());
+                    args.putString("pi", messagesItems.get(position).getProfile_pic());
+                    args.putString("pn", messagesItems.get(position).getProfile_name());
+                }
                 mf.setArguments(args);
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, mf)
                         .addToBackStack(null)
                         .commit();
-
-                /*
-                Intent intent = new Intent(activity, MainActivity.class);
-                intent.putExtra("message", messagesItems.get(position).getMessage());
-                intent.putExtra("date", messagesItems.get(position).getDate());
-                intent.putExtra("position", position);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                if (messagesItems.get(position).getIsnews()) {
-                    intent.putExtra("ShowMessageItem", false);
-                    intent.putExtra("image", messagesItems.get(position).getImage());
-                    intent.putExtra("profilename", messagesItems.get(position).getProfile_name());
-                    intent.putExtra("profilepic", messagesItems.get(position).getProfile_pic());
-                    Log.d("log", "news");
-                } else {
-                    intent.putExtra("ShowMessageItem", true);
-                    Log.d("log", "item");
-                }
-                PendingIntent pendingIntent = PendingIntent.getActivity(activity, 0, intent,
-                        PendingIntent.FLAG_ONE_SHOT);
-                try {
-                    pendingIntent.send();
-                } catch (Exception e) {
-                }*/
-
-
                 db.close();
                 dbHelper.close();
             }
@@ -170,7 +144,6 @@ public class MessageListAdapter extends BaseAdapter {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            Log.d("log", "--- onCreate database ---");
             db.execSQL("create table pushmessagetable ("
                     + "id integer primary key autoincrement,"
                     + "message text,"
@@ -184,7 +157,6 @@ public class MessageListAdapter extends BaseAdapter {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
         }
     }
 }
