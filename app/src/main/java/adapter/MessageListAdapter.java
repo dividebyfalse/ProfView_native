@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.penpen.profview.MainActivity;
 import com.penpen.profview.R;
 import com.penpen.profview.push_message_list_fragment;
 
@@ -129,6 +130,8 @@ public class MessageListAdapter extends BaseAdapter {
                         .replace(R.id.container, mf)
                         .addToBackStack(null)
                         .commit();
+                MainActivity ma = (MainActivity) activity;
+                ma.menustack.add(2);
                 db.close();
                 dbHelper.close();
             }

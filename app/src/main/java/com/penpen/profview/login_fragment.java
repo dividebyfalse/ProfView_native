@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -66,8 +65,6 @@ public class login_fragment extends Fragment {
         final Spinner spinner = (Spinner) view.findViewById(R.id.Faculty_reg);
         final Spinner URspinner = (Spinner) view.findViewById(R.id.University_reg);
         final Spinner CRspinner = (Spinner) view.findViewById(R.id.City_reg);
-        final LinearLayout loginlay = (LinearLayout) view.findViewById(R.id.loginlayout);
-        final ScrollView reglay = (ScrollView) view.findViewById(R.id.scrollreglayout);
         loginb = (Button) view.findViewById(R.id.loginbutton);
         loginb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -385,7 +382,8 @@ public class login_fragment extends Fragment {
                 editor.putString("pass_preference", pas);
                 editor.commit();
                 MainActivity.isLogin = true;
-                MainActivity.items[0]="Выйти";
+                MainActivity.items.get(0).setDescription("Выйти");
+                //MainActivity.items[0]="Выйти";
                 if (MainActivity.menuadapter != null) {
                     MainActivity.menuadapter.notifyDataSetChanged();
                 }
@@ -408,8 +406,6 @@ public class login_fragment extends Fragment {
                             getResources().getStringArray(R.array.cityid)[cityspinner.getSelectedItemPosition()]);
                     MainActivity.fragmentnumber=4;
                     ma.changeFragment(3);
-                    /*FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.container, new achievements_fragment()).commit();*/
                     sendregb.setEnabled(true);
                 } else {
                     Toast toast = Toast.makeText(viev.getContext().getApplicationContext(), "Вход выполнен", Toast.LENGTH_SHORT);
@@ -417,8 +413,6 @@ public class login_fragment extends Fragment {
                     try {
                         MainActivity.fragmentnumber=4;
                         ma.changeFragment(3);
-                        /*FragmentManager fragmentManager = getFragmentManager();
-                        fragmentManager.beginTransaction().replace(R.id.container, new achievements_fragment()).commit();*/
                     } catch (Exception e) {
                         loginb.setEnabled(true);
                         pass.setOnKeyListener(passonclick);

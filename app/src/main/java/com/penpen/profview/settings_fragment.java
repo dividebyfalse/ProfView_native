@@ -32,6 +32,7 @@ public class settings_fragment extends PreferenceFragmentCompat implements Share
         ft.replace(R.id.container, fragment, preferenceScreen.getKey());
         ft.addToBackStack(null);
         ft.commit();
+        ma.menustack.add(4);
     }
 
     @Override

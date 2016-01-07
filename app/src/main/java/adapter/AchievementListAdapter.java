@@ -220,6 +220,7 @@ public class AchievementListAdapter extends BaseAdapter {
                         .replace(R.id.container, af)
                         .addToBackStack(null)
                         .commit();
+                ma.menustack.add(3);
             }
         }
 

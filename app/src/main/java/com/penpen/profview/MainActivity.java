@@ -19,7 +19,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -29,22 +28,25 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import java.util.ArrayList;
 import java.util.List;
 
+import adapter.MenuListAdapter;
 import app.QuickstartPreferences;
 import app.RegistrationIntentService;
+import data.MenuItem;
 
 public class MainActivity extends FragmentActivity {
-    SlidingMenu menu;
+    public SlidingMenu menu;
     private Fragment lf=null;
     private Fragment nff = null;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "MainActivity";
-    private View prevmenusel;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     static public boolean isLogin;
-    static public String[] items = {"", "Новости", "Сообщения", "Список достижений", "Настройки"};
-    static public ArrayAdapter menuadapter = null;
+    static public List<MenuItem> items;
+    static public MenuListAdapter menuadapter = null;
     static public int fragmentnumber;
     public List<Integer> tabstack;
+    public List<Integer> menustack;
+    public int menuselected;
 
     @SuppressLint("NewApi")
     @Override
@@ -62,7 +64,14 @@ public class MainActivity extends FragmentActivity {
         menu.setBehindWidthRes(R.dimen.slidingmenu_behind_width);
 
         tabstack = new ArrayList<>();
+        menustack = new ArrayList<>();
 
+        items = new ArrayList<>();
+        items.add(new MenuItem("Войти"));
+        items.add(new MenuItem("Новости"));
+        items.add(new MenuItem("Сообщения"));
+        items.add(new MenuItem("Список достижений"));
+        items.add(new MenuItem("Настройки"));
         String log = "Войти";
         isLogin = false;
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
@@ -70,27 +79,14 @@ public class MainActivity extends FragmentActivity {
             log = "Выйти";
             isLogin = true;
         }
-        menuadapter = new ArrayAdapter<Object>(
-                this,
-                R.layout.sidemenu_item,
-                R.id.text,
-                items
-        );
-        items[0]=log;
+        menuadapter = new MenuListAdapter(this, items);
+        items.get(0).setDescription(log);
         ListView listView = ((ListView) findViewById(R.id.sidemenu));
         listView.setAdapter(menuadapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 menuToggle();
-                if (prevmenusel != null) {
-                    LinearLayout sel = (LinearLayout) prevmenusel.findViewById(R.id.sel);
-                    sel.setVisibility(View.INVISIBLE);
-                }
-
-                LinearLayout sel = (LinearLayout) view.findViewById(R.id.sel);
-                sel.setVisibility(View.VISIBLE);
-                prevmenusel = view;
                 changeFragment(position);
             }
         });
@@ -99,19 +95,16 @@ public class MainActivity extends FragmentActivity {
         if (!settings.contains("IsPushEnabled")) {
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("IsPushEnabled", true);
-            editor.commit();
+            editor.apply();
         }
 
         Intent initintent = getIntent();
         if (initintent.getBooleanExtra("isMessageList", false)) {
-            menu.showMenu();
-            listView.performItemClick(listView.getAdapter().getView(2, null, null), 2, listView.getItemIdAtPosition(2));
-            //changeFragment(2);
+            changeFragment(2);
         } else if ((initintent.getStringExtra("newsid") != null) && !initintent.getStringExtra("newsid").equals("")) {
             showextendednews(initintent);
         } else {
-            menu.showMenu();
-            listView.performItemClick(listView.getAdapter().getView(1, null, null), 1, listView.getItemIdAtPosition(1));
+            changeFragment(1);
         }
 
         if (settings.getBoolean("IsPushEnabled", true)) {
@@ -156,16 +149,16 @@ public class MainActivity extends FragmentActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if(menu.isMenuShowing()){
-                menu.toggle();
-            }
             LinearLayout loginlay = null;
             ScrollView reglay = null;
             if (lf !=null) {
                 loginlay = (LinearLayout) lf.getView().findViewById(R.id.loginlayout);
                 reglay = (ScrollView) lf.getView().findViewById(R.id.scrollreglayout);
             }
-            if (lf != null && lf.isVisible() && loginlay.getVisibility() == View.INVISIBLE) {
+
+            if(menu.isMenuShowing()){
+                menu.toggle();
+            } else if (lf != null && lf.isVisible() && loginlay.getVisibility() == View.INVISIBLE) {
                 loginlay.setVisibility(View.VISIBLE);
                 reglay.setVisibility(View.INVISIBLE);
             } else if (nff != null && nff.isVisible()) {
@@ -178,7 +171,6 @@ public class MainActivity extends FragmentActivity {
                     if (tabstack.size() != 0) {
                         myFragment.mTabHost.setCurrentTab(tabstack.get(tabstack.size() - 1));
                         tabstack.remove(tabstack.size() - 1);
-                        Log.d("ds", "rem");
                         return true;
                     } else {
                         return super.onKeyDown(keyCode, event);
@@ -207,9 +199,13 @@ public class MainActivity extends FragmentActivity {
             if (fm.getBackStackEntryCount() == 1) {
                 fm.popBackStack();
                 changeFragment(1);
-                Log.d("as", "true");
             } else {
                 fm.popBackStack();
+                Log.d("pbstck", String.valueOf(menustack.get(menustack.size() - 1)));
+                items.get(menustack.get(menustack.size()-1)).setSelected(true);
+                menuselected=menustack.get(menustack.size()-1);
+                menustack.remove(menustack.get(menustack.size()-1));
+                menuadapter.notifyDataSetChanged();
             }
         } else {
             Log.i("MainActivity", "nothing on backstack, calling super");
@@ -218,6 +214,7 @@ public class MainActivity extends FragmentActivity {
     }
 
     public void showextendednews(Intent i) {
+        menustack.add(menuselected);
         Bundle args = new Bundle();
         args.putString("newsid", i.getStringExtra("newsid"));
         nff = new news_item_fragment();
@@ -233,10 +230,10 @@ public class MainActivity extends FragmentActivity {
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.container);
         lf=null;
         nff = null;
-        if (prevmenusel != null) {
-            LinearLayout sel = (LinearLayout) prevmenusel.findViewById(R.id.sel);
-            sel.setVisibility(View.VISIBLE);
-        }
+        menustack.add(menuselected);
+        menuselected = position;
+        items.get(position).setSelected(true);
+        menuadapter.notifyDataSetChanged();
         mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
         fragmentnumber = position;
         switch (position) {
@@ -246,8 +243,8 @@ public class MainActivity extends FragmentActivity {
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("login_preference", "");
                     editor.putString("pass_preference", "");
-                    editor.commit();
-                    items[0]="Войти";
+                    editor.apply();
+                    items.get(0).setDescription("Войти");
                     menuadapter.notifyDataSetChanged();
                     isLogin = false;
                 }
@@ -288,7 +285,7 @@ public class MainActivity extends FragmentActivity {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("fragmentnumber", 1);
-        editor.commit();
+        editor.apply();
     }
 
     @Override
@@ -297,7 +294,7 @@ public class MainActivity extends FragmentActivity {
         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("fragmentnumber", 1);
-        editor.commit();
+        editor.apply();
     }
 
     @Override
@@ -308,7 +305,7 @@ public class MainActivity extends FragmentActivity {
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("fragmentnumber", fragmentnumber);
         //editor.putString("cookie", authorization.cookie);
-        editor.commit();
+        editor.apply();
     }
 
     private boolean checkPlayServices() {

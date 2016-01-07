@@ -9,7 +9,9 @@
     android:paddingRight="10dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@drawable/sidemenu_items_background"
-    android:clickable="false">
+    android:clickable="false"
+    android:minHeight="40dp"
+    android:id="@+id/smi">
 
 
     <LinearLayout

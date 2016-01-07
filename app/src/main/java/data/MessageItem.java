@@ -12,10 +12,6 @@ public class MessageItem {
     private String profile_name;
     private String image;
 
-    public MessageItem() {
-
-    }
-
     public MessageItem(String message, String date, Boolean isnew, Boolean isnews, String image, String profile_name, String profile_pic) {
         super();
         this.message = message;
