@@ -21,6 +21,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:name="app.AppController">
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -30,6 +31,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".fullscreenimage_fragment"
+            android:label="@string/app_name"
+            android:theme="@style/FullScreenDialogTheme">
+        </activity>
+
+        <activity android:name="com.vk.sdk.VKServiceActivity" android:label="ServiceActivity" android:theme="@style/VK.Transparent" />
 
         <receiver android:name="app.NetworkStateReceiver">
             <intent-filter>

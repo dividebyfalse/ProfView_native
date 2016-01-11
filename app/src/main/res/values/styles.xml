@@ -25,4 +25,7 @@
         <item name="preferenceFragmentListStyle">@style/PreferenceFragmentList</item>
     </style>
 
+    <style name="FullScreenDialogTheme" parent="@android:style/Theme.NoTitleBar.Fullscreen"/>
+
+
 </resources>

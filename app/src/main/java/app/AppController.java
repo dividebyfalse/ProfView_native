@@ -8,6 +8,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.vk.sdk.VKSdk;
+
 /**
  * Created by penpen on 08.10.15.
  */
@@ -24,6 +26,7 @@ public class AppController extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        VKSdk.initialize(getApplicationContext());
         mInstance = this;
     }
 

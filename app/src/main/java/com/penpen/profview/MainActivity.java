@@ -24,6 +24,18 @@ import android.widget.ScrollView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.vk.sdk.VKAccessToken;
+import com.vk.sdk.VKCallback;
+import com.vk.sdk.VKSdk;
+import com.vk.sdk.api.VKApi;
+import com.vk.sdk.api.VKApiConst;
+import com.vk.sdk.api.VKError;
+import com.vk.sdk.api.VKParameters;
+import com.vk.sdk.api.VKRequest;
+import com.vk.sdk.api.VKResponse;
+import com.vk.sdk.api.model.VKApiVideo;
+import com.vk.sdk.api.model.VkVideoArray;
+import com.vk.sdk.util.VKUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,11 +59,14 @@ public class MainActivity extends FragmentActivity {
     public List<Integer> tabstack;
     public List<Integer> menustack;
     public int menuselected;
+    public boolean isImageFitToScreen;
 
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isImageFitToScreen = false;
+
         menu = new SlidingMenu(this);
         menu.setBackgroundColor(0xFF333333);
         menu.setSelectorDrawable(R.drawable.sidemenu_items_background);
@@ -78,6 +93,9 @@ public class MainActivity extends FragmentActivity {
         if (settings.getString("login_preference", "").length() !=0) {
             log = "Выйти";
             isLogin = true;
+        }
+        if (settings.getString("VKAT", "").equals("")) {
+            VKSdk.login(this, "offline", "audio", "video");
         }
         menuadapter = new MenuListAdapter(this, items);
         items.get(0).setDescription(log);
@@ -129,6 +147,29 @@ public class MainActivity extends FragmentActivity {
                 Intent intent = new Intent(this, RegistrationIntentService.class);
                 startService(intent);
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
+            @Override
+            public void onResult(VKAccessToken res) {
+                // Пользователь успешно авторизовался
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("VKAT", res.accessToken);
+                editor.apply();
+                Log.d("exp in", String.valueOf(res.expiresIn));
+                Log.d("at", res.accessToken);
+            }
+            @Override
+            public void onError(VKError error) {
+                // Произошла ошибка авторизации (например, пользователь запретил авторизацию)
+                Log.d("err", "vkacceserror");
+            }
+        })) {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 

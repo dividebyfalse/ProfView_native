@@ -1,9 +1,11 @@
 package com.penpen.profview;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.preference.PreferenceManager;
 import android.text.Html;
 import android.util.Log;
 import android.util.TypedValue;
@@ -13,6 +15,14 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.vk.sdk.api.VKApi;
+import com.vk.sdk.api.VKApiConst;
+import com.vk.sdk.api.VKError;
+import com.vk.sdk.api.VKParameters;
+import com.vk.sdk.api.VKRequest;
+import com.vk.sdk.api.VKResponse;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -44,6 +54,7 @@ public abstract class nf_fragment extends Fragment {
     boolean is_ref;
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayout eelay;
+    private SharedPreferences settings;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,6 +96,7 @@ public abstract class nf_fragment extends Fragment {
                 }
             }
         });
+        settings = PreferenceManager.getDefaultSharedPreferences(getContext());
         //SharedPreferences settings = getActivity().getSharedPreferences("temp", 0);
         /*Cache cache = AppController.getInstance().getRequestQueue().getCache();
         Entry entry = cache.get(getURL());*/
@@ -297,25 +309,23 @@ public abstract class nf_fragment extends Fragment {
             } else {
                 resultJson = params[1];
             }
-            return resultJson;
-        }
 
-        @Override
-        protected void onPostExecute(String strJson) {
-            super.onPostExecute(strJson);
+
+
+            //************************
             JSONObject dataJsonObj = null;
             try {
-                dataJsonObj = new JSONObject(strJson);
+                dataJsonObj = new JSONObject(resultJson);
                 try {
                     feedItems.clear();
                     JSONArray feedArray = dataJsonObj.getJSONArray("response");
                     JSONObject groups = null;
-                    if (urlgroupsimages != "") {
+                    if (!urlgroupsimages.equals("")) {
                         groups = new JSONObject(urlgroupsimages).getJSONObject("groups");
                     }
                     for (int i = 1; i < feedArray.length(); i++) {
                         JSONObject feedObj = (JSONObject) feedArray.get(i);
-                        FeedItem item = new FeedItem();
+                        final FeedItem item = new FeedItem();
                         item.setId(feedObj.getInt("id"));
                         if (groups != null) {
                             item.setName(groups.getJSONObject(feedObj.getString("to_id").substring(1)).getString("name"));
@@ -326,7 +336,79 @@ public abstract class nf_fragment extends Fragment {
                                 item.setName("Разное");
                             }
                         }
-                        if (feedObj.isNull("attachment") == false) {
+                        if (!feedObj.isNull("attachment")) {
+                            if (feedObj.getJSONObject("attachment").has("video")) {
+                               String JSON = "";
+                                if (!settings.getString("VKAT", "").equals("")) {
+                                    try {
+                                        URL url = new URL("https://api.vk.com/method/video.get?videos=" + feedObj.getJSONObject("attachment").getJSONObject("video").getString("owner_id")+"_"+feedObj.getJSONObject("attachment").getJSONObject("video").getString("vid") + "&count=1&extended=0&version=5.44&access_token=" + settings.getString("VKAT", ""));
+                                        urlConnection = (HttpURLConnection) url.openConnection();
+                                        urlConnection.setRequestMethod("GET");
+                                        urlConnection.setConnectTimeout(3000);
+                                        urlConnection.connect();
+                                        InputStream inputStream = urlConnection.getInputStream();
+                                        StringBuilder buffer = new StringBuilder();
+                                        reader = new BufferedReader(new InputStreamReader(inputStream));
+                                        String line;
+                                        while ((line = reader.readLine()) != null) {
+                                            buffer.append(line);
+                                        }
+                                        JSON = buffer.toString();
+
+                                        urlConnection.disconnect();
+                                        try {
+                                            JSONObject json = new JSONObject(JSON).getJSONArray("response").getJSONObject(1);
+                                            Log.d("vj", json.toString());
+                                            if (json.has("player")) {
+                                                item.setVideoimg(json.getString("image_medium"));
+                                                item.setExtvideo(json.getString("player"));
+                                            }
+                                        } catch (Exception ignored) {
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                               /* final VKRequest request = VKApi.video().get(VKParameters.from("videos", feedObj.getJSONObject("attachment").getJSONObject("video").getString("owner_id")+"_"+feedObj.getJSONObject("attachment").getJSONObject("video").getString("vid"), VKApiConst.COUNT, "1", VKApiConst.EXTENDED, "0", VKApiConst.VERSION, "5.42", VKApiConst.ACCESS_TOKEN, settings.getString("VKAT", "")));
+                                request.executeWithListener(new VKRequest.VKRequestListener() {
+                                    @Override
+                                    public void onComplete(VKResponse response) {
+                                        //Do complete stuff
+                                        try {
+                                            JSONObject json = response.json.getJSONObject("response").getJSONArray("items").getJSONObject(0);
+                                            if (json.has("player") && json.getJSONObject("files").has("external")) {
+                                                item.setExtvideo(json.getString("player"));
+                                                extvideo = json.getString("player");
+                                                Log.d("video", extvideo);
+                                            } else if (json.has("files") && json.getJSONObject("files").has("mp4_360")) {
+                                                video = json.getJSONObject("files").getString("mp4_360");
+                                                item.setVideo(json.getJSONObject("files").getString("mp4_360"));
+                                                Log.d("video", video);
+                                            } else if (json.has("files") && json.getJSONObject("files").has("mp4_240")) {
+                                                video = json.getJSONObject("files").getString("mp4_240");
+                                                item.setVideo(json.getJSONObject("files").getString("mp4_240"));
+                                                Log.d("video", video);
+                                            }
+
+                                        } catch (Exception ignored) {
+                                        }
+                                        Log.d("resp", response.responseString);
+                                        //Log.d("video", video);
+                                    }
+
+                                    @Override
+                                    public void onError(VKError error) {
+                                        //Do error stuff
+                                        Log.d("err", error.toString());
+                                    }
+
+                                    @Override
+                                    public void attemptFailed(VKRequest request, int attemptNumber,
+                                                              int totalAttempts) {
+                                        //I don't really believe in progress
+                                    }
+                                });*/
+                            }
                             String image = feedObj.getJSONObject("attachment").isNull("photo") ? null : feedObj
                                     .getJSONObject("attachment").getJSONObject("photo").getString("src_big");
                             item.setImge(image);
@@ -353,13 +435,19 @@ public abstract class nf_fragment extends Fragment {
                         item.setTimeStamp(feedObj.getString("date")+"000");
                         feedItems.add(item);
                     }
-                    listAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            return resultJson;
+        }
+
+        @Override
+        protected void onPostExecute(String strJson) {
+            super.onPostExecute(strJson);
+            listAdapter.notifyDataSetChanged();
             swipeRefreshLayout.setRefreshing(false);
         }
     }

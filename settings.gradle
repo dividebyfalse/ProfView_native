@@ -1,2 +1,4 @@
-include ':app', ':library'
+include ':app', ':library', ':vksdk_library', ':photolibrary'
 project(':library').projectDir = new File('app/SlidingMenu/library')
+project(':vksdk_library').projectDir = new File('app/vksdk_library')
+project(':photolibrary').projectDir = new File('PhotoView/library')

@@ -3,6 +3,7 @@ package adapter;
 import app.FeedImageView;
 
 import app.AppController;
+import app.RegistrationIntentService;
 import data.FeedItem;
 
 import java.util.List;
@@ -15,6 +16,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -28,14 +32,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.penpen.profview.MainActivity;
 import com.penpen.profview.R;
+import com.penpen.profview.fullscreenimage_fragment;
+import com.penpen.profview.push_message_list_fragment;
+import com.vk.sdk.WebView;
 
 /**
  * Created by penpen on 08.10.15.
@@ -78,12 +88,16 @@ public class FeedListAdapter extends BaseAdapter {
         if (imageLoader == null)
             imageLoader = AppController.getInstance().getImageLoader();
 
+        final MainActivity ma = (MainActivity) activity;
         ImageView linkpic = (ImageView) convertView.findViewById(R.id.imgUrl);
         TextView name = (TextView) convertView.findViewById(R.id.name);
         TextView timestamp = (TextView) convertView.findViewById(R.id.timestamp);
         TextView statusMsg = (TextView) convertView.findViewById(R.id.txtStatusMsg);
         TextView url = (TextView) convertView.findViewById(R.id.txtUrl);
         LinearLayout ll = (LinearLayout) convertView.findViewById(R.id.nl);
+        FeedImageView videoimage = (FeedImageView) convertView.findViewById(R.id.videoImage);
+        RelativeLayout vidlay = (RelativeLayout) convertView.findViewById(R.id.vidimglay);
+        Button playvid = (Button) convertView.findViewById(R.id.playbutton);
         View.OnClickListener cl = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,10 +118,10 @@ public class FeedListAdapter extends BaseAdapter {
 
         NetworkImageView profilePic = (NetworkImageView) convertView
                 .findViewById(R.id.profilePic);
-        FeedImageView feedImageView = (FeedImageView) convertView
+        final FeedImageView feedImageView = (FeedImageView) convertView
                 .findViewById(R.id.feedImage1);
 
-        FeedItem item = feedItems.get(position);
+        final FeedItem item = feedItems.get(position);
 
         name.setText(item.getName());
 
@@ -166,14 +180,33 @@ public class FeedListAdapter extends BaseAdapter {
             statusMsg.setVisibility(View.GONE);
         }
 
+        final String extvideo = item.getExtvideo();
+         if (extvideo != null && !extvideo.equals("")) {
+            vidlay.setVisibility(View.VISIBLE);
+            Log.d("extvid", extvideo);
+            View.OnClickListener videoclicked = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse(extvideo));
+                    activity.startActivity(intent);
+                }
+            };
+            videoimage.setOnClickListener(videoclicked);
+            playvid.setOnClickListener(videoclicked);
+        } else {
+             vidlay.setVisibility(View.GONE);
+         }
+
+
         // Checking for null feed url
         if (item.getUrl() != null) {
             url.setText(Html.fromHtml("<a href=\"" + item.getUrl() + "\">Подробнее...</a> "));
             final String link = item.getUrl();
             // Making url clickable
             linkpic.setVisibility(View.VISIBLE);
-            linkpic.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View v){
+            linkpic.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.addCategory(Intent.CATEGORY_BROWSABLE);
@@ -193,11 +226,44 @@ public class FeedListAdapter extends BaseAdapter {
         // user profile pic
         profilePic.setImageUrl(item.getProfilePic(), imageLoader);
 
+        if (item.getVideoimg() != null) {
+            videoimage.setImageUrl(item.getVideoimg(), imageLoader);
+            videoimage.setVisibility(View.VISIBLE);
+           // videoimage
+        }
+
         // Feed image
         if (item.getImge() != null) {
             feedImageView.setImageUrl(item.getImge(), imageLoader);
             feedImageView.setVisibility(View.VISIBLE);
-            feedImageView
+            feedImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    /*Fragment mf = new fullscreenimage_fragment();
+                    Bundle args = new Bundle();
+                    args.putString("img", item.getImge());
+                    mf.setArguments(args);
+                    FragmentManager fragmentManager = ma.getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, mf)
+                            .addToBackStack(null)
+                            .commit();*/
+                    Intent intent = new Intent(activity, fullscreenimage_fragment.class);
+                    intent.putExtra("img", item.getImge());
+                    activity.startActivity(intent);
+                    /*if(ma.isImageFitToScreen) {
+                        ma.isImageFitToScreen=false;
+                        feedImageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+                        feedImageView.setAdjustViewBounds(true);
+                    } else {
+                        ma.isImageFitToScreen=true;
+                        feedImageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+                        feedImageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                    }*/
+                }
+            });
+            /*feedImageView
                     .setResponseObserver(new FeedImageView.ResponseObserver() {
                         @Override
                         public void onError() {
@@ -206,7 +272,7 @@ public class FeedListAdapter extends BaseAdapter {
                         @Override
                         public void onSuccess() {
                         }
-                    });
+                    });*/
         } else {
             feedImageView.setVisibility(View.GONE);
         }
