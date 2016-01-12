@@ -27,15 +27,7 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKSdk;
-import com.vk.sdk.api.VKApi;
-import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKError;
-import com.vk.sdk.api.VKParameters;
-import com.vk.sdk.api.VKRequest;
-import com.vk.sdk.api.VKResponse;
-import com.vk.sdk.api.model.VKApiVideo;
-import com.vk.sdk.api.model.VkVideoArray;
-import com.vk.sdk.util.VKUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,7 +121,6 @@ public class MainActivity extends FragmentActivity {
             mRegistrationBroadcastReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
-                    // mRegistrationProgressBar.setVisibility(ProgressBar.GONE);
                     SharedPreferences sharedPreferences =
                             PreferenceManager.getDefaultSharedPreferences(context);
                     boolean sentToken = sharedPreferences
@@ -160,12 +151,14 @@ public class MainActivity extends FragmentActivity {
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putString("VKAT", res.accessToken);
                 editor.apply();
-                Log.d("exp in", String.valueOf(res.expiresIn));
-                Log.d("at", res.accessToken);
             }
             @Override
             public void onError(VKError error) {
                 // Произошла ошибка авторизации (например, пользователь запретил авторизацию)
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("VKAT", "0");
+                editor.apply();
                 Log.d("err", "vkacceserror");
             }
         })) {

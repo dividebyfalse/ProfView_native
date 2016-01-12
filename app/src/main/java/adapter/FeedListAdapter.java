@@ -162,7 +162,9 @@ public class FeedListAdapter extends BaseAdapter {
                     };
 
                     correct+=vkmatcher.group(i).length();
-                    ss.setSpan(clickableSpan, item.getStatus().indexOf(vkmatcher.group(i), offset)-pcorrect, item.getStatus().indexOf("]", item.getStatus().indexOf(vkmatcher.group(i), offset)+ vkmatcher.group(i).length())- correct, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    try {
+                        ss.setSpan(clickableSpan, item.getStatus().indexOf(vkmatcher.group(i), offset) - pcorrect, item.getStatus().indexOf("]", item.getStatus().indexOf(vkmatcher.group(i), offset) + vkmatcher.group(i).length()) - correct, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    } catch (Exception ignored) {}
                     correct+=1;
                     pcorrect+=vkmatcher.group(i).length()+1;
                     offset = item.getStatus().indexOf(vkmatcher.group(i), offset);
@@ -239,40 +241,12 @@ public class FeedListAdapter extends BaseAdapter {
             feedImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    /*Fragment mf = new fullscreenimage_fragment();
-                    Bundle args = new Bundle();
-                    args.putString("img", item.getImge());
-                    mf.setArguments(args);
-                    FragmentManager fragmentManager = ma.getSupportFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.container, mf)
-                            .addToBackStack(null)
-                            .commit();*/
                     Intent intent = new Intent(activity, fullscreenimage_fragment.class);
                     intent.putExtra("img", item.getImge());
+
                     activity.startActivity(intent);
-                    /*if(ma.isImageFitToScreen) {
-                        ma.isImageFitToScreen=false;
-                        feedImageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-                        feedImageView.setAdjustViewBounds(true);
-                    } else {
-                        ma.isImageFitToScreen=true;
-                        feedImageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-                        feedImageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    }*/
                 }
             });
-            /*feedImageView
-                    .setResponseObserver(new FeedImageView.ResponseObserver() {
-                        @Override
-                        public void onError() {
-                        }
-
-                        @Override
-                        public void onSuccess() {
-                        }
-                    });*/
         } else {
             feedImageView.setVisibility(View.GONE);
         }
