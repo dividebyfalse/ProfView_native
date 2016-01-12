@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
@@ -27,6 +28,7 @@ public class NewsFeed_fragment extends Fragment {
     private LinearLayout prevsel;
     private int ptt;
     private MainActivity ma;
+    private boolean createdTab = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -73,6 +75,11 @@ public class NewsFeed_fragment extends Fragment {
         mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
             public void onTabChanged(String tabId) {
+                //((FrameLayout) getView().findViewById(R.id.realtabcontent)).removeAllViews();
+                /*if (ma.pt != null) {
+                   // ma.pt.cancel(true);
+                    ((FrameLayout) getView().findViewById(R.id.realtabcontent)).removeAllViews();
+                }*/
                 if (prevsel != null) {
                     prevsel.setBackgroundColor(Color.parseColor("#1e88e5"));
                 }

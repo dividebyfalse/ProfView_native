@@ -41,7 +41,6 @@ import org.json.JSONObject;
  */
 public abstract class nf_fragment extends Fragment {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
     private FeedListAdapter listAdapter;
     private List<FeedItem> feedItems;
     boolean is_ref;
@@ -50,6 +49,7 @@ public abstract class nf_fragment extends Fragment {
     private SharedPreferences settings;
     private Boolean flag_loading;
     private int offset;
+    private MainActivity ma;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,6 +59,7 @@ public abstract class nf_fragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ma = (MainActivity) getActivity();
         flag_loading = false;
         offset = 0;
         ListView listView = (ListView) getActivity().findViewById(getlvid());
@@ -86,7 +87,7 @@ public abstract class nf_fragment extends Fragment {
                                     lss += ls.get(i) + ";";
                                 }
                                 lss=lss.substring(0, lss.length()-1);
-                                new ParseTask().execute(lss, String.valueOf(offset));
+                                ma.pt = new ParseTask().execute(lss, String.valueOf(offset));
                             } else {
                                 TextView eet = (TextView) eelay.findViewById(R.id.eet);
                                 eet.setText(getee());
@@ -116,7 +117,7 @@ public abstract class nf_fragment extends Fragment {
                             lss += ls.get(i) + ";";
                         }
                         lss=lss.substring(0, lss.length()-1);
-                        new ParseTask().execute(lss, String.valueOf(offset));
+                        ma.pt = new ParseTask().execute(lss, String.valueOf(offset));
                     } else {
                         TextView eet = (TextView) eelay.findViewById(R.id.eet);
                         eet.setText(getee());
@@ -156,7 +157,7 @@ public abstract class nf_fragment extends Fragment {
                         lss += ls.get(i) + ";";
                     }
                     lss=lss.substring(0, lss.length()-1);
-                    new ParseTask().execute(lss, String.valueOf(offset));
+                    ma.pt = new ParseTask().execute(lss, String.valueOf(offset));
                     //at.cancel(true);
                 } else {
                     TextView eet = (TextView) eelay.findViewById(R.id.eet);
@@ -450,8 +451,8 @@ public abstract class nf_fragment extends Fragment {
                                 item.setProfilePic("https://pp.vk.me/c410124/v410124933/a3fa/SF8mkyWprrY.jpg");
                             }
                         }
-                        item.setNewsid(feedObj.getString("to_id")+"_"+feedObj.getString("id"));
-                        item.setTimeStamp(feedObj.getString("date")+"000");
+                        item.setNewsid(feedObj.getString("to_id") + "_" + feedObj.getString("id"));
+                        item.setTimeStamp(feedObj.getString("date") + "000");
                         feedItems.add(item);
                     }
                 } catch (JSONException e) {
@@ -466,9 +467,22 @@ public abstract class nf_fragment extends Fragment {
         @Override
         protected void onPostExecute(String strJson) {
             super.onPostExecute(strJson);
-            listAdapter.notifyDataSetChanged();
+            if (strJson != null) {
+                listAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+                flag_loading = false;
+                ma.pt = null;
+            }
+        }
+
+        @Override
+        protected void onCancelled(){
+            // If you write your own implementation, do not call super.onCancelled(result).
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
             swipeRefreshLayout.setRefreshing(false);
-            flag_loading = false;
+            super.onCancelled();
         }
     }
 }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -52,6 +53,7 @@ public class MainActivity extends FragmentActivity {
     public List<Integer> menustack;
     public int menuselected;
     public boolean isImageFitToScreen;
+    public AsyncTask pt;
 
     @SuppressLint("NewApi")
     @Override
