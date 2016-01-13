@@ -17,18 +17,30 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import adapter.FeedListAdapter;
+import app.AppController;
 import app.authorization;
 import data.FeedItem;
 
@@ -50,6 +62,14 @@ public abstract class nf_fragment extends Fragment {
     private Boolean flag_loading;
     private int offset;
     private MainActivity ma;
+
+
+    HttpURLConnection urlConnection = null;
+    BufferedReader reader = null;
+    String resultJson = "";
+    private String urlgroupsimages = "";
+    private String profimg ="";
+    private  String profname = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -192,6 +212,39 @@ public abstract class nf_fragment extends Fragment {
 
     protected abstract List<String> getURL();
 
+    public class JsonObjectComparator implements Comparator<JSONObject> {
+        private final String fieldName;
+        private Class<? extends Comparable> fieldType;
+
+        public JsonObjectComparator(String fieldName, Class<? extends Comparable> fieldType) {
+            this.fieldName = fieldName;
+            this.fieldType = fieldType;
+        }
+
+        @Override
+        public int compare(JSONObject a, JSONObject b) {
+            String valA, valB;
+            Comparable newInstance_valA, newInstance_valB;
+            int comp = 0;
+            try {
+                Constructor<? extends Comparable> constructor = fieldType.getConstructor(String.class);
+                valA = a.getString(fieldName);
+                valB = b.getString(fieldName);
+                newInstance_valA = Integer.parseInt(valA);// dateFormat.parse(valA);
+                newInstance_valB = Integer.parseInt(valB);// dateFormat.parse(valB);
+                comp = newInstance_valA.compareTo(newInstance_valB);
+            } catch (Exception e) {
+                Log.d("sort json error", e.getMessage());
+            }
+
+            if(comp > 0)
+                return -1;
+            if(comp < 0)
+                return 1;
+            return 0;
+        }
+    }
+
     public class ParseTask extends AsyncTask<String, Void, String> {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
@@ -199,39 +252,6 @@ public abstract class nf_fragment extends Fragment {
         private String urlgroupsimages = "";
         private String profimg ="";
         private  String profname = "";
-
-        public class JsonObjectComparator implements Comparator<JSONObject> {
-            private final String fieldName;
-            private Class<? extends Comparable> fieldType;
-
-            public JsonObjectComparator(String fieldName, Class<? extends Comparable> fieldType) {
-                this.fieldName = fieldName;
-                this.fieldType = fieldType;
-            }
-
-            @Override
-            public int compare(JSONObject a, JSONObject b) {
-                String valA, valB;
-                Comparable newInstance_valA, newInstance_valB;
-                int comp = 0;
-                try {
-                    Constructor<? extends Comparable> constructor = fieldType.getConstructor(String.class);
-                    valA = a.getString(fieldName);
-                    valB = b.getString(fieldName);
-                        newInstance_valA = Integer.parseInt(valA);// dateFormat.parse(valA);
-                        newInstance_valB = Integer.parseInt(valB);// dateFormat.parse(valB);
-                    comp = newInstance_valA.compareTo(newInstance_valB);
-                } catch (Exception e) {
-                    Log.d("sort json error", e.getMessage());
-                }
-
-                if(comp > 0)
-                    return -1;
-                if(comp < 0)
-                    return 1;
-                return 0;
-            }
-        }
 
         @Override
         protected void onPreExecute() {
@@ -429,9 +449,52 @@ public abstract class nf_fragment extends Fragment {
                                     }
                                 });*/
                             }
-                            String image = feedObj.getJSONObject("attachment").isNull("photo") ? null : feedObj
-                                    .getJSONObject("attachment").getJSONObject("photo").getString("src_big");
-                            item.setImge(image);
+                            JSONArray attachments = feedObj.getJSONArray("attachments");
+                            ArrayList<String> photo = new ArrayList<>();
+                            for (int k = 0; k<attachments.length(); k++) {
+                                if (attachments.getJSONObject(k).getString("type").equals("photo")) {
+                                    JSONObject photojson = attachments.getJSONObject(k).getJSONObject("photo");
+                                    if (k<1) {
+                                        if (photojson.has("src_big")) {
+                                            photo.add(photojson.getString("src_big"));
+                                        } else if (photojson.has("src")) {
+                                            photo.add(photojson.getString("src"));
+                                        } else if (photojson.has("src_small")) {
+                                            photo.add(photojson.getString("src_small"));
+                                        }
+                                        //нормальное разрешение
+                                        if (photojson.has("src_xxxbig")) {
+                                            photo.add(photojson.getString("src_xxxbig"));
+                                        } else if (photojson.has("src_xxbig")) {
+                                            photo.add(photojson.getString("src_xxbig"));
+                                        } else if (photojson.has("src_xbig")) {
+                                            photo.add(photojson.getString("src_xbig"));
+                                        } else if (photojson.has("src_big")) {
+                                            photo.add(photojson.getString("src_big"));
+                                        } else if (photojson.has("src")) {
+                                            photo.add(photojson.getString("src"));
+                                        } else if (photojson.has("src_small")) {
+                                            photo.add(photojson.getString("src_small"));
+                                        }
+                                    } else {
+                                        if (photojson.has("src_xxxbig")) {
+                                            photo.add(photojson.getString("src_xxxbig"));
+                                        } else if (photojson.has("src_xxbig")) {
+                                            photo.add(photojson.getString("src_xxbig"));
+                                        } else if (photojson.has("src_xbig")) {
+                                            photo.add(photojson.getString("src_xbig"));
+                                        } else if (photojson.has("src_big")) {
+                                            photo.add(photojson.getString("src_big"));
+                                        } else if (photojson.has("src")) {
+                                            photo.add(photojson.getString("src"));
+                                        } else if (photojson.has("src_small")) {
+                                            photo.add(photojson.getString("src_small"));
+                                        }
+                                    }
+                                }
+                            }
+                            item.setImage(photo);
+
                             if (feedObj.getJSONArray("attachments") != null) {
                                 for (int j=0; j<feedObj.getJSONArray("attachments").length(); j++) {
                                     if (feedObj.getJSONArray("attachments").getJSONObject(j).getString("type").contentEquals("link")) {

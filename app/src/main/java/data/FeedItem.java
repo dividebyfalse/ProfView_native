@@ -1,17 +1,20 @@
 package data;
 
+import java.util.ArrayList;
+
 /**
  * Created by penpen on 08.10.15.
  */
 public class FeedItem {
     private int id;
-    private String name, status, image, profilePic, timeStamp, url, newsid, extvideo, videoimg;
+    private String name, status, profilePic, timeStamp, url, newsid, extvideo, videoimg;
+    private ArrayList<String> image;
 
 
     public FeedItem() {
     }
 
-    public FeedItem(int id, String name, String image, String status,
+    public FeedItem(int id, String name, ArrayList<String> image, String status,
                     String profilePic, String timeStamp, String url, String newsid, String extvideo, String videoimg) {
         super();
         this.id = id;
@@ -42,11 +45,11 @@ public class FeedItem {
         this.name = name;
     }
 
-    public String getImge() {
+    public ArrayList<String> getImage() {
         return image;
     }
 
-    public void setImge(String image) {
+    public void setImage(ArrayList<String> image) {
         this.image = image;
     }
 

@@ -23,6 +23,8 @@
 -keep class org.jsoup.** { *; }
 -keep class android.os.AsyncTask.** { *; }
 
+#-keep class com.nostra13.universalimageloader.** { *; }
+
 #-keepclassmembers class com.jeremyfeinstein.slidingmenu.lib.CustomViewAbove {
 #   public *;
 #}

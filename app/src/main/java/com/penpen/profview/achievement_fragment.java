@@ -118,10 +118,10 @@ public class achievement_fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String strdate;
-                if (date.getMonth() < 10) {
-                    strdate = String.valueOf(date.getDayOfMonth()) + ".0" + String.valueOf(date.getMonth()) + "." + String.valueOf(date.getYear());
+                if (date.getMonth()+1 < 10) {
+                    strdate = String.valueOf(date.getDayOfMonth()) + ".0" + String.valueOf(date.getMonth()+1) + "." + String.valueOf(date.getYear());
                 } else {
-                    strdate = String.valueOf(date.getDayOfMonth()) + "." + String.valueOf(date.getMonth()) + "." + String.valueOf(date.getYear());
+                    strdate = String.valueOf(date.getDayOfMonth()) + "." + String.valueOf(date.getMonth()+1) + "." + String.valueOf(date.getYear());
                 }
                 Log.d("out", strdate);
                 Log.d("out", name.getText().toString());
@@ -179,11 +179,14 @@ public class achievement_fragment extends Fragment {
         });
 
         if (bundle != null) {
-            name.setText(bundle.getString("name"));
+            name.setText(String.valueOf(bundle.getCharArray("name")));
             String[] ardate ;
-            ardate= bundle.getString("date", "").split("\\.");
-            date.updateDate(Integer.parseInt(ardate[2]), Integer.parseInt(ardate[1]), Integer.parseInt(ardate[0]));
-            final int categoryval = Integer.parseInt(bundle.getString("category", ""));
+            if (bundle.getCharArray("date") != null) {
+                ardate = String.valueOf(bundle.getCharArray("date")).split("\\.");
+                Log.d("asd", String.valueOf(bundle.getCharArray("date")));
+                date.updateDate(Integer.parseInt(ardate[2]), Integer.parseInt(ardate[1])-1, Integer.parseInt(ardate[0]));
+            }
+            final int categoryval = Integer.parseInt(String.valueOf(bundle.getCharArray("category")));
             int categoryv;
             if (categoryval<2917 && categoryval>2913) {
                 category.setSelection(1);
@@ -258,7 +261,7 @@ public class achievement_fragment extends Fragment {
                     }, 100);
                     break;
             }
-            achid = bundle.getString("id");
+            achid = String.valueOf(bundle.getCharArray("id"));
         } else {
             subcategory.setEnabled(false);
         }

@@ -208,12 +208,12 @@ public class AchievementListAdapter extends BaseAdapter {
             if (result) {
                 Fragment af = new achievement_fragment();
                 Bundle args = new Bundle();
-                args.putString("name", name);
-                args.putString("date", date);
+                args.putCharArray("name", name.toCharArray());
+                args.putCharArray("date", date.toCharArray());
                 args.putInt("position", position);
-                args.putString("category", category);
-                args.putString("subcategory", subcategory);
-                args.putString("id", achid);
+                args.putCharArray("category", category.toCharArray());
+                args.putCharArray("subcategory", subcategory.toCharArray());
+                args.putCharArray("id", achid.toCharArray());
                 af.setArguments(args);
                 FragmentManager fragmentManager = activity.getSupportFragmentManager();
                 fragmentManager.beginTransaction()
@@ -354,23 +354,22 @@ public class AchievementListAdapter extends BaseAdapter {
 
         @Override
         protected void onPostExecute(Boolean result) {
-            if (result) {
-                dialog.dismiss();
-                achievementsItems.remove(position);
-                adapter.notifyDataSetChanged();
-                if (achievementsItems.size() == 0) {
-                    SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) activity.findViewById(R.id.achievements_layout);
-                    LinearLayout na = (LinearLayout) activity.findViewById(R.id.empty_ach);
-                    swipeRefreshLayout.setVisibility(View.INVISIBLE);
-                    na.setVisibility(View.VISIBLE);
-                }
-                FragmentManager fragmentManager = activity.getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, new achievements_fragment())
-                        .commit();
-                Toast toast = Toast.makeText(activity.getApplicationContext(), "Достижение удалено", Toast.LENGTH_SHORT);
-                toast.show();
+            dialog.dismiss();
+            //dialog.dismiss();
+            achievementsItems.remove(position);
+            adapter.notifyDataSetChanged();
+            if (achievementsItems.size() == 0) {
+                SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) activity.findViewById(R.id.achievements_layout);
+                LinearLayout na = (LinearLayout) activity.findViewById(R.id.empty_ach);
+                swipeRefreshLayout.setVisibility(View.INVISIBLE);
+                na.setVisibility(View.VISIBLE);
             }
+            FragmentManager fragmentManager = activity.getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, new achievements_fragment())
+                    .commit();
+            Toast toast = Toast.makeText(activity.getApplicationContext(), "Достижение удалено", Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 }

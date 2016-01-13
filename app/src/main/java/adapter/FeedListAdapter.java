@@ -235,15 +235,14 @@ public class FeedListAdapter extends BaseAdapter {
         }
 
         // Feed image
-        if (item.getImge() != null) {
-            feedImageView.setImageUrl(item.getImge(), imageLoader);
+        if (item.getImage() != null && item.getImage().size()>0) {
+            feedImageView.setImageUrl(item.getImage().get(0), imageLoader);
             feedImageView.setVisibility(View.VISIBLE);
             feedImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(activity, fullscreenimage_fragment.class);
-                    intent.putExtra("img", item.getImge());
-
+                    intent.putStringArrayListExtra("img", item.getImage());
                     activity.startActivity(intent);
                 }
             });

@@ -17,6 +17,11 @@
         <item name="preferenceFragmentListStyle">@style/PreferenceFragmentList</item>
     </style>
 
-    <style name="FullScreenDialogTheme" parent="@android:style/Theme.NoTitleBar.Fullscreen"/>
+    <style name="FullScreenDialogTheme" parent="@style/Theme.AppCompat.Light">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
 
 </resources>

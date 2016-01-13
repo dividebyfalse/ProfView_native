@@ -48,7 +48,8 @@ public class NewsFeed_fragment extends Fragment {
                 mpg_nf_fragment.class, null);
         mTabHost.addTab(mTabHost.newTabSpec("main").setIndicator(buildTabLayout("Профком")),
                 mpg_nf_fragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("pb").setIndicator(buildTabLayout("Профбюро")),
+        View ttw = buildTabLayout("Профбюро");
+        mTabHost.addTab(mTabHost.newTabSpec("pb").setIndicator(ttw),
                 pbf_nf_fragment.class, null);
         mTabHost.addTab(mTabHost.newTabSpec("clubs").setIndicator(buildTabLayout("Клубы")),
                 clubs_nf_fragment.class, null);
@@ -70,6 +71,18 @@ public class NewsFeed_fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ma.menuToggle();
+            }
+        });
+
+        LinearLayout ntl = (LinearLayout) ttw.findViewById(R.id.ntl);
+        ntl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ma.pt != null) {
+                     ma.pt.cancel(true);
+                    ((FrameLayout) getView().findViewById(R.id.realtabcontent)).removeAllViews();
+                }
+                mTabHost.setCurrentTab(2);
             }
         });
         mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {

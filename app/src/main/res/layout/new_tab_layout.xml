@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="65dp"
     android:baselineAligned="false"
-    android:clickable="true">
+    android:clickable="true"
+    android:id="@+id/ntl">
 
     <ImageView
         android:layout_width="40dp"
