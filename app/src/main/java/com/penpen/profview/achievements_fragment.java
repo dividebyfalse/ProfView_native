@@ -45,13 +45,21 @@ public class achievements_fragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        new authcheck().execute();
+        ma = (MainActivity) getActivity();
+        if (!ma.isloginredirect) {
+            new authcheck().execute();
+        } else {
+            ma.lf = null;
+            ma.isloginredirect = false;
+            FragmentManager fm = ma.getSupportFragmentManager();
+            fm.popBackStack();
+        }
         View view = inflater.inflate(R.layout.achievements_list_fragment, container, false);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.achievements_layout);
         na = (LinearLayout) view.findViewById(R.id.empty_ach);
         FloatingActionButton add = (FloatingActionButton) view.findViewById(R.id.addach);
         Button showmenu = (Button) view.findViewById(R.id.showmenu);
-        ma = (MainActivity) getActivity();
+
         showmenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -253,10 +261,15 @@ public class achievements_fragment extends Fragment {
         protected void onPostExecute(Boolean result) {
             if (!result && authorization.cookie.length() == 0) {
                 try {
+                    ma.isloginredirect = true;
                     FragmentManager fragmentManager = getFragmentManager();
+                    ma.lf = new login_fragment();
                     fragmentManager.beginTransaction()
-                            .replace(R.id.container, new login_fragment())
+                            .replace(R.id.container, ma.lf)
+                            .addToBackStack(null)
                             .commit();
+
+                   // ma.changeFragment(0);
                     Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Неправильный Логин/Пароль", Toast.LENGTH_SHORT);
                     toast.show();
                 } catch (Exception ignored) {

@@ -33,6 +33,7 @@ public class NewsFeed_fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        View view = inflater.inflate(R.layout.news_feed, container, false);
         ma = (MainActivity) getActivity();
         if (ma.tabstack.size() == 0) {
             ptt = 1;
@@ -42,7 +43,7 @@ public class NewsFeed_fragment extends Fragment {
             ma.tabstack.remove(ma.tabstack.size()-1);
             Log.d("ds",String.valueOf(ptt));
         }
-        mTabHost = new FragmentTabHost(getActivity());
+        mTabHost = (FragmentTabHost) view.findViewById(android.R.id.tabhost);
         mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.realtabcontent);
         mTabHost.addTab(mTabHost.newTabSpec("menu").setIndicator(buildTabLayout("")),
                 mpg_nf_fragment.class, null);
@@ -115,7 +116,7 @@ public class NewsFeed_fragment extends Fragment {
         if (bundle != null) {
             mTabHost.setCurrentTab(bundle.getInt("position"));
         }
-        return mTabHost;
+        return view;
     }
 
     private View buildTabLayout(String tag) {

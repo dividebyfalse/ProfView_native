@@ -40,7 +40,7 @@ import data.MenuItem;
 
 public class MainActivity extends FragmentActivity {
     public SlidingMenu menu;
-    private Fragment lf=null;
+    public Fragment lf=null;
     private Fragment nff = null;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = "MainActivity";
@@ -54,12 +54,14 @@ public class MainActivity extends FragmentActivity {
     public int menuselected;
     public boolean isImageFitToScreen;
     public AsyncTask pt;
+    public Boolean isloginredirect;
 
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isImageFitToScreen = false;
+        isloginredirect = false;
 
         menu = new SlidingMenu(this);
         menu.setBackgroundColor(0xFF333333);
@@ -99,6 +101,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 menuToggle();
+                Log.d("clp", String.valueOf(position));
                 changeFragment(position);
             }
         });
@@ -188,13 +191,15 @@ public class MainActivity extends FragmentActivity {
             LinearLayout loginlay = null;
             ScrollView reglay = null;
             if (lf !=null) {
-                loginlay = (LinearLayout) lf.getView().findViewById(R.id.loginlayout);
-                reglay = (ScrollView) lf.getView().findViewById(R.id.scrollreglayout);
+                try {
+                    loginlay = (LinearLayout) lf.getView().findViewById(R.id.loginlayout);
+                    reglay = (ScrollView) lf.getView().findViewById(R.id.scrollreglayout);
+                } catch (Exception ignored) {}
             }
 
             if(menu.isMenuShowing()){
                 menu.toggle();
-            } else if (lf != null && lf.isVisible() && loginlay.getVisibility() == View.INVISIBLE) {
+            } else if (lf != null && lf.isVisible() && loginlay != null && loginlay.getVisibility() == View.INVISIBLE) {
                 loginlay.setVisibility(View.VISIBLE);
                 reglay.setVisibility(View.INVISIBLE);
             } else if (nff != null && nff.isVisible()) {
@@ -232,17 +237,16 @@ public class MainActivity extends FragmentActivity {
         FragmentManager fm = getSupportFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
             Log.i("MainActivity", "popping backstack");
-            if (fm.getBackStackEntryCount() == 1) {
-                fm.popBackStack();
-                changeFragment(1);
-            } else {
-                fm.popBackStack();
-                Log.d("pbstck", String.valueOf(menustack.get(menustack.size() - 1)));
-                items.get(menustack.get(menustack.size()-1)).setSelected(true);
-                menuselected=menustack.get(menustack.size()-1);
-                menustack.remove(menustack.get(menustack.size()-1));
-                menuadapter.notifyDataSetChanged();
+            fm.popBackStack();
+            if (menustack.get(menustack.size() - 1)==0) {
+                Log.i("MainActivity", "nothing on backstack, calling super");
+                super.onBackPressed();
             }
+            Log.d("pbstck", String.valueOf(menustack.get(menustack.size() - 1)));
+            items.get(menustack.get(menustack.size() - 1)).setSelected(true);
+            menuselected = menustack.get(menustack.size() - 1);
+            menustack.remove(menustack.get(menustack.size() - 1));
+            menuadapter.notifyDataSetChanged();
         } else {
             Log.i("MainActivity", "nothing on backstack, calling super");
             super.onBackPressed();
@@ -272,6 +276,7 @@ public class MainActivity extends FragmentActivity {
         menuadapter.notifyDataSetChanged();
         mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
         fragmentnumber = position;
+        Log.d("chpos", String.valueOf(position));
         switch (position) {
             case 0:
                 if (isLogin) {
@@ -289,11 +294,7 @@ public class MainActivity extends FragmentActivity {
                 break;
             case 1:
                 nff = new NewsFeed_fragment();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, nff)
-                        .commit();
-                //showFragment(nf);
+                showFragment(nff);
                 break;
             case 2:
                 showFragment(new push_message_list_fragment());
