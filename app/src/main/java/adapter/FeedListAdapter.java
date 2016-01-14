@@ -98,6 +98,8 @@ public class FeedListAdapter extends BaseAdapter {
         FeedImageView videoimage = (FeedImageView) convertView.findViewById(R.id.videoImage);
         RelativeLayout vidlay = (RelativeLayout) convertView.findViewById(R.id.vidimglay);
         Button playvid = (Button) convertView.findViewById(R.id.playbutton);
+        LinearLayout al = (LinearLayout) convertView.findViewById(R.id.image_label_lay);
+        TextView imagecount = (TextView) convertView.findViewById(R.id.image_count);
         View.OnClickListener cl = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -236,6 +238,12 @@ public class FeedListAdapter extends BaseAdapter {
 
         // Feed image
         if (item.getImage() != null && item.getImage().size()>0) {
+            if (item.getImage().size()>2) {
+                imagecount.setText(String.valueOf(item.getImage().size()-1));
+                al.setVisibility(View.VISIBLE);
+            } else {
+                al.setVisibility(View.GONE);
+            }
             feedImageView.setImageUrl(item.getImage().get(0), imageLoader);
             feedImageView.setVisibility(View.VISIBLE);
             feedImageView.setOnClickListener(new View.OnClickListener() {
