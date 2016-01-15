@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -30,12 +31,14 @@ import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKError;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import adapter.MenuListAdapter;
 import app.QuickstartPreferences;
 import app.RegistrationIntentService;
+import app.authorization;
 import data.MenuItem;
 
 public class MainActivity extends FragmentActivity {
@@ -54,14 +57,16 @@ public class MainActivity extends FragmentActivity {
     public int menuselected;
     public boolean isImageFitToScreen;
     public AsyncTask pt;
-    public Boolean isloginredirect;
+    private Intent initintent;
+    private achievements_fragment al;
+    private MainActivity ma;
 
     @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isImageFitToScreen = false;
-        isloginredirect = false;
+        ma =this;
 
         menu = new SlidingMenu(this);
         menu.setBackgroundColor(0xFF333333);
@@ -90,9 +95,7 @@ public class MainActivity extends FragmentActivity {
             log = "Выйти";
             isLogin = true;
         }
-        if (settings.getString("VKAT", "").equals("")) {
-            VKSdk.login(this, "offline", "audio", "video");
-        }
+
         menuadapter = new MenuListAdapter(this, items);
         items.get(0).setDescription(log);
         ListView listView = ((ListView) findViewById(R.id.sidemenu));
@@ -111,15 +114,6 @@ public class MainActivity extends FragmentActivity {
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean("IsPushEnabled", true);
             editor.apply();
-        }
-
-        Intent initintent = getIntent();
-        if (initintent.getBooleanExtra("isMessageList", false)) {
-            changeFragment(2);
-        } else if ((initintent.getStringExtra("newsid") != null) && !initintent.getStringExtra("newsid").equals("")) {
-            showextendednews(initintent);
-        } else {
-            changeFragment(1);
         }
 
         if (settings.getBoolean("IsPushEnabled", true)) {
@@ -144,6 +138,19 @@ public class MainActivity extends FragmentActivity {
                 startService(intent);
             }
         }
+
+        if (settings.getString("VKAT", "").equals("")) {
+            VKSdk.login(this, "offline", "audio", "video");
+        } else {
+            initintent = getIntent();
+            if (initintent.getBooleanExtra("isMessageList", false)) {
+                changeFragment(2);
+            } else if ((initintent.getStringExtra("newsid") != null) && !initintent.getStringExtra("newsid").equals("")) {
+                showextendednews(initintent);
+            } else {
+                changeFragment(1);
+            }
+        }
     }
 
     @Override
@@ -156,6 +163,7 @@ public class MainActivity extends FragmentActivity {
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putString("VKAT", res.accessToken);
                 editor.apply();
+                changeFragment(1);
             }
             @Override
             public void onError(VKError error) {
@@ -165,6 +173,7 @@ public class MainActivity extends FragmentActivity {
                 editor.putString("VKAT", "0");
                 editor.apply();
                 Log.d("err", "vkacceserror");
+                changeFragment(1);
             }
         })) {
             super.onActivityResult(requestCode, resultCode, data);
@@ -197,9 +206,9 @@ public class MainActivity extends FragmentActivity {
                 } catch (Exception ignored) {}
             }
 
-            if(menu.isMenuShowing()){
+            if(menu.isMenuShowing()) {
                 menu.toggle();
-            } else if (lf != null && lf.isVisible() && loginlay != null && loginlay.getVisibility() == View.INVISIBLE) {
+            } else if (lf != null && lf.isVisible() && loginlay.getVisibility() == View.INVISIBLE) {
                 loginlay.setVisibility(View.VISIBLE);
                 reglay.setVisibility(View.INVISIBLE);
             } else if (nff != null && nff.isVisible()) {
@@ -237,16 +246,17 @@ public class MainActivity extends FragmentActivity {
         FragmentManager fm = getSupportFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
             Log.i("MainActivity", "popping backstack");
-            fm.popBackStack();
-            if (menustack.get(menustack.size() - 1)==0) {
-                Log.i("MainActivity", "nothing on backstack, calling super");
-                super.onBackPressed();
-            }
-            Log.d("pbstck", String.valueOf(menustack.get(menustack.size() - 1)));
+            fm.popBackStackImmediate();
             items.get(menustack.get(menustack.size() - 1)).setSelected(true);
             menuselected = menustack.get(menustack.size() - 1);
             menustack.remove(menustack.get(menustack.size() - 1));
             menuadapter.notifyDataSetChanged();
+            if (menustack.size() == 0) {
+                Log.i("MainActivity", "nothing on backstack, calling super");
+                super.onBackPressed();
+            }
+            Log.d("pbstck", String.valueOf(menustack.size()));
+
         } else {
             Log.i("MainActivity", "nothing on backstack, calling super");
             super.onBackPressed();
@@ -269,7 +279,6 @@ public class MainActivity extends FragmentActivity {
     public void changeFragment(int position) {
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.container);
         lf=null;
-        nff = null;
         menustack.add(menuselected);
         menuselected = position;
         items.get(position).setSelected(true);
@@ -288,6 +297,12 @@ public class MainActivity extends FragmentActivity {
                     items.get(0).setDescription("Войти");
                     menuadapter.notifyDataSetChanged();
                     isLogin = false;
+                    authorization.cookie="";
+                    authorization.login = "";
+                    authorization.pass="";
+                }
+                if (al != null) {
+                    al.achievementItems.clear();
                 }
                 lf = new login_fragment();
                 showFragment(lf);
@@ -300,7 +315,7 @@ public class MainActivity extends FragmentActivity {
                 showFragment(new push_message_list_fragment());
                 break;
             case 3:
-                showFragment(new achievements_fragment());
+                new authcheck().execute();
                 break;
             case 4:
                 showFragment(new settings_fragment());
@@ -314,6 +329,8 @@ public class MainActivity extends FragmentActivity {
                 .replace(R.id.container, currentFragment)
                 .addToBackStack(null)
                 .commit();
+        /*getSupportFragmentManager().dump("", null,
+               new PrintWriter(System.out, true), null);*/
    }
 
     @Override
@@ -359,5 +376,54 @@ public class MainActivity extends FragmentActivity {
             return false;
         }
         return true;
+    }
+
+
+    class authcheck extends AsyncTask<String, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... params) {
+            Boolean result = false;
+            //Log.d("cookie", authorization.cookie);
+            /*if (authorization.cookie.length() != 0) {
+                result = true;
+            } else {*/
+            String response = authorization.auth(ma);
+            //Log.d("resp", response);
+            try {
+                if ((!response.equals("error")) && (!response.equals("no_login")) && (response.length() != 0)) {
+                    result = true;
+                } else if (response.equals("no_login")) {
+                    result = false;
+                }
+            } catch (Exception e) {
+                result = false;
+            }
+            //}
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (!result || authorization.cookie.length() == 0) {
+                try {
+                    /*ma.lf = new login_fragment();
+                    ma.getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.container, ma.lf)
+                            .addToBackStack(null)
+                            .commit();
+                    ma.isloginredirect = true;*/
+
+                    ma.changeFragment(0);
+                    Toast toast = Toast.makeText(ma.getApplicationContext(), "Неправильный Логин/Пароль", Toast.LENGTH_SHORT);
+                    toast.show();
+                } catch (Exception ignored) {
+
+                }
+            } else {
+                al = new achievements_fragment();
+                showFragment(al);
+            }
+
+        }
     }
 }

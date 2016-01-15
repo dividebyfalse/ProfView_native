@@ -37,7 +37,7 @@ public class NewsFeed_fragment extends Fragment {
         ma = (MainActivity) getActivity();
         if (ma.tabstack.size() == 0) {
             ptt = 1;
-            Log.d("ds",String.valueOf(ptt));
+            Log.d("dsf",String.valueOf(ptt));
         } else {
             ptt = ma.tabstack.get(ma.tabstack.size()-1);
             ma.tabstack.remove(ma.tabstack.size()-1);

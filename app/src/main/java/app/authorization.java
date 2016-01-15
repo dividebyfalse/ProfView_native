@@ -23,8 +23,8 @@ import java.net.URL;
 public  class  authorization {
     static public String cookie = "";
     static private String retval;
-    static private String login;
-    static private String pass;
+    static public String login;
+    static public String pass;
     static public String responseHTML;
 
     static public String auth(Context context, String... val) {

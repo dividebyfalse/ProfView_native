@@ -380,7 +380,7 @@ public class login_fragment extends Fragment {
                 SharedPreferences.Editor editor = settings.edit();
                 editor.putString("login_preference", logi);
                 editor.putString("pass_preference", pas);
-                editor.commit();
+                editor.apply();
                 MainActivity.isLogin = true;
                 MainActivity.items.get(0).setDescription("Выйти");
                 //MainActivity.items[0]="Выйти";
