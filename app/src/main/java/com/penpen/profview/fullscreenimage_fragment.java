@@ -87,7 +87,6 @@ public class fullscreenimage_fragment extends Activity {
             assert imageLayout != null;
             uk.co.senab.photoview.PhotoView imageView = (uk.co.senab.photoview.PhotoView) imageLayout.findViewById(R.id.image);
             final ProgressBar spinner = (ProgressBar) imageLayout.findViewById(R.id.loading);
-
             ImageLoader.getInstance().displayImage(IMAGE_URLS[position], imageView, options, new SimpleImageLoadingListener() {
                 @Override
                 public void onLoadingStarted(String imageUri, View view) {

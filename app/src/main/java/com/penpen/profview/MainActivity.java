@@ -1,6 +1,7 @@
 package com.penpen.profview;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTabHost;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
@@ -60,6 +62,7 @@ public class MainActivity extends FragmentActivity {
     private Intent initintent;
     private achievements_fragment al;
     private MainActivity ma;
+    public FragmentTabHost mTabHost;
 
     @SuppressLint("NewApi")
     @Override
@@ -81,6 +84,7 @@ public class MainActivity extends FragmentActivity {
 
         tabstack = new ArrayList<>();
         menustack = new ArrayList<>();
+        menuselected = 1;
 
         items = new ArrayList<>();
         items.add(new MenuItem("Войти"));
@@ -170,7 +174,7 @@ public class MainActivity extends FragmentActivity {
                 // Произошла ошибка авторизации (например, пользователь запретил авторизацию)
                 SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                 SharedPreferences.Editor editor = settings.edit();
-                editor.putString("VKAT", "0");
+                editor.putString("VKAT", "7fefc3a1ab800f208465bb7f167049f78442844dfcafbd5132895dca8cd91abe98ff351bfe0b7709c7433");
                 editor.apply();
                 Log.d("err", "vkacceserror");
                 changeFragment(1);
@@ -246,6 +250,7 @@ public class MainActivity extends FragmentActivity {
         FragmentManager fm = getSupportFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
             Log.i("MainActivity", "popping backstack");
+           // if (fm.getBackStackEntryAt(fm.getBackStackEntryCount()-1).)
             fm.popBackStackImmediate();
             items.get(menustack.get(menustack.size() - 1)).setSelected(true);
             menuselected = menustack.get(menustack.size() - 1);
@@ -279,10 +284,14 @@ public class MainActivity extends FragmentActivity {
     public void changeFragment(int position) {
         LinearLayout mainLayout = (LinearLayout) findViewById(R.id.container);
         lf=null;
-        menustack.add(menuselected);
-        menuselected = position;
-        items.get(position).setSelected(true);
-        menuadapter.notifyDataSetChanged();
+        if (position != 3) {
+           // if ((menustack.size() > 0 && menustack.get(menustack.size()-1) != menuselected) || (menustack.size() == 0)) {
+                menustack.add(menuselected);
+                menuselected = position;
+                items.get(position).setSelected(true);
+                menuadapter.notifyDataSetChanged();
+           // }
+        }
         mainLayout.setBackgroundColor(Color.parseColor("#d3d6db"));
         fragmentnumber = position;
         Log.d("chpos", String.valueOf(position));
@@ -300,9 +309,17 @@ public class MainActivity extends FragmentActivity {
                     authorization.cookie="";
                     authorization.login = "";
                     authorization.pass="";
+
+
                 }
                 if (al != null) {
                     al.achievementItems.clear();
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    fragmentManager.beginTransaction().remove(fragmentManager.findFragmentById(R.id.achievements_lay)).commit();
+                    getSupportFragmentManager().dump("", null,
+                            new PrintWriter(System.out, true), null);
+
+
                 }
                 lf = new login_fragment();
                 showFragment(lf);
@@ -327,10 +344,10 @@ public class MainActivity extends FragmentActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, currentFragment)
-                .addToBackStack(null)
+                .addToBackStack(currentFragment.getTag())
                 .commit();
-        /*getSupportFragmentManager().dump("", null,
-               new PrintWriter(System.out, true), null);*/
+        getSupportFragmentManager().dump("", null,
+               new PrintWriter(System.out, true), null);
    }
 
     @Override
@@ -380,6 +397,13 @@ public class MainActivity extends FragmentActivity {
 
 
     class authcheck extends AsyncTask<String, Void, Boolean> {
+        ProgressDialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            dialog = ProgressDialog.show(ma, "Подождите", "Идет загрузка...", true);
+        }
+
         @Override
         protected Boolean doInBackground(String... params) {
             Boolean result = false;
@@ -406,13 +430,9 @@ public class MainActivity extends FragmentActivity {
         protected void onPostExecute(Boolean result) {
             if (!result || authorization.cookie.length() == 0) {
                 try {
-                    /*ma.lf = new login_fragment();
-                    ma.getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.container, ma.lf)
-                            .addToBackStack(null)
-                            .commit();
-                    ma.isloginredirect = true;*/
-
+                    /*menuselected = 0;
+                    items.get(0).setSelected(true);
+                    menuadapter.notifyDataSetChanged();*/
                     ma.changeFragment(0);
                     Toast toast = Toast.makeText(ma.getApplicationContext(), "Неправильный Логин/Пароль", Toast.LENGTH_SHORT);
                     toast.show();
@@ -420,9 +440,16 @@ public class MainActivity extends FragmentActivity {
 
                 }
             } else {
+             //   if (menustack.size() > 0 && menustack.get(menustack.size()-1) != menuselected) {
+                    menustack.add(menuselected);
+                    menuselected = 3;
+                    items.get(3).setSelected(true);
+                    menuadapter.notifyDataSetChanged();
+             //   }
                 al = new achievements_fragment();
                 showFragment(al);
             }
+            dialog.dismiss();
 
         }
     }
